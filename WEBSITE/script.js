@@ -33,8 +33,9 @@ function setupAmbientCanvas() {
   const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
-  let nodes = [];
-  let pointer = { x: 0, y: 0, active: false };
+  let particles = [];
+  let pointer = { x: 0, y: 0, tx: 0, ty: 0, active: false };
+  let time = 0;
 
   function resize() {
     const ratio = window.devicePixelRatio || 1;
@@ -46,63 +47,98 @@ function setupAmbientCanvas() {
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    const count = Math.min(72, Math.max(30, Math.round(width / 22)));
-    nodes = Array.from({ length: count }, (_, index) => ({
+    const count = Math.min(95, Math.max(46, Math.round(width / 16)));
+    particles = Array.from({ length: count }, (_, index) => ({
+      baseX: Math.random() * width,
+      baseY: Math.random() * height,
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: (Math.random() - 0.5) * 0.18,
-      size: index % 7 === 0 ? 2.1 : 1.25,
-      tone: index % 3,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.55 + Math.random() * 0.65,
+      drift: 18 + Math.random() * 42,
+      size: index % 8 === 0 ? 2.2 : 1.25,
+      tone: index % 4,
     }));
   }
 
-  function drawNode(node) {
-    const colors = ["17, 19, 21", "178, 122, 34", "83, 132, 190"];
+  function drawParticle(particle) {
+    const colors = ["17, 19, 21", "178, 122, 34", "80, 110, 150", "106, 111, 115"];
     ctx.beginPath();
-    ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${colors[node.tone]}, 0.32)`;
+    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${colors[particle.tone]}, 0.42)`;
     ctx.fill();
   }
 
   function animate() {
+    time += 0.006;
+    pointer.x += (pointer.tx - pointer.x) * 0.12;
+    pointer.y += (pointer.ty - pointer.y) * 0.12;
+
     ctx.clearRect(0, 0, width, height);
 
-    for (const node of nodes) {
-      node.x += node.vx;
-      node.y += node.vy;
-
-      if (node.x < -20) node.x = width + 20;
-      if (node.x > width + 20) node.x = -20;
-      if (node.y < -20) node.y = height + 20;
-      if (node.y > height + 20) node.y = -20;
+    for (const particle of particles) {
+      const waveX = Math.cos(time * particle.speed + particle.phase) * particle.drift;
+      const waveY = Math.sin(time * particle.speed * 0.82 + particle.phase) * particle.drift * 0.56;
+      let targetX = particle.baseX + waveX;
+      let targetY = particle.baseY + waveY;
 
       if (pointer.active) {
-        const dx = pointer.x - node.x;
-        const dy = pointer.y - node.y;
+        const dx = pointer.x - targetX;
+        const dy = pointer.y - targetY;
         const distance = Math.hypot(dx, dy);
-        if (distance < 150) {
-          node.x -= dx * 0.0007;
-          node.y -= dy * 0.0007;
-        }
+        const influence = Math.max(0, 1 - distance / 260);
+        targetX += dx * influence * 0.34;
+        targetY += dy * influence * 0.34;
       }
+
+      particle.x += (targetX - particle.x) * 0.08;
+      particle.y += (targetY - particle.y) * 0.08;
     }
 
-    for (let i = 0; i < nodes.length; i += 1) {
-      for (let j = i + 1; j < nodes.length; j += 1) {
-        const a = nodes[i];
-        const b = nodes[j];
-        const distance = Math.hypot(a.x - b.x, a.y - b.y);
-        if (distance < 145) {
+    for (let i = 0; i < particles.length; i += 1) {
+      const particle = particles[i];
+      const next = particles[(i + 1) % particles.length];
+      if (i % 2 === 0) {
+        const distance = Math.hypot(particle.x - next.x, particle.y - next.y);
+        if (distance < 210) {
           ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(17, 19, 21, ${0.085 * (1 - distance / 145)})`;
+          ctx.moveTo(particle.x, particle.y);
+          ctx.quadraticCurveTo(
+            (particle.x + next.x) / 2,
+            (particle.y + next.y) / 2 + Math.sin(time + i) * 12,
+            next.x,
+            next.y,
+          );
+          ctx.strokeStyle = `rgba(17, 19, 21, ${0.07 * (1 - distance / 210)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
-      drawNode(nodes[i]);
+
+      if (pointer.active) {
+        const distance = Math.hypot(pointer.x - particle.x, pointer.y - particle.y);
+        if (distance < 220) {
+          ctx.beginPath();
+          ctx.moveTo(pointer.x, pointer.y);
+          ctx.lineTo(particle.x, particle.y);
+          ctx.strokeStyle = `rgba(178, 122, 34, ${0.16 * (1 - distance / 220)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      drawParticle(particle);
+    }
+
+    if (pointer.active) {
+      const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 210);
+      glow.addColorStop(0, "rgba(178, 122, 34, 0.16)");
+      glow.addColorStop(0.42, "rgba(178, 122, 34, 0.055)");
+      glow.addColorStop(1, "rgba(178, 122, 34, 0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(pointer.x, pointer.y, 210, 0, Math.PI * 2);
+      ctx.fill();
     }
 
     requestAnimationFrame(animate);
@@ -110,7 +146,13 @@ function setupAmbientCanvas() {
 
   window.addEventListener("resize", resize);
   window.addEventListener("pointermove", (event) => {
-    pointer = { x: event.clientX, y: event.clientY, active: true };
+    pointer.tx = event.clientX;
+    pointer.ty = event.clientY;
+    if (!pointer.active) {
+      pointer.x = event.clientX;
+      pointer.y = event.clientY;
+    }
+    pointer.active = true;
   });
   window.addEventListener("pointerleave", () => {
     pointer.active = false;
