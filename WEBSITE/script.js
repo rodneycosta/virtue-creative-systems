@@ -68,7 +68,7 @@ function setupAmbientCanvas() {
   }
 
   function drawParticle(particle) {
-    const colors = ["17, 19, 21", "178, 122, 34", "80, 110, 150", "106, 111, 115"];
+    const colors = ["8, 33, 32", "0, 190, 178", "42, 151, 214", "76, 108, 105"];
     ctx.save();
     ctx.translate(particle.x, particle.y);
     ctx.rotate(particle.rotation + Math.sin(time + particle.phase) * 0.08);
@@ -132,7 +132,7 @@ function setupAmbientCanvas() {
           ctx.beginPath();
           ctx.moveTo(pointer.x, pointer.y);
           ctx.lineTo(particle.x, particle.y);
-          ctx.strokeStyle = `rgba(178, 122, 34, ${0.12 * (1 - distance / 220)})`;
+          ctx.strokeStyle = `rgba(0, 190, 178, ${0.12 * (1 - distance / 220)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -143,9 +143,9 @@ function setupAmbientCanvas() {
 
     if (pointer.active) {
       const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 210);
-      glow.addColorStop(0, "rgba(178, 122, 34, 0.16)");
-      glow.addColorStop(0.42, "rgba(178, 122, 34, 0.055)");
-      glow.addColorStop(1, "rgba(178, 122, 34, 0)");
+      glow.addColorStop(0, "rgba(0, 190, 178, 0.16)");
+      glow.addColorStop(0.42, "rgba(42, 151, 214, 0.055)");
+      glow.addColorStop(1, "rgba(0, 190, 178, 0)");
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(pointer.x, pointer.y, 210, 0, Math.PI * 2);
@@ -241,41 +241,11 @@ function mockupMarkup() {
       <div class="mockup-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       <span class="mockup-title">Virtue FX Manager</span>
     </div>
-    <div class="mockup-body product-surface">
-      <section class="thumb-panel" aria-label="Thumbnail manager preview">
-        <div class="panel-label">Thumbnail Manager</div>
-        <div class="large-preview">
-          <span class="knob-row"></span>
-          <span class="knob-row short"></span>
-          <span class="knob-row"></span>
-        </div>
-        <div class="tab-strip"><span>Default</span><span class="active">Synth</span><span>EQ</span></div>
-        <div class="thumb-grid">
-          <span class="selected"></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-      </section>
-      <section class="library-panel" aria-label="FX library preview">
-        <div class="status-row"><span>Listed 702</span><span>Unlisted 1032</span><span class="active">All</span></div>
-        <div class="search-strip"><span>Search FX library</span><span class="toggle-pill"><span class="active">Listed</span><span>All</span></span></div>
-        <div class="fx-list">
-          <span><b></b> Analog Keys</span>
-          <span><b></b> Vocal Processor</span>
-          <span><b></b> Vintage Synth</span>
-          <span><b></b> Stereo Compressor</span>
-          <span><b></b> Tape Delay</span>
-          <span><b></b> Piano Texture</span>
-          <span><b></b> Filter Motion</span>
-          <span><b></b> Modulation Tool</span>
-        </div>
-      </section>
-      <aside class="filter-panel" aria-label="Filter preview">
-        <div class="panel-label">Developers</div>
-        <div class="filter-grid"><span>All</span><span>Studio A</span><span>Native</span><span>Vintage</span><span>Utility</span><span>Spatial</span></div>
-        <div class="panel-label">Types</div>
-        <div class="filter-grid compact"><span>AU</span><span>VST</span><span>VST3</span><span>JS</span></div>
-        <div class="panel-label">Categories</div>
-        <div class="filter-grid"><span>EQ</span><span>Delay</span><span>Reverb</span><span>Synth</span><span>Tools</span><span>Dynamics</span></div>
-      </aside>
+    <div class="plugin-image-frame">
+      <img
+        src="virtue-fx-manager-development.svg"
+        alt="Virtue FX Manager development interface with thumbnail manager, FX list, and filter panels"
+      />
     </div>
   `;
 }

@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Virtue FX Manager development interface</title>
+  <desc id="desc">A cyan and green product screenshot illustration showing a thumbnail manager, plugin list, and filters.</desc>
+  <defs>
+    <linearGradient id="window" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#172321" />
+      <stop offset="1" stop-color="#0d1212" />
+    </linearGradient>
+    <linearGradient id="panel" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#25312f" />
+      <stop offset="1" stop-color="#1a2020" />
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#4ce8dc" />
+      <stop offset="1" stop-color="#1c9ed2" />
+    </linearGradient>
+    <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#34d399" />
+      <stop offset="1" stop-color="#07958d" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="125%">
+      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#001c1a" flood-opacity=".35" />
+    </filter>
+    <style>
+      .label{font:700 18px Inter,Arial,sans-serif;fill:#dff7f3}
+      .small{font:650 14px Inter,Arial,sans-serif;fill:#9cb7b3}
+      .tiny{font:750 12px Inter,Arial,sans-serif;fill:#c7e7e2}
+      .rowtext{font:600 13px Inter,Arial,sans-serif;fill:#d1dfdc}
+      .muted{fill:#8ea5a1}
+      .line{stroke:#465552;stroke-width:1}
+      .cyan-stroke{stroke:#40ded2;stroke-width:2}
+      .button-text{font:800 13px Inter,Arial,sans-serif;fill:#05211f}
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" rx="20" fill="url(#window)" />
+  <rect x="1" y="1" width="1598" height="898" rx="20" fill="none" stroke="#49615c" />
+
+  <g filter="url(#shadow)">
+    <rect x="18" y="18" width="1564" height="44" rx="8" fill="#111817" />
+    <circle cx="43" cy="40" r="9" fill="#4ce8dc" opacity=".9" />
+    <text x="62" y="46" class="label">Virtue FX Manager</text>
+    <rect x="1400" y="28" width="156" height="24" rx="4" fill="url(#cyan)" opacity=".95" />
+    <text x="1446" y="45" class="button-text">Settings</text>
+  </g>
+
+  <g transform="translate(18 78)">
+    <rect width="610" height="790" rx="8" fill="url(#panel)" stroke="#5a6764" />
+    <g transform="translate(18 18)">
+      <circle cx="12" cy="12" r="6" fill="#34d399" opacity=".75" />
+      <text x="30" y="18" class="label">Thumbnail Manager</text>
+      <line x1="0" y1="36" x2="574" y2="36" class="line" />
+
+      <rect x="0" y="48" width="574" height="260" rx="8" fill="#050606" stroke="#3d4c49" />
+      <g transform="translate(64 58)">
+        <rect width="446" height="240" rx="6" fill="#10211f" />
+        <rect x="0" y="0" width="446" height="68" rx="6" fill="#263835" />
+        <text x="128" y="43" font-family="Georgia,serif" font-size="46" font-style="italic" fill="#d7fff8">Virtue</text>
+        <circle cx="42" cy="112" r="17" fill="#0b1212" stroke="#6adbcf" />
+        <circle cx="100" cy="112" r="17" fill="#0b1212" stroke="#6adbcf" />
+        <circle cx="158" cy="112" r="17" fill="#0b1212" stroke="#6adbcf" />
+        <circle cx="216" cy="112" r="17" fill="#0b1212" stroke="#6adbcf" />
+        <circle cx="274" cy="112" r="17" fill="#0b1212" stroke="#6adbcf" />
+        <circle cx="332" cy="112" r="17" fill="#0b1212" stroke="#6adbcf" />
+        <rect x="26" y="160" width="394" height="42" rx="5" fill="#1a2d2a" />
+        <rect x="26" y="216" width="394" height="14" rx="7" fill="#34d399" opacity=".45" />
+      </g>
+
+      <text x="0" y="342" class="small">Virtue Synth / VST3i</text>
+      <line x1="0" y1="386" x2="574" y2="386" class="line" />
+      <text x="0" y="414" class="small">Favorites</text>
+      <rect x="487" y="407" width="70" height="5" rx="2" fill="url(#cyan)" />
+
+      <g transform="translate(0 436)">
+        <rect width="70" height="25" rx="5" fill="#26322f" stroke="#52635f" />
+        <text x="18" y="17" class="tiny">Default</text>
+        <rect x="78" width="58" height="25" rx="5" fill="url(#green)" />
+        <text x="93" y="17" class="button-text">Synth</text>
+        <rect x="144" width="44" height="25" rx="5" fill="#26322f" stroke="#52635f" />
+        <text x="159" y="17" class="tiny">EQ</text>
+        <rect x="0" y="38" width="180" height="30" rx="5" fill="url(#cyan)" opacity=".85" />
+        <text x="52" y="58" class="button-text">Add Selected</text>
+        <rect x="190" y="38" width="180" height="30" rx="5" fill="#21423d" stroke="#3ad8cc" opacity=".9" />
+        <text x="249" y="58" class="tiny">Add Checked</text>
+        <rect x="380" y="38" width="194" height="30" rx="5" fill="#402326" />
+        <text x="443" y="58" class="tiny">Remove Selected</text>
+      </g>
+
+      <g transform="translate(0 528)">
+        <rect width="150" height="92" rx="6" fill="#1a2524" stroke="#6adbcf" />
+        <rect x="10" y="12" width="130" height="52" rx="4" fill="#10211f" />
+        <path d="M18 54 C42 18 62 78 91 32 C110 5 122 40 136 20" fill="none" stroke="#4ce8dc" stroke-width="4" />
+        <rect x="170" width="150" height="92" rx="6" fill="#1a2524" stroke="#5a6764" />
+        <rect x="180" y="12" width="130" height="52" rx="4" fill="#0d1615" />
+        <path d="M186 58 L206 28 L232 46 L256 20 L298 58" fill="none" stroke="#34d399" stroke-width="4" />
+        <rect x="340" width="150" height="92" rx="6" fill="#1a2524" stroke="#5a6764" />
+        <rect x="350" y="12" width="130" height="52" rx="4" fill="#0d1615" />
+        <circle cx="386" cy="38" r="18" fill="#1c9ed2" opacity=".7" />
+        <circle cx="432" cy="38" r="18" fill="#34d399" opacity=".65" />
+
+        <rect y="112" width="150" height="92" rx="6" fill="#1a2524" stroke="#5a6764" />
+        <rect x="170" y="112" width="150" height="92" rx="6" fill="#1a2524" stroke="#5a6764" />
+        <rect x="340" y="112" width="150" height="92" rx="6" fill="#1a2524" stroke="#5a6764" />
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(648 78)">
+    <rect width="520" height="790" rx="8" fill="url(#panel)" stroke="#5a6764" />
+    <g transform="translate(16 14)">
+      <rect width="72" height="27" rx="5" fill="url(#green)" />
+      <text x="22" y="18" class="button-text">Listed</text>
+      <rect x="84" width="82" height="27" rx="5" fill="#324743" stroke="#4ce8dc" />
+      <text x="101" y="18" class="tiny">Unlisted</text>
+      <rect x="178" width="58" height="27" rx="5" fill="#27433f" />
+      <text x="198" y="18" class="tiny">All</text>
+      <text x="365" y="19" class="tiny" fill="#34d399">● Listed: 702</text>
+      <text x="453" y="19" class="tiny" fill="#4ce8dc">● Unlisted: 1032</text>
+      <rect y="38" width="488" height="28" rx="4" fill="#141b1a" stroke="#51615e" />
+      <text x="12" y="57" class="small">Search</text>
+      <line x1="0" y1="78" x2="488" y2="78" class="line" />
+
+      <g transform="translate(0 86)">
+        <text x="4" y="17" class="tiny">Use</text>
+        <text x="76" y="17" class="tiny">Status</text>
+        <text x="146" y="17" class="tiny">Plugin</text>
+        <rect y="28" width="488" height="620" rx="6" fill="#121817" stroke="#465552" />
+        <g>
+          <rect x="0" y="28" width="488" height="30" fill="#202927" />
+          <rect x="0" y="88" width="488" height="30" fill="#202927" />
+          <rect x="0" y="148" width="488" height="30" fill="#202927" />
+          <rect x="0" y="208" width="488" height="30" fill="#202927" />
+          <rect x="0" y="268" width="488" height="30" fill="#202927" />
+          <rect x="0" y="328" width="488" height="30" fill="#202927" />
+          <rect x="0" y="388" width="488" height="30" fill="#202927" />
+          <rect x="0" y="448" width="488" height="30" fill="#202927" />
+          <rect x="0" y="508" width="488" height="30" fill="#202927" />
+          <rect x="0" y="568" width="488" height="30" fill="#202927" />
+        </g>
+        <g class="rowtext">
+          <text x="146" y="49">Analog Keys</text>
+          <text x="146" y="79">Vocal Processor</text>
+          <text x="146" y="109">Vintage Synth</text>
+          <text x="146" y="139">Stereo Compressor</text>
+          <text x="146" y="169">Tape Delay</text>
+          <text x="146" y="199">Piano Texture</text>
+          <text x="146" y="229">Filter Motion</text>
+          <text x="146" y="259">Modulation Tool</text>
+          <text x="146" y="289">Creative Verb</text>
+          <text x="146" y="319">Studio EQ</text>
+          <text x="146" y="349">Bass Utility</text>
+          <text x="146" y="379">Spatial Delay</text>
+          <text x="146" y="409">Mastering Tool</text>
+          <text x="146" y="439">Texture Machine</text>
+          <text x="146" y="469">Transient Shape</text>
+          <text x="146" y="499">Clean Limiter</text>
+        </g>
+        <g>
+          <circle cx="84" cy="45" r="6" fill="#34d399" />
+          <circle cx="84" cy="75" r="6" fill="#34d399" />
+          <circle cx="84" cy="105" r="6" fill="#4ce8dc" />
+          <circle cx="84" cy="135" r="6" fill="#34d399" />
+          <circle cx="84" cy="165" r="6" fill="#4ce8dc" />
+          <circle cx="84" cy="195" r="6" fill="#34d399" />
+          <circle cx="84" cy="225" r="6" fill="#4ce8dc" />
+          <circle cx="84" cy="255" r="6" fill="#34d399" />
+          <circle cx="84" cy="285" r="6" fill="#34d399" />
+          <circle cx="84" cy="315" r="6" fill="#4ce8dc" />
+          <rect x="8" y="35" width="20" height="20" rx="4" fill="#263331" stroke="#5a6764" />
+          <rect x="8" y="65" width="20" height="20" rx="4" fill="#263331" stroke="#5a6764" />
+          <rect x="8" y="95" width="20" height="20" rx="4" fill="#263331" stroke="#5a6764" />
+          <rect x="8" y="125" width="20" height="20" rx="4" fill="#263331" stroke="#5a6764" />
+        </g>
+        <rect x="476" y="28" width="6" height="296" rx="3" fill="#7b928e" />
+      </g>
+    </g>
+  </g>
+
+  <g transform="translate(1188 78)">
+    <rect width="394" height="790" rx="8" fill="url(#panel)" stroke="#5a6764" />
+    <g transform="translate(16 18)">
+      <rect width="362" height="27" rx="5" fill="url(#cyan)" opacity=".75" />
+      <text x="18" y="18" class="tiny">Developers (63)</text>
+      <g transform="translate(0 44)" class="tiny">
+        <rect width="110" height="25" rx="4" fill="#eafffb" />
+        <text x="47" y="17" fill="#082120">All</text>
+        <rect x="122" width="110" height="25" rx="4" fill="#245c55" />
+        <text x="144" y="17">Studio A</text>
+        <rect x="244" width="110" height="25" rx="4" fill="#245c55" />
+        <text x="271" y="17">Studio B</text>
+      </g>
+      <g transform="translate(0 78)" class="tiny">
+        <rect width="110" height="25" rx="4" fill="#245c55" /><text x="32" y="17">Analog</text>
+        <rect x="122" width="110" height="25" rx="4" fill="#245c55" /><text x="145" y="17">Blue Lab</text>
+        <rect x="244" width="110" height="25" rx="4" fill="#245c55" /><text x="279" y="17">Core FX</text>
+      </g>
+      <g transform="translate(0 112)" class="tiny">
+        <rect width="110" height="25" rx="4" fill="#245c55" /><text x="26" y="17">Spatial</text>
+        <rect x="122" width="110" height="25" rx="4" fill="#245c55" /><text x="154" y="17">Utility</text>
+        <rect x="244" width="110" height="25" rx="4" fill="#245c55" /><text x="285" y="17">Tools</text>
+      </g>
+
+      <rect y="224" width="362" height="27" rx="5" fill="url(#cyan)" opacity=".75" />
+      <text x="18" y="242" class="tiny">Types (8)</text>
+      <g transform="translate(0 268)" class="tiny">
+        <rect width="52" height="25" rx="4" fill="#eafffb" /><text x="19" y="17" fill="#082120">All</text>
+        <rect x="64" width="52" height="25" rx="4" fill="#245c55" /><text x="79" y="17">AU</text>
+        <rect x="128" width="52" height="25" rx="4" fill="#245c55" /><text x="140" y="17">VST</text>
+        <rect x="192" width="52" height="25" rx="4" fill="#245c55" /><text x="202" y="17">VST3</text>
+        <rect x="256" width="52" height="25" rx="4" fill="#245c55" /><text x="270" y="17">JS</text>
+      </g>
+
+      <rect y="326" width="362" height="27" rx="5" fill="url(#cyan)" opacity=".75" />
+      <text x="18" y="344" class="tiny">Categories (37)</text>
+      <g transform="translate(0 370)" class="tiny">
+        <rect width="110" height="25" rx="4" fill="#eafffb" /><text x="47" y="17" fill="#082120">All</text>
+        <rect x="122" width="110" height="25" rx="4" fill="#245c55" /><text x="160" y="17">EQ</text>
+        <rect x="244" width="110" height="25" rx="4" fill="#245c55" /><text x="283" y="17">Delay</text>
+      </g>
+      <g transform="translate(0 404)" class="tiny">
+        <rect width="110" height="25" rx="4" fill="#245c55" /><text x="32" y="17">Reverb</text>
+        <rect x="122" width="110" height="25" rx="4" fill="#245c55" /><text x="156" y="17">Synth</text>
+        <rect x="244" width="110" height="25" rx="4" fill="#245c55" /><text x="279" y="17">Tools</text>
+      </g>
+      <g transform="translate(0 438)" class="tiny">
+        <rect width="110" height="25" rx="4" fill="#245c55" /><text x="28" y="17">Dynamics</text>
+        <rect x="122" width="110" height="25" rx="4" fill="#245c55" /><text x="148" y="17">Spatial</text>
+        <rect x="244" width="110" height="25" rx="4" fill="#245c55" /><text x="274" y="17">Vocals</text>
+      </g>
+
+      <line x1="0" y1="708" x2="362" y2="708" class="line" />
+      <rect x="214" y="726" width="72" height="27" rx="5" fill="url(#cyan)" />
+      <text x="232" y="744" class="button-text">Apply</text>
+      <rect x="296" y="726" width="66" height="27" rx="5" fill="#21423d" stroke="#3ad8cc" />
+      <text x="314" y="744" class="tiny">Clear</text>
+    </g>
+  </g>
+</svg>
