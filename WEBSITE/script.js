@@ -51,7 +51,7 @@ function setupAmbientCanvas() {
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    const count = Math.min(95, Math.max(46, Math.round(width / 16)));
+    const count = Math.min(58, Math.max(28, Math.round(width / 24)));
     particles = Array.from({ length: count }, (_, index) => ({
       baseX: Math.random() * width,
       baseY: Math.random() * height,
@@ -60,17 +60,24 @@ function setupAmbientCanvas() {
       phase: Math.random() * Math.PI * 2,
       speed: 0.55 + Math.random() * 0.65,
       drift: 18 + Math.random() * 42,
-      size: index % 8 === 0 ? 2.2 : 1.25,
+      size: index % 8 === 0 ? 18 : 13 + Math.random() * 4,
       tone: index % 4,
+      symbol: ["♪", "♫", "♩", "♬"][index % 4],
+      rotation: (Math.random() - 0.5) * 0.34,
     }));
   }
 
   function drawParticle(particle) {
     const colors = ["17, 19, 21", "178, 122, 34", "80, 110, 150", "106, 111, 115"];
-    ctx.beginPath();
-    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(${colors[particle.tone]}, 0.42)`;
-    ctx.fill();
+    ctx.save();
+    ctx.translate(particle.x, particle.y);
+    ctx.rotate(particle.rotation + Math.sin(time + particle.phase) * 0.08);
+    ctx.fillStyle = `rgba(${colors[particle.tone]}, 0.34)`;
+    ctx.font = `700 ${particle.size}px Inter, system-ui, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(particle.symbol, 0, 0);
+    ctx.restore();
   }
 
   function animate() {
@@ -113,7 +120,7 @@ function setupAmbientCanvas() {
             next.x,
             next.y,
           );
-          ctx.strokeStyle = `rgba(17, 19, 21, ${0.07 * (1 - distance / 210)})`;
+          ctx.strokeStyle = `rgba(17, 19, 21, ${0.045 * (1 - distance / 210)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -125,7 +132,7 @@ function setupAmbientCanvas() {
           ctx.beginPath();
           ctx.moveTo(pointer.x, pointer.y);
           ctx.lineTo(particle.x, particle.y);
-          ctx.strokeStyle = `rgba(178, 122, 34, ${0.16 * (1 - distance / 220)})`;
+          ctx.strokeStyle = `rgba(178, 122, 34, ${0.12 * (1 - distance / 220)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
