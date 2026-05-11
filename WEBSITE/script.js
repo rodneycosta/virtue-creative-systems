@@ -220,6 +220,12 @@ function renderHeader() {
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
       <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
         ${navItems.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
+        <label class="language-control">
+          <span class="sr-only">Language</span>
+          <select data-language-select aria-label="Language">
+            ${window.VirtueI18n ? window.VirtueI18n.languageOptions() : '<option value="en">English</option>'}
+          </select>
+        </label>
         <a class="button button-primary" href="downloads.html">${navCtaText}</a>
       </nav>
     </div>
@@ -305,7 +311,9 @@ function setupNewsletterForms() {
       event.preventDefault();
       const note = form.querySelector("[data-form-note]");
       if (note) {
-        note.textContent = "Thanks. This form is a placeholder until a release-list backend is connected.";
+        note.textContent = window.VirtueI18n
+          ? window.VirtueI18n.t("Thanks. This form is a placeholder until a release-list backend is connected.")
+          : "Thanks. This form is a placeholder until a release-list backend is connected.";
       }
       form.reset();
     });
@@ -341,6 +349,7 @@ renderMockups();
 applyReleaseStatus();
 setupNewsletterForms();
 setupReveals();
+window.VirtueI18n?.apply();
 
 // Newsletter integration point:
 // Replace the placeholder submit handler above with Buttondown, Mailchimp,

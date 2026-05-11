@@ -72,7 +72,8 @@ svg {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -176,6 +177,24 @@ input {
   color: #ffffff;
 }
 
+.language-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.language-control select {
+  min-height: 2.45rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0 2rem 0 0.75rem;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+}
+
 .nav-toggle {
   display: none;
   border: 1px solid var(--line);
@@ -183,6 +202,35 @@ input {
   padding: 0.65rem 0.8rem;
   background: var(--surface-solid);
   color: var(--ink);
+}
+
+:lang(zh-Hans),
+:lang(hi),
+:lang(ar),
+:lang(bn),
+:lang(ru),
+:lang(ur) {
+  font-family: Inter, "Noto Sans", "Noto Sans SC", "Noto Sans Devanagari", "Noto Sans Arabic", "Noto Sans Bengali", system-ui, sans-serif;
+}
+
+html[dir="rtl"] body {
+  text-align: right;
+}
+
+html[dir="rtl"] .nav-inner,
+html[dir="rtl"] .brand,
+html[dir="rtl"] .nav-links,
+html[dir="rtl"] .button-row,
+html[dir="rtl"] .footer-inner {
+  direction: rtl;
+}
+
+html[dir="rtl"] .plugin-image-frame,
+html[dir="rtl"] .mockup,
+html[dir="rtl"] .feature-visual,
+html[dir="rtl"] .mini-visual,
+html[dir="rtl"] .ambient-canvas {
+  direction: ltr;
 }
 
 .section-shell {
@@ -1735,6 +1783,11 @@ p {
 
   .nav-links.is-open {
     display: flex;
+  }
+
+  .language-control,
+  .language-control select {
+    width: 100%;
   }
 
   .brand-name {
