@@ -5,185 +5,180 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Virtue Creative Systems is a virtual-first software company building focused tools for music creators, starting with Virtue FX Manager for REAPER."
+      content="Virtue Creative Systems builds focused software for audio, visual, scripting, automation, and production workflows. First release: Virtue FX Manager for REAPER."
     />
-    <title>Virtue Creative Systems | Software for Creative Workflows</title>
+    <meta property="og:title" content="Virtue Creative Systems" />
+    <meta
+      property="og:description"
+      content="Creative systems for sound, visuals, and workflow. Explore Virtue FX Manager for REAPER."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://virtuecreativesystems.com/" />
+    <meta name="theme-color" content="#080806" />
+    <title>Virtue Creative Systems | Creative Workflow Software</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <canvas id="world-canvas" aria-hidden="true"></canvas>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-site-header></header>
 
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Virtue Creative Systems home">
-        <span class="brand-mark">V</span>
-        <span class="brand-name">Virtue Creative Systems</span>
-      </a>
-      <nav class="site-nav" aria-label="Primary navigation">
-        <a href="#product">Product</a>
-        <a href="#company">Company</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
-
-    <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow">Virtual-first software studio</p>
-          <h1 id="hero-title">Virtue Creative Systems</h1>
+    <main id="main">
+      <section class="hero section-shell">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Virtue Creative Systems</p>
+          <h1>Creative systems<br />for sound,<br />visuals, and workflow.</h1>
           <p class="hero-lede">
-            We build compact, reliable tools for creative professionals who want less friction
-            between inspiration and finished work.
+            Virtue Creative Systems builds focused tools for audio production, VFX workflows,
+            scripting, automation, and creative software. Our first release, Virtue FX Manager,
+            brings a faster and cleaner way to manage effects inside your REAPER workflow.
           </p>
-          <div class="hero-actions" aria-label="Primary actions">
-            <a class="button primary" href="#product">Meet Virtue FX Manager</a>
-            <a class="button secondary" href="mailto:hello@virtuecreativesystems.com">Start a conversation</a>
+          <div class="button-row">
+            <a class="button button-primary" href="virtue-fx-manager.html">Explore Virtue FX Manager</a>
+            <a class="button button-secondary" href="#release-list">Join Release List</a>
           </div>
         </div>
-        <div class="hero-status" aria-label="Company status">
-          <span>Online studio</span>
-          <span>No physical office</span>
-          <span>Built for music creators</span>
+        <div class="hero-visual reveal delay-1" aria-label="Virtue FX Manager interface preview">
+          <div class="mockup mockup-large" data-mockup></div>
         </div>
       </section>
 
-      <section class="intro-band" aria-label="Company focus">
-        <div class="section-inner intro-grid">
-          <div>
-            <p class="eyebrow">Built in the virtual world</p>
-            <h2>Small company, practical systems, global reach.</h2>
-          </div>
+      <section class="section-shell split-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Mission</p>
+          <h2>Built for creative people who need better tools.</h2>
+        </div>
+        <div class="section-copy reveal delay-1">
           <p>
-            Virtue Creative Systems starts as a digital-only software company. No storefront,
-            no office lobby, no geographic dependency. Just focused products that solve real
-            workflow problems for people making music, media, and creative technology.
+            Virtue Creative Systems exists to remove friction from creative work. We build precise,
+            lightweight tools for producers, engineers, sound designers, editors, technical artists,
+            and developers who need software that respects their workflow.
           </p>
         </div>
       </section>
 
-      <section class="product-section" id="product" aria-labelledby="product-title">
-        <div class="section-inner product-layout">
-          <div class="product-copy">
-            <p class="eyebrow">First release</p>
-            <h2 id="product-title">Virtue FX Manager</h2>
-            <p>
-              A REAPER companion app for managing audio plugins with speed, clarity, and fewer
-              repeated setup chores. Designed for producers, engineers, and composers who keep
-              large plugin libraries and need them to stay organized.
-            </p>
-            <ul class="feature-list" aria-label="Virtue FX Manager features">
-              <li>
-                <span class="feature-icon">01</span>
-                <span>Sort plugins by vendor, format, category, and project role.</span>
-              </li>
-              <li>
-                <span class="feature-icon">02</span>
-                <span>Build clean favorites and workflow groups for faster REAPER sessions.</span>
-              </li>
-              <li>
-                <span class="feature-icon">03</span>
-                <span>Reduce clutter from duplicate, legacy, or rarely used plugins.</span>
-              </li>
-            </ul>
-            <a class="button primary compact" href="mailto:hello@virtuecreativesystems.com?subject=Virtue%20FX%20Manager">
-              Ask about availability
-            </a>
-          </div>
+      <section class="section-shell card-grid three">
+        <article class="feature-card reveal">
+          <span class="card-kicker">01</span>
+          <h3>Audio Tools</h3>
+          <p>Plugins, utilities, and workflow tools for music production and mixing.</p>
+        </article>
+        <article class="feature-card reveal delay-1">
+          <span class="card-kicker">02</span>
+          <h3>Creative Systems</h3>
+          <p>Apps and scripts that connect repetitive technical work with creative speed.</p>
+        </article>
+        <article class="feature-card reveal delay-2">
+          <span class="card-kicker">03</span>
+          <h3>Visual & Production Tools</h3>
+          <p>Future tools for VFX, media workflows, automation, and pipeline support.</p>
+        </article>
+      </section>
 
-          <div class="product-visual" aria-label="Virtue FX Manager interface preview">
-            <div class="app-window">
-              <div class="window-bar">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-              <div class="app-shell">
-                <aside class="app-sidebar">
-                  <strong>FX Library</strong>
-                  <span class="active">All Plugins</span>
-                  <span>Favorites</span>
-                  <span>Mix Bus</span>
-                  <span>Vocal Chain</span>
-                  <span>Archive</span>
-                </aside>
-                <div class="app-content">
-                  <div class="search-row">
-                    <span>Search: compressor</span>
-                    <b>142 found</b>
-                  </div>
-                  <div class="plugin-row highlight">
-                    <span>VCS Dynamics</span>
-                    <em>VST3</em>
-                  </div>
-                  <div class="plugin-row">
-                    <span>Classic Bus Comp</span>
-                    <em>AU</em>
-                  </div>
-                  <div class="plugin-row">
-                    <span>Transparent Limiter</span>
-                    <em>VST</em>
-                  </div>
-                  <div class="plugin-row">
-                    <span>Sidechain Tool</span>
-                    <em>JSFX</em>
-                  </div>
-                  <div class="tag-cloud" aria-hidden="true">
-                    <span>Clean</span>
-                    <span>Fast</span>
-                    <span>Tagged</span>
-                    <span>Ready</span>
-                  </div>
-                </div>
-              </div>
+      <section class="section-shell product-feature" id="product">
+        <div class="section-heading reveal">
+          <p class="eyebrow">First release</p>
+          <h2>Virtue FX Manager</h2>
+          <p>
+            A focused companion tool for REAPER users who want a faster, cleaner way to browse,
+            organize, and access their effects.
+          </p>
+        </div>
+        <article class="product-card reveal delay-1">
+          <div>
+            <span class="status-pill" data-release-label>Coming soon</span>
+            <h3>Virtue FX Manager</h3>
+            <p class="tagline">Your REAPER FX workflow, organized.</p>
+            <p>
+              Virtue FX Manager is designed to help REAPER users move faster through large effect
+              libraries. Browse your tools visually, switch between grid and list views, organize
+              favorites, and keep your creative session focused.
+            </p>
+            <ul class="check-list">
+              <li>Visual grid and list browsing <span>Planned</span></li>
+              <li>Fast search and filtering <span>Planned</span></li>
+              <li>Favorites and custom collections <span>Planned</span></li>
+              <li>Clean plugin organization <span>Planned</span></li>
+              <li>Designed around REAPER workflows <span>Planned</span></li>
+              <li>Lightweight, focused, and creator-friendly <span>Planned</span></li>
+            </ul>
+            <div class="button-row">
+              <a class="button button-primary" href="virtue-fx-manager.html">View Product</a>
+              <a class="button button-secondary" href="#release-list" data-release-cta>Join Release List</a>
             </div>
           </div>
+          <div class="mockup compact" data-mockup></div>
+        </article>
+      </section>
+
+      <section class="section-shell split-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Why it matters</p>
+          <h2>Less menu hunting. More creative flow.</h2>
+        </div>
+        <div class="section-copy reveal delay-1">
+          <p>
+            Large plugin libraries slow down creative decisions. Virtue FX Manager is built to make
+            your effect workflow easier to see, easier to search, and easier to organize, so you can
+            stay inside the music instead of fighting your tool list.
+          </p>
         </div>
       </section>
 
-      <section class="company-section" id="company" aria-labelledby="company-title">
-        <div class="section-inner">
-          <p class="eyebrow">Operating model</p>
-          <h2 id="company-title">A software company without walls.</h2>
-          <div class="principle-grid">
-            <article>
-              <h3>Virtual by design</h3>
-              <p>Communication, sales, delivery, and support are handled online from the start.</p>
-            </article>
-            <article>
-              <h3>Creator-focused</h3>
-              <p>Every product begins with a practical creative workflow and a clear pain point.</p>
-            </article>
-            <article>
-              <h3>Lean releases</h3>
-              <p>Ship useful software, listen carefully, improve steadily, and avoid bloat.</p>
-            </article>
-          </div>
+      <section class="section-shell card-grid three">
+        <article class="feature-card reveal">
+          <h3>Find faster</h3>
+          <p>Search and filter effects from a cleaner visual surface instead of digging through menus.</p>
+        </article>
+        <article class="feature-card reveal delay-1">
+          <h3>Organize smarter</h3>
+          <p>Shape large libraries into favorites, categories, and collections that match your sessions.</p>
+        </article>
+        <article class="feature-card reveal delay-2">
+          <h3>Stay focused</h3>
+          <p>Keep decisions close to the creative moment with a lightweight companion workflow.</p>
+        </article>
+      </section>
+
+      <section class="section-shell roadmap-section">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Roadmap</p>
+          <h2>More tools are coming.</h2>
+          <p>
+            Virtue Creative Systems will expand into audio plugins, VST utilities, scripting apps,
+            VFX helpers, and custom production systems.
+          </p>
+        </div>
+        <div class="roadmap-grid">
+          <article class="roadmap-item reveal"><h3>Virtue FX Manager</h3><span>First release</span></article>
+          <article class="roadmap-item reveal delay-1"><h3>Virtue Audio Tools</h3><span>Planned</span></article>
+          <article class="roadmap-item reveal delay-2"><h3>Virtue Script Tools</h3><span>Planned</span></article>
+          <article class="roadmap-item reveal delay-3"><h3>Virtue Pipeline Tools</h3><span>Planned</span></article>
         </div>
       </section>
 
-      <section class="contact-section" id="contact" aria-labelledby="contact-title">
-        <div class="section-inner contact-layout">
-          <div>
-            <p class="eyebrow">Next step</p>
-            <h2 id="contact-title">Bring Virtue FX Manager to your REAPER workflow.</h2>
-          </div>
-          <a class="button primary" href="mailto:hello@virtuecreativesystems.com">
-            Contact Virtue Creative Systems
-          </a>
+      <section class="section-shell cta-panel reveal" id="release-list">
+        <div>
+          <p class="eyebrow">Release list</p>
+          <h2>Be first to try Virtue FX Manager.</h2>
+          <p>Join the release list for launch news, early builds, and development updates.</p>
         </div>
+        <form class="newsletter-form" data-newsletter>
+          <label class="sr-only" for="home-email">Email address</label>
+          <input id="home-email" type="email" name="email" placeholder="you@example.com" required />
+          <button class="button button-primary" type="submit">Get Notified</button>
+          <p class="form-note" data-form-note>No spam. Only product updates.</p>
+        </form>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <span>&copy; <span id="year"></span> Virtue Creative Systems</span>
-      <span>Virtual company. Real creative systems.</span>
-    </footer>
-
+    <footer class="site-footer" data-site-footer></footer>
     <script src="script.js"></script>
   </body>
 </html>
