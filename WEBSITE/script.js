@@ -22,6 +22,104 @@ const navItems = [
   ["Support", "support.html"],
 ];
 
+function setupAmbientCanvas() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const canvas = document.createElement("canvas");
+  canvas.className = "ambient-canvas";
+  canvas.setAttribute("aria-hidden", "true");
+  document.body.prepend(canvas);
+
+  const ctx = canvas.getContext("2d");
+  let width = 0;
+  let height = 0;
+  let nodes = [];
+  let pointer = { x: 0, y: 0, active: false };
+
+  function resize() {
+    const ratio = window.devicePixelRatio || 1;
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = Math.floor(width * ratio);
+    canvas.height = Math.floor(height * ratio);
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    const count = Math.min(72, Math.max(30, Math.round(width / 22)));
+    nodes = Array.from({ length: count }, (_, index) => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.18,
+      vy: (Math.random() - 0.5) * 0.18,
+      size: index % 7 === 0 ? 2.1 : 1.25,
+      tone: index % 3,
+    }));
+  }
+
+  function drawNode(node) {
+    const colors = ["17, 19, 21", "178, 122, 34", "83, 132, 190"];
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${colors[node.tone]}, 0.32)`;
+    ctx.fill();
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+
+    for (const node of nodes) {
+      node.x += node.vx;
+      node.y += node.vy;
+
+      if (node.x < -20) node.x = width + 20;
+      if (node.x > width + 20) node.x = -20;
+      if (node.y < -20) node.y = height + 20;
+      if (node.y > height + 20) node.y = -20;
+
+      if (pointer.active) {
+        const dx = pointer.x - node.x;
+        const dy = pointer.y - node.y;
+        const distance = Math.hypot(dx, dy);
+        if (distance < 150) {
+          node.x -= dx * 0.0007;
+          node.y -= dy * 0.0007;
+        }
+      }
+    }
+
+    for (let i = 0; i < nodes.length; i += 1) {
+      for (let j = i + 1; j < nodes.length; j += 1) {
+        const a = nodes[i];
+        const b = nodes[j];
+        const distance = Math.hypot(a.x - b.x, a.y - b.y);
+        if (distance < 145) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(17, 19, 21, ${0.085 * (1 - distance / 145)})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+      drawNode(nodes[i]);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  window.addEventListener("resize", resize);
+  window.addEventListener("pointermove", (event) => {
+    pointer = { x: event.clientX, y: event.clientY, active: true };
+  });
+  window.addEventListener("pointerleave", () => {
+    pointer.active = false;
+  });
+
+  resize();
+  animate();
+}
+
 function renderHeader() {
   const header = document.querySelector("[data-site-header]");
   if (!header) return;
@@ -167,6 +265,7 @@ function setupReveals() {
   reveals.forEach((node) => observer.observe(node));
 }
 
+setupAmbientCanvas();
 renderHeader();
 renderFooter();
 renderMockups();
