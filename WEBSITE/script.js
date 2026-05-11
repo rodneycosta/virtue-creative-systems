@@ -1,6 +1,10 @@
-const releaseStatus = "coming-soon";
+const releaseStatus = "development";
 
 const statusConfig = {
+  development: {
+    label: "In development",
+    cta: "Join Development List",
+  },
   "coming-soon": {
     label: "Coming soon",
     cta: "Join Release List",
@@ -230,28 +234,41 @@ function mockupMarkup() {
       <div class="mockup-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       <span class="mockup-title">Virtue FX Manager</span>
     </div>
-    <div class="mockup-body">
-      <aside class="mockup-side" aria-label="Mockup categories">
-        <span class="active">All FX</span>
-        <span>Favorites</span>
-        <span>Dynamics</span>
-        <span>Delay</span>
-        <span>Utility</span>
+    <div class="mockup-body product-surface">
+      <section class="thumb-panel" aria-label="Thumbnail manager preview">
+        <div class="panel-label">Thumbnail Manager</div>
+        <div class="large-preview">
+          <span class="knob-row"></span>
+          <span class="knob-row short"></span>
+          <span class="knob-row"></span>
+        </div>
+        <div class="tab-strip"><span>Default</span><span class="active">Synth</span><span>EQ</span></div>
+        <div class="thumb-grid">
+          <span class="selected"></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </section>
+      <section class="library-panel" aria-label="FX library preview">
+        <div class="status-row"><span>Listed 702</span><span>Unlisted 1032</span><span class="active">All</span></div>
+        <div class="search-strip"><span>Search FX library</span><span class="toggle-pill"><span class="active">Listed</span><span>All</span></span></div>
+        <div class="fx-list">
+          <span><b></b> Analog Keys</span>
+          <span><b></b> Vocal Processor</span>
+          <span><b></b> Vintage Synth</span>
+          <span><b></b> Stereo Compressor</span>
+          <span><b></b> Tape Delay</span>
+          <span><b></b> Piano Texture</span>
+          <span><b></b> Filter Motion</span>
+          <span><b></b> Modulation Tool</span>
+        </div>
+      </section>
+      <aside class="filter-panel" aria-label="Filter preview">
+        <div class="panel-label">Developers</div>
+        <div class="filter-grid"><span>All</span><span>Studio A</span><span>Native</span><span>Vintage</span><span>Utility</span><span>Spatial</span></div>
+        <div class="panel-label">Types</div>
+        <div class="filter-grid compact"><span>AU</span><span>VST</span><span>VST3</span><span>JS</span></div>
+        <div class="panel-label">Categories</div>
+        <div class="filter-grid"><span>EQ</span><span>Delay</span><span>Reverb</span><span>Synth</span><span>Tools</span><span>Dynamics</span></div>
       </aside>
-      <div class="mockup-main">
-        <div class="search-strip">
-          <span>Search effects, vendors, tags</span>
-          <span class="toggle-pill"><span class="active">Grid</span><span>List</span></span>
-        </div>
-        <div class="plugin-grid">
-          <div class="plugin-card favorite"><strong>VCS Dynamics</strong><span>Favorite · VST3 · Mix</span></div>
-          <div class="plugin-card"><strong>Plate Space</strong><span>Reverb · Sound design</span></div>
-          <div class="plugin-card"><strong>Clean EQ</strong><span>Equalizer · Utility</span></div>
-          <div class="plugin-card"><strong>Transient Tool</strong><span>Dynamics · Editing</span></div>
-          <div class="plugin-card"><strong>Tape Delay</strong><span>Delay · Creative</span></div>
-          <div class="plugin-card favorite"><strong>Session Chain</strong><span>Collection · Vocal</span></div>
-        </div>
-      </div>
     </div>
   `;
 }
@@ -263,7 +280,7 @@ function renderMockups() {
 }
 
 function applyReleaseStatus() {
-  const config = statusConfig[releaseStatus] || statusConfig["coming-soon"];
+  const config = statusConfig[releaseStatus] || statusConfig.development;
   document.querySelectorAll("[data-release-label]").forEach((node) => {
     node.textContent = config.label;
   });
