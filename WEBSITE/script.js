@@ -41,8 +41,8 @@ function setupAmbientCanvas() {
   const ctx = canvas.getContext("2d");
   let width = 0;
   let height = 0;
-  let particles = [];
-  let pointer = { x: 0, y: 0, tx: 0, ty: 0, active: false };
+  let notes = [];
+  let pointer = { x: 0, y: 0, tx: 0, ty: 0, px: 0, py: 0, vx: 0, vy: 0, active: false };
   let time = 0;
 
   function resize() {
@@ -55,104 +55,133 @@ function setupAmbientCanvas() {
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    const count = Math.min(58, Math.max(28, Math.round(width / 24)));
-    particles = Array.from({ length: count }, (_, index) => ({
-      baseX: Math.random() * width,
-      baseY: Math.random() * height,
-      x: Math.random() * width,
-      y: Math.random() * height,
+    const count = Math.min(120, Math.max(58, Math.round(width / 13)));
+    notes = Array.from({ length: count }, (_, index) => ({
+      x: Math.random() * (width + 360) - 180,
+      lane: index % 7,
       phase: Math.random() * Math.PI * 2,
-      speed: 0.55 + Math.random() * 0.65,
-      drift: 18 + Math.random() * 42,
-      size: index % 8 === 0 ? 18 : 13 + Math.random() * 4,
+      speed: 0.32 + Math.random() * 0.42,
+      amplitude: 18 + Math.random() * 38,
+      size: index % 9 === 0 ? 19 : 12 + Math.random() * 5,
       tone: index % 4,
-      symbol: ["♪", "♫", "♩", "♬"][index % 4],
-      rotation: (Math.random() - 0.5) * 0.34,
+      symbol: ["♪", "♫", "♩", "♬", "♭", "♮"][index % 6],
+      rotation: (Math.random() - 0.5) * 0.22,
+      offset: Math.random() * 90,
+      wakeX: 0,
+      wakeY: 0,
     }));
   }
 
-  function drawParticle(particle) {
+  function laneY(lane, x, phase) {
+    const riverTop = height * 0.13;
+    const riverBottom = height * 0.88;
+    const laneCount = 7;
+    const base = riverTop + ((riverBottom - riverTop) / (laneCount - 1)) * lane;
+    const diagonal = (x / Math.max(width, 1) - 0.5) * height * 0.13;
+    const wave = Math.sin(x * 0.006 + time * 1.35 + phase) * 26;
+    return base + diagonal + wave;
+  }
+
+  function drawCurrentLines() {
+    for (let lane = 0; lane < 7; lane += 1) {
+      ctx.beginPath();
+      for (let step = -80; step <= width + 80; step += 48) {
+        const y = laneY(lane, step, lane * 0.7);
+        if (step === -80) ctx.moveTo(step, y);
+        else ctx.lineTo(step, y);
+      }
+      ctx.strokeStyle = `rgba(0, 99, 92, ${lane % 2 === 0 ? 0.038 : 0.026})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  function drawNote(note) {
     const colors = ["8, 33, 32", "0, 190, 178", "42, 151, 214", "76, 108, 105"];
     ctx.save();
-    ctx.translate(particle.x, particle.y);
-    ctx.rotate(particle.rotation + Math.sin(time + particle.phase) * 0.08);
-    ctx.fillStyle = `rgba(${colors[particle.tone]}, 0.34)`;
-    ctx.font = `700 ${particle.size}px Inter, system-ui, sans-serif`;
+    ctx.translate(note.x, note.y);
+    ctx.rotate(note.rotation + Math.sin(time * 1.8 + note.phase) * 0.12);
+    ctx.fillStyle = `rgba(${colors[note.tone]}, ${note.alpha})`;
+    ctx.font = `800 ${note.size}px Inter, system-ui, sans-serif`;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(particle.symbol, 0, 0);
+    ctx.fillText(note.symbol, 0, 0);
     ctx.restore();
   }
 
   function animate() {
-    time += 0.006;
+    time += 0.01;
+    pointer.px = pointer.x;
+    pointer.py = pointer.y;
     pointer.x += (pointer.tx - pointer.x) * 0.12;
     pointer.y += (pointer.ty - pointer.y) * 0.12;
+    pointer.vx += (pointer.x - pointer.px - pointer.vx) * 0.18;
+    pointer.vy += (pointer.y - pointer.py - pointer.vy) * 0.18;
 
     ctx.clearRect(0, 0, width, height);
+    drawCurrentLines();
 
-    for (const particle of particles) {
-      const waveX = Math.cos(time * particle.speed + particle.phase) * particle.drift;
-      const waveY = Math.sin(time * particle.speed * 0.82 + particle.phase) * particle.drift * 0.56;
-      let targetX = particle.baseX + waveX;
-      let targetY = particle.baseY + waveY;
-
-      if (pointer.active) {
-        const dx = pointer.x - targetX;
-        const dy = pointer.y - targetY;
-        const distance = Math.hypot(dx, dy);
-        const influence = Math.max(0, 1 - distance / 260);
-        targetX += dx * influence * 0.34;
-        targetY += dy * influence * 0.34;
+    for (const note of notes) {
+      note.x += note.speed * (width < 700 ? 1.35 : 1);
+      if (note.x > width + 90) {
+        note.x = -90 - Math.random() * 220;
+        note.lane = Math.floor(Math.random() * 7);
+        note.phase = Math.random() * Math.PI * 2;
+        note.offset = Math.random() * 90;
       }
 
-      particle.x += (targetX - particle.x) * 0.08;
-      particle.y += (targetY - particle.y) * 0.08;
+      const baseY = laneY(note.lane, note.x + note.offset, note.phase);
+      note.wakeX *= 0.9;
+      note.wakeY *= 0.9;
+
+      if (pointer.active) {
+        const dx = note.x - pointer.x;
+        const dy = baseY + note.wakeY - pointer.y;
+        const distance = Math.hypot(dx, dy);
+        const influence = Math.max(0, 1 - distance / 190);
+        if (influence > 0) {
+          const angle = Math.atan2(dy, dx);
+          const currentPull = Math.min(9, Math.hypot(pointer.vx, pointer.vy) * 0.7);
+          note.wakeX += Math.cos(angle) * influence * 4 + pointer.vx * influence * 0.95;
+          note.wakeY += Math.sin(angle) * influence * 18 + pointer.vy * influence * 0.95;
+          note.rotation += influence * 0.018 + currentPull * 0.002;
+        }
+      }
+
+      note.y = baseY + Math.sin(time * 2.2 + note.phase) * note.amplitude * 0.18 + note.wakeY;
+      note.x += note.wakeX * 0.08;
+      note.alpha = 0.12 + Math.sin(time + note.phase) * 0.04 + (note.tone === 1 ? 0.18 : 0.08);
     }
 
-    for (let i = 0; i < particles.length; i += 1) {
-      const particle = particles[i];
-      const next = particles[(i + 1) % particles.length];
-      if (i % 2 === 0) {
-        const distance = Math.hypot(particle.x - next.x, particle.y - next.y);
-        if (distance < 210) {
-          ctx.beginPath();
-          ctx.moveTo(particle.x, particle.y);
-          ctx.quadraticCurveTo(
-            (particle.x + next.x) / 2,
-            (particle.y + next.y) / 2 + Math.sin(time + i) * 12,
-            next.x,
-            next.y,
-          );
-          ctx.strokeStyle = `rgba(17, 19, 21, ${0.045 * (1 - distance / 210)})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-
+    for (const note of notes) {
       if (pointer.active) {
-        const distance = Math.hypot(pointer.x - particle.x, pointer.y - particle.y);
-        if (distance < 220) {
+        const distance = Math.hypot(pointer.x - note.x, pointer.y - note.y);
+        if (distance < 165) {
           ctx.beginPath();
           ctx.moveTo(pointer.x, pointer.y);
-          ctx.lineTo(particle.x, particle.y);
-          ctx.strokeStyle = `rgba(0, 190, 178, ${0.12 * (1 - distance / 220)})`;
+          ctx.quadraticCurveTo(
+            (pointer.x + note.x) / 2 + pointer.vy * 0.2,
+            (pointer.y + note.y) / 2 - pointer.vx * 0.2,
+            note.x,
+            note.y,
+          );
+          ctx.strokeStyle = `rgba(0, 190, 178, ${0.11 * (1 - distance / 165)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
       }
 
-      drawParticle(particle);
+      drawNote(note);
     }
 
     if (pointer.active) {
-      const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 210);
-      glow.addColorStop(0, "rgba(0, 190, 178, 0.16)");
-      glow.addColorStop(0.42, "rgba(42, 151, 214, 0.055)");
+      const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 230);
+      glow.addColorStop(0, "rgba(0, 190, 178, 0.18)");
+      glow.addColorStop(0.45, "rgba(42, 151, 214, 0.065)");
       glow.addColorStop(1, "rgba(0, 190, 178, 0)");
       ctx.fillStyle = glow;
       ctx.beginPath();
-      ctx.arc(pointer.x, pointer.y, 210, 0, Math.PI * 2);
+      ctx.arc(pointer.x, pointer.y, 230, 0, Math.PI * 2);
       ctx.fill();
     }
 
