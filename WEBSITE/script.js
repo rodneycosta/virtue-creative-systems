@@ -243,7 +243,7 @@ function mockupMarkup() {
     </div>
     <div class="plugin-image-frame">
       <img
-        src="virtue-fx-manager-development.svg"
+        src="virtue-fx-manager-screenshot.png"
         alt="Virtue FX Manager development interface with thumbnail manager, FX list, and filter panels"
       />
     </div>

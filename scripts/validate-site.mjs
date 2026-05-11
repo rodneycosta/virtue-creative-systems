@@ -5,7 +5,12 @@ const root = process.cwd();
 const siteDir = path.join(root, "WEBSITE");
 const files = await readdir(siteDir);
 const htmlFiles = files.filter((file) => file.endsWith(".html"));
-const assetRefs = new Set(["styles.css", "script.js", "favicon.svg"]);
+const assetRefs = new Set([
+  "styles.css",
+  "script.js",
+  "favicon.svg",
+  "virtue-fx-manager-screenshot.png",
+]);
 const errors = [];
 
 for (const file of htmlFiles) {
