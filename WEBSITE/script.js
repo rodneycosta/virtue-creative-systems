@@ -30,6 +30,34 @@ const navItems = [
   ["Support", "support.html"],
 ];
 
+function getSavedTheme() {
+  return window.localStorage.getItem("virtue-theme") || "light";
+}
+
+function applyTheme(theme) {
+  const resolvedTheme = theme === "dark" ? "dark" : "light";
+  document.documentElement.dataset.theme = resolvedTheme;
+  document.querySelectorAll("[data-theme-toggle]").forEach((button) => {
+    const isDark = resolvedTheme === "dark";
+    button.setAttribute("aria-pressed", String(isDark));
+    button.setAttribute("aria-label", isDark ? "Switch to light mode" : "Switch to dark mode");
+    const label = button.querySelector("[data-theme-label]");
+    if (label) label.textContent = isDark ? "Light mode" : "Dark mode";
+  });
+}
+
+function setupThemeToggle() {
+  applyTheme(getSavedTheme());
+  document.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-theme-toggle]");
+    if (!button) return;
+    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    window.localStorage.setItem("virtue-theme", nextTheme);
+    applyTheme(nextTheme);
+    window.VirtueI18n?.apply?.();
+  });
+}
+
 function setupAmbientCanvas() {
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -220,13 +248,19 @@ function renderHeader() {
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
       <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
         ${navItems.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
-        <label class="language-control">
-          <span class="sr-only">Language</span>
-          <select data-language-select aria-label="Language">
-            ${window.VirtueI18n ? window.VirtueI18n.languageOptions() : '<option value="en">English</option>'}
-          </select>
-        </label>
         <a class="button button-primary" href="downloads.html">${navCtaText}</a>
+        <div class="nav-tools">
+          <label class="language-control">
+            <span class="sr-only">Language</span>
+            <select data-language-select aria-label="Language">
+              ${window.VirtueI18n ? window.VirtueI18n.languageOptions() : '<option value="en">English</option>'}
+            </select>
+          </label>
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
+            <span class="lamp-icon" aria-hidden="true"></span>
+            <span class="sr-only" data-theme-label>Dark mode</span>
+          </button>
+        </div>
       </nav>
     </div>
   `;
@@ -342,11 +376,13 @@ function setupReveals() {
   reveals.forEach((node) => observer.observe(node));
 }
 
+applyTheme(getSavedTheme());
 setupAmbientCanvas();
 renderHeader();
 renderFooter();
 renderMockups();
 applyReleaseStatus();
+setupThemeToggle();
 setupNewsletterForms();
 setupReveals();
 window.VirtueI18n?.apply();
