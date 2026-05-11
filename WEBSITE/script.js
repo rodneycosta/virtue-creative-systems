@@ -1,6 +1,10 @@
-const releaseStatus = "development";
+const releaseStatus = "early-access";
 
 const statusConfig = {
+  "early-access": {
+    label: "Early access coming soon",
+    cta: "Get Early Access",
+  },
   development: {
     label: "In development",
     cta: "Join Development List",
@@ -177,7 +181,7 @@ function renderHeader() {
   const header = document.querySelector("[data-site-header]");
   if (!header) return;
 
-  const ctaText = releaseStatus === "available" ? "Download" : "Get Notified";
+  const navCtaText = releaseStatus === "available" ? "Download" : "Get Early Access";
   header.innerHTML = `
     <div class="nav-inner">
       <a class="brand" href="index.html" aria-label="Virtue Creative Systems home">
@@ -187,7 +191,7 @@ function renderHeader() {
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
       <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
         ${navItems.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
-        <a class="button button-primary" href="downloads.html">${ctaText}</a>
+        <a class="button button-primary" href="downloads.html">${navCtaText}</a>
       </nav>
     </div>
   `;
@@ -211,7 +215,7 @@ function renderFooter() {
           <span class="brand-mark" aria-hidden="true">V</span>
           <span class="brand-name">Virtue Creative Systems</span>
         </a>
-        <p>Virtue Creative Systems builds creative software for sound, visuals, scripting, and production workflows.</p>
+        <p>Virtue Creative Systems builds focused creative software, starting with a native plugin manager for REAPER users.</p>
       </div>
       <div class="footer-col">
         <h3>Products</h3>
@@ -244,7 +248,7 @@ function mockupMarkup() {
     <div class="plugin-image-frame">
       <img
         src="virtue-fx-manager-screenshot.png"
-        alt="Virtue FX Manager development interface with thumbnail manager, FX list, and filter panels"
+        alt="Virtue FX Manager native REAPER plugin manager interface with thumbnails, plugin list, and filter panels"
       />
     </div>
   `;
@@ -311,4 +315,4 @@ setupReveals();
 
 // Newsletter integration point:
 // Replace the placeholder submit handler above with Buttondown, Mailchimp,
-// ConvertKit, Supabase, or a custom API endpoint when the release list is ready.
+// ConvertKit, Supabase, or a custom API endpoint when early access signup is ready.
