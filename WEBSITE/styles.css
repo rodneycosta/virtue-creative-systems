@@ -547,6 +547,82 @@ p {
   border-top: 1px solid var(--line);
 }
 
+.sales-hero {
+  min-height: calc(82svh - 4.4rem);
+}
+
+.hero-proof-list {
+  display: grid;
+  gap: 0.5rem;
+  max-width: 42rem;
+  margin: 1.35rem 0 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  list-style: none;
+}
+
+.hero-proof-list li {
+  position: relative;
+  padding-left: 1.15rem;
+}
+
+.hero-proof-list li::before {
+  position: absolute;
+  top: 0.72em;
+  left: 0;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+}
+
+.simple-sales-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  padding-top: 0;
+}
+
+.sales-card,
+.store-card {
+  margin-top: 0;
+}
+
+.store-mini-panel,
+.price-card {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.15rem, 3vw, 1.6rem);
+  background:
+    radial-gradient(circle at 86% 12%, rgba(38, 185, 216, 0.18), transparent 9rem),
+    color-mix(in srgb, var(--surface-solid) 88%, transparent);
+}
+
+.store-mini-panel h3,
+.price-card h3 {
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+}
+
+.price-card {
+  align-self: stretch;
+}
+
+.price-note {
+  border-top: 1px solid var(--line);
+  padding-top: 0.9rem;
+  color: var(--soft) !important;
+  font-size: 0.9rem !important;
+}
+
+.price-card .button {
+  width: 100%;
+}
+
 .lifestyle-section {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.72fr);
@@ -1846,6 +1922,7 @@ p {
   .card-grid.three,
   .card-grid.two,
   .card-grid.four,
+  .simple-sales-grid,
   .feature-map-grid,
   .roadmap-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1932,6 +2009,7 @@ p {
   .card-grid.three,
   .card-grid.two,
   .card-grid.four,
+  .simple-sales-grid,
   .feature-map-grid,
   .roadmap-grid {
     grid-template-columns: 1fr;

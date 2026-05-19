@@ -24,9 +24,8 @@ const statusConfig = {
 };
 
 const navItems = [
-  ["Products", "products.html"],
   ["Virtue FX Manager", "virtue-fx-manager.html"],
-  ["About", "about.html"],
+  ["Store", "store.html"],
   ["Support", "support.html"],
 ];
 
@@ -239,6 +238,7 @@ function renderHeader() {
   if (!header) return;
 
   const navCtaText = releaseStatus === "available" ? "Download" : "Get Early Access";
+  const navCtaHref = releaseStatus === "available" ? "store.html" : "store.html#early-access";
   header.innerHTML = `
     <div class="nav-inner">
       <a class="brand" href="index.html" aria-label="Virtue Creative Systems home">
@@ -248,7 +248,7 @@ function renderHeader() {
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
       <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
         ${navItems.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
-        <a class="button button-primary" href="downloads.html">${navCtaText}</a>
+        <a class="button button-primary" href="${navCtaHref}">${navCtaText}</a>
         <div class="nav-tools">
           <label class="language-control">
             <span class="sr-only">Language</span>
@@ -289,14 +289,14 @@ function renderFooter() {
       <div class="footer-col">
         <h3>Products</h3>
         <a href="virtue-fx-manager.html">Virtue FX Manager</a>
-        <a href="products.html">Future tools</a>
+        <a href="store.html">Store</a>
         <a href="downloads.html">Downloads</a>
       </div>
       <div class="footer-col">
         <h3>Support</h3>
         <a href="support.html">Contact</a>
+        <a href="store.html#licensing">License status</a>
         <a href="downloads.html">Release status</a>
-        <a href="about.html">About</a>
       </div>
       <div class="footer-col">
         <h3>Legal</h3>

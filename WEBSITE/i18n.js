@@ -3503,6 +3503,75 @@ const VirtueI18n = (() => {
     }
   });
 
+  const salesLanguagePacks = {
+    pt: {
+      Store: "Loja",
+      "License status": "Status da licença",
+      "Stop scrolling through long plugin menus. VFxM helps you search, preview, favorite, organize, hide, and insert your plugins faster from inside REAPER.": "Chega de rolar menus enormes de plugins. O VFxM ajuda você a buscar, visualizar, salvar favoritos, organizar, ocultar e inserir plugins mais rápido dentro do REAPER.",
+      "Native C++ REAPER extension": "Extensão nativa em C++ para REAPER",
+      "VST, VST3, AU, CLAP, and JSFX workflows": "Fluxos com VST, VST3, AU, CLAP e JSFX",
+      "Thumbnails, favorites, notes, filters, and batch insertion": "Miniaturas, favoritos, notas, filtros e inserção em lote",
+      "Find plugins faster": "Encontre plugins mais rápido",
+      "Search visually with thumbnails, developer filters, categories, listed/unlisted views, and clean plugin names.": "Busque visualmente com miniaturas, filtros por desenvolvedor, categorias, visualizações de listados/ocultos e nomes de plugins mais limpos.",
+      "Clean up duplicate formats": "Organize formatos duplicados",
+      "Make sense of the same plugin appearing as VST, VST3, AU, CLAP, JSFX, or REAPER cache variants.": "Organize quando o mesmo plugin aparece como VST, VST3, AU, CLAP, JSFX ou variantes do cache do REAPER.",
+      "Load without losing momentum": "Carregue sem perder o embalo",
+      "Insert effects and instruments into tracks, batch-add favorites, and keep your session moving.": "Insira efeitos e instrumentos em pistas, adicione favoritos em lote e mantenha a sessão fluindo.",
+      "Search and preview faster": "Busque e visualize mais rápido",
+      "Color-code your real workflow": "Use cores para o seu fluxo real",
+      "Notes and thumbnails": "Notas e miniaturas",
+      "Remember why each tool matters": "Lembre por que cada ferramenta importa",
+      "List/unlist controls": "Controles de listar/ocultar",
+      "Load plugins directly into REAPER": "Carregue plugins direto no REAPER",
+      "Favorites, notes, themes, and thumbnails stay local": "Favoritos, notas, temas e miniaturas ficam locais",
+      "Paid release in development": "Versão paga em desenvolvimento",
+      "Checkout, license keys, activation, installer delivery, and update delivery are being prepared before public sale.": "Checkout, chaves de licença, ativação, entrega do instalador e atualizações estão sendo preparados antes da venda pública.",
+      "See Store Status": "Ver status da loja",
+      "Read Details": "Ler detalhes",
+      "Store and licensing": "Loja e licenciamento",
+      "Virtue FX Manager is being prepared for sale.": "Virtue FX Manager está sendo preparado para venda.",
+      "The app is still in development. This page is the foundation for the product store, checkout, license activation, downloads, and customer support flow.": "O app ainda está em desenvolvimento. Esta página é a base para a loja do produto, checkout, ativação de licença, downloads e suporte ao cliente.",
+      "Native plugin management for REAPER users.": "Gerenciamento nativo de plugins para usuários do REAPER.",
+      "Thumbnails, list view, search, and filters": "Miniaturas, lista, busca e filtros",
+      "Personal tabs, colors, reminders, and recall": "Abas pessoais, cores, lembretes e acesso rápido",
+      "Hide plugin clutter with cache backup protection": "Oculte a bagunça dos plugins com backup de segurança do cache",
+      "Load selected plugins directly into REAPER tracks": "Carregue plugins selecionados direto nas pistas do REAPER",
+      "Favorites, notes, thumbnails, settings, and themes": "Favoritos, notas, miniaturas, ajustes e temas",
+      "Early access license": "Licença de acesso antecipado",
+      "Public checkout not live yet": "Checkout público ainda não está ativo",
+      "No payment is processed on this page yet.": "Nenhum pagamento é processado nesta página ainda.",
+      "Join purchase list": "Entrar na lista de compra",
+      "Contact support": "Falar com suporte",
+      "Checkout pending": "Checkout pendente",
+      "Payment provider, tax handling, receipt emails, and customer account flow still need to be connected.": "Provedor de pagamento, impostos, recibos por e-mail e conta do cliente ainda precisam ser conectados.",
+      "License keys pending": "Chaves de licença pendentes",
+      "The licensing system should create a license key after payment and support activation inside the VFxM app.": "O sistema de licenças deve criar uma chave após o pagamento e permitir ativação dentro do app VFxM.",
+      "Installer delivery pending": "Entrega do instalador pendente",
+      "The final flow should deliver platform-specific installers, release notes, and update links to paid users.": "O fluxo final deve entregar instaladores por plataforma, notas de versão e links de atualização para usuários pagantes.",
+      "Join the purchase list.": "Entre na lista de compra.",
+      "Get notified when the first paid or early-access build of Virtue FX Manager is ready.": "Receba um aviso quando a primeira versão paga ou de acesso antecipado do Virtue FX Manager estiver pronta.",
+      "VFxM turns a messy plugin library into a visual, searchable, organized workflow. Keep favorites, notes, thumbnails, filters, and track insertion close to the session.": "O VFxM transforma uma biblioteca bagunçada de plugins em um fluxo visual, pesquisável e organizado. Favoritos, notas, miniaturas, filtros e inserção em pistas ficam perto da sessão.",
+      "Recognize your tools": "Reconheça suas ferramentas",
+      "Use thumbnails, favorites, color-coded tabs, and plugin notes so the right tool is easier to remember.": "Use miniaturas, favoritos, abas coloridas e notas para lembrar mais fácil da ferramenta certa.",
+      "Insert with intent": "Insira com intenção",
+      "Insert selected plugins into REAPER tracks, create suitable tracks when needed, and use batch actions.": "Insira plugins selecionados em pistas do REAPER, crie pistas adequadas quando necessário e use ações em lote.",
+      "What it solves": "O que ele resolve",
+      "Less plugin hunting. More session momentum.": "Menos procura por plugins. Mais ritmo na sessão.",
+      "Modern REAPER users can own hundreds or thousands of effects, instruments, JSFX, CLAP plugins, Audio Units, VSTs, and VST3 versions. VFxM gives that library a cleaner visual command center.": "Usuários modernos do REAPER podem ter centenas ou milhares de efeitos, instrumentos, JSFX, CLAP, Audio Units, VSTs e VST3. O VFxM transforma essa biblioteca em um centro visual mais limpo.",
+      "Duplicate format clutter": "Bagunça de formatos duplicados",
+      "Long text-only menus": "Menus longos só de texto",
+      "Forgotten tools": "Ferramentas esquecidas",
+      "Unused plugins": "Plugins sem uso",
+      "Slow setup": "Preparação lenta",
+      "Store Status": "Status da loja",
+      "Join the list for launch news, first-build availability, and paid release updates.": "Entre na lista para receber notícias do lançamento, disponibilidade do primeiro build e atualizações da versão paga."
+    }
+  };
+
+  Object.entries(salesLanguagePacks).forEach(([language, translations]) => {
+    Object.assign(editorialLanguagePacks[language], translations);
+  });
+
   Object.entries(editorialLanguagePacks).forEach(([language, translations]) => {
     Object.assign(packs[language], translations);
   });

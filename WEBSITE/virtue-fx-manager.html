@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Virtue FX Manager is a native REAPER plugin manager for browsing, organizing, thumbnailing, noting, filtering, listing/unlisting, and inserting plugins faster."
+      content="Virtue FX Manager is a native REAPER plugin manager for visual browsing, favorites, thumbnails, notes, filters, list/unlist control, and faster plugin insertion."
     />
     <meta property="og:title" content="Virtue FX Manager for REAPER" />
     <meta
       property="og:description"
-      content="A visual plugin manager built for REAPER users with large VST, AU, CLAP, and JSFX libraries."
+      content="A visual plugin manager built for REAPER users with large VST, VST3, AU, CLAP, and JSFX libraries."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://virtuecreativesystems.com/virtue-fx-manager.html" />
@@ -35,11 +35,11 @@
           <p class="eyebrow">Native plugin manager for REAPER</p>
           <h1>A visual plugin manager built for REAPER.</h1>
           <p class="hero-lede">
-            Find, favorite, preview, note, filter, list/unlist, and load plugins faster with a
-            dedicated manager that works from inside REAPER.
+            VFxM turns a messy plugin library into a visual, searchable, organized workflow.
+            Keep favorites, notes, thumbnails, filters, and track insertion close to the session.
           </p>
           <div class="button-row">
-            <a class="button button-primary" href="#release" data-release-cta>Get Early Access</a>
+            <a class="button button-primary" href="store.html">Get Early Access</a>
             <a class="button button-secondary" href="#features">View Features</a>
           </div>
         </div>
@@ -48,285 +48,54 @@
         </div>
       </section>
 
-      <section class="section-shell lifestyle-section">
-        <div class="lifestyle-media reveal">
-          <img
-            src="virtue-fx-studio-creators.png"
-            alt="Young DJs and music producers using a visual plugin manager in a bright studio"
-          />
-        </div>
-        <div class="lifestyle-copy reveal delay-1">
-          <p class="eyebrow">Built for creative speed</p>
-          <h2>Spend less time searching and more time producing.</h2>
+      <section class="section-shell simple-sales-grid" id="features">
+        <article class="feature-card reveal">
+          <span class="card-kicker">Browse</span>
+          <h3>Find plugins faster</h3>
+          <p>Live search, developer filters, type filters, categories, listed/unlisted status, and sortable plugin views.</p>
+        </article>
+        <article class="feature-card reveal delay-1">
+          <span class="card-kicker">Recall</span>
+          <h3>Recognize your tools</h3>
+          <p>Use thumbnails, favorites, color-coded tabs, and plugin notes so the right tool is easier to remember.</p>
+        </article>
+        <article class="feature-card reveal delay-2">
+          <span class="card-kicker">Load</span>
+          <h3>Insert with intent</h3>
+          <p>Insert selected plugins into REAPER tracks, create suitable tracks when needed, and use batch actions.</p>
+        </article>
+      </section>
+
+      <section class="section-shell product-card sales-card reveal">
+        <div>
+          <p class="eyebrow">What it solves</p>
+          <h2>Less plugin hunting. More session momentum.</h2>
           <p>
-            Virtue FX Manager is made for the middle of the session, when a producer, DJ, composer,
-            or mixer needs the right tool now. Visual thumbnails, favorites, notes, and filters help
-            turn plugin choice from a menu hunt into a fast creative decision.
+            Modern REAPER users can own hundreds or thousands of effects, instruments, JSFX,
+            CLAP plugins, Audio Units, VSTs, and VST3 versions. VFxM gives that library a cleaner
+            visual command center.
           </p>
+          <ul class="check-list">
+            <li>Duplicate format clutter <span>VST, VST3, AU, CLAP, JSFX</span></li>
+            <li>Long text-only menus <span>Visual thumbnails and search</span></li>
+            <li>Forgotten tools <span>Notes and favorites</span></li>
+            <li>Unused plugins <span>Safe list/unlist workflow</span></li>
+            <li>Slow setup <span>Direct and batch insertion</span></li>
+          </ul>
         </div>
-      </section>
-
-      <section class="section-shell pain-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Time saved</p>
-          <h2>Stop losing momentum to plugin-library clutter.</h2>
+        <div class="store-mini-panel">
+          <p class="eyebrow">Release status</p>
+          <h3><span data-release-label>Early access coming soon</span></h3>
+          <p>Exact platform support, installation steps, and public release builds will be published with the first release.</p>
+          <a class="button button-primary" href="store.html">Store Status</a>
         </div>
-        <div class="card-grid four">
-          <article class="feature-card reveal">
-            <div class="feature-visual visual-menu" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>No more endless text menus</h3>
-            <p>Search and recognize tools visually instead of scrolling through a plain alphabetical list.</p>
-          </article>
-          <article class="feature-card reveal delay-1">
-            <div class="feature-visual visual-duplicates" aria-hidden="true"><span>VST</span><span>VST3</span></div>
-            <h3>Control duplicate formats</h3>
-            <p>Make sense of the same plugin appearing as VST, VST3, AU, CLAP, JSFX, or cache variants.</p>
-          </article>
-          <article class="feature-card reveal delay-2">
-            <div class="feature-visual visual-unlisted" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Hide what you do not use</h3>
-            <p>List and unlist plugins so the library reflects your real workflow, not every installed file.</p>
-          </article>
-          <article class="feature-card reveal delay-3">
-            <div class="feature-visual visual-tabs" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Color-coded Favorites tabs</h3>
-            <p>Group instruments, vocals, mix tools, mastering chains, and creative effects into faster tabs.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section-shell feature-stack" id="features">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Features</p>
-          <h2>Turn thousands of plugins into a fast visual workflow.</h2>
-          <p>
-            Virtue FX Manager combines plugin browser, favorites, thumbnails, notes, filters,
-            categories, list/unlist control, and REAPER insertion in one focused tool.
-          </p>
-        </div>
-        <div class="card-grid two">
-          <article class="feature-card reveal">
-            <div class="feature-visual visual-native" aria-hidden="true"><span></span><span></span></div>
-            <h3>Native REAPER integration</h3>
-            <p>Native C++ extension opened through the action “Virtue: Show FX Manager,” with floating tool-window behavior inside REAPER.</p>
-          </article>
-          <article class="feature-card reveal delay-1">
-            <div class="feature-visual visual-browser" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Visual plugin browser</h3>
-            <p>Searchable plugin table with listed, unlisted, and all views, status indicators, sorting, keyboard navigation, and multi-selection.</p>
-          </article>
-          <article class="feature-card reveal">
-            <div class="feature-visual visual-filters" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-            <h3>Developer, type, and category filters</h3>
-            <p>Multi-column chip filters help narrow large libraries by developer, format family, instrument/effect role, and workflow category.</p>
-          </article>
-          <article class="feature-card reveal delay-1">
-            <div class="feature-visual visual-favorites" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Favorites system</h3>
-            <p>Multiple Favorites tabs, grid/list views, custom tab colors, thumbnail sizing, selection tools, moving, copying, and batch actions.</p>
-          </article>
-          <article class="feature-card reveal">
-            <div class="feature-visual visual-thumbnails" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Thumbnail Manager</h3>
-            <p>Large plugin preview, local thumbnail storage, image load/copy/paste, undo/redo, placeholders, and refresh across Favorites.</p>
-          </article>
-          <article class="feature-card reveal delay-1">
-            <div class="feature-visual visual-notes" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Notes per plugin</h3>
-            <p>Keep multiline notes that follow the selected plugin, so you can remember why a tool matters and how you like to use it.</p>
-          </article>
-          <article class="feature-card reveal">
-            <div class="feature-visual visual-insert" aria-hidden="true"><span></span><span></span></div>
-            <h3>Direct track insertion</h3>
-            <p>Insert plugins into selected tracks, create suitable tracks when needed, and support double-click, drag/drop, and batch insert workflows.</p>
-          </article>
-          <article class="feature-card reveal delay-1">
-            <div class="feature-visual visual-safe" aria-hidden="true"><span></span><span></span></div>
-            <h3>Safe list/unlist management</h3>
-            <p>List or unlist plugins individually or in batches with REAPER cache backup before rewriting plugin cache files.</p>
-          </article>
-          <article class="feature-card reveal">
-            <div class="feature-visual visual-themes" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-            <h3>Themes and customization</h3>
-            <p>Built-in themes, user themes, live color editing, font size control, thumbnail folders, sorting, and readable contrast correction.</p>
-          </article>
-          <article class="feature-card reveal delay-1">
-            <div class="feature-visual visual-local" aria-hidden="true"><span></span><span></span></div>
-            <h3>Localization and personal data</h3>
-            <p>English, Portuguese, Spanish, and fallback coverage where available, with Favorites, notes, settings, themes, and thumbnails kept local.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section-shell feature-map-section" id="feature-map">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Feature map</p>
-          <h2>Every part of the manager is designed to remove friction.</h2>
-          <p>
-            Each feature targets a real slowdown in large REAPER plugin libraries: duplicates,
-            format variants, hidden tools, missing visual memory, repeated setup, and slow track
-            building.
-          </p>
-        </div>
-        <div class="feature-map-grid">
-          <article class="mini-feature-card reveal">
-            <div class="mini-visual mini-native" aria-hidden="true"><span></span><span></span></div>
-            <h3>Native extension</h3>
-            <p>Runs as a native C++ REAPER extension opened from a REAPER action.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-1">
-            <div class="mini-visual mini-cache" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Plugin cache reading</h3>
-            <p>Reads REAPER plugin cache files directly for a library-aware workflow.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-2">
-            <div class="mini-visual mini-insert" aria-hidden="true"><span></span><span></span></div>
-            <h3>Track insertion</h3>
-            <p>Inserts effects and instruments into selected or newly created tracks.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-3">
-            <div class="mini-visual mini-instrument" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Instrument-ready tracks</h3>
-            <p>Instrument plugins can create tracks prepared for MIDI and playback.</p>
-          </article>
-
-          <article class="mini-feature-card reveal">
-            <div class="mini-visual mini-search" aria-hidden="true"><span></span><span></span></div>
-            <h3>Live search</h3>
-            <p>Find plugins by typing instead of scanning long alphabetical menus.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-1">
-            <div class="mini-visual mini-status" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Listed / Unlisted / All</h3>
-            <p>Switch between visible plugins, hidden plugins, and the full library.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-2">
-            <div class="mini-visual mini-developer" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Developer views</h3>
-            <p>Filter by developer when you know the maker but not the exact plugin name.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-3">
-            <div class="mini-visual mini-types" aria-hidden="true"><span>VST</span><span>VST3</span><span>AU</span></div>
-            <h3>Format filters</h3>
-            <p>Separate VST, VST3, AU, CLAP, JSFX, and REAPER cache variants.</p>
-          </article>
-
-          <article class="mini-feature-card reveal">
-            <div class="mini-visual mini-duplicates" aria-hidden="true"><span>VST</span><span>VST3</span></div>
-            <h3>Duplicate awareness</h3>
-            <p>Make repeated technical versions of the same plugin easier to understand.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-1">
-            <div class="mini-visual mini-cleanup" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Name cleanup</h3>
-            <p>Smarter display names reduce cache/hash-like clutter in the browser.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-2">
-            <div class="mini-visual mini-selection" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Batch selection</h3>
-            <p>Checkbox, shift-click, and Cmd/Ctrl selection support faster actions.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-3">
-            <div class="mini-visual mini-keyboard" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Keyboard navigation</h3>
-            <p>Move through the browser and update the active plugin preview quickly.</p>
-          </article>
-
-          <article class="mini-feature-card reveal">
-            <div class="mini-visual mini-tabs" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Favorites tabs</h3>
-            <p>Create, rename, delete, reorder, and persist multiple Favorites tabs.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-1">
-            <div class="mini-visual mini-colors" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Color-coded tabs</h3>
-            <p>Use tab colors and automatic contrast for fast visual organization.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-2">
-            <div class="mini-visual mini-gridlist" aria-hidden="true"><span></span><span></span></div>
-            <h3>Grid and list views</h3>
-            <p>Switch Favorites between thumbnail-heavy browsing and compact list mode.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-3">
-            <div class="mini-visual mini-move" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Move and copy Favorites</h3>
-            <p>Move, copy, remove, list/unlist, and insert selected Favorites in batches.</p>
-          </article>
-
-          <article class="mini-feature-card reveal">
-            <div class="mini-visual mini-preview" aria-hidden="true"><span></span><span></span></div>
-            <h3>Large thumbnail preview</h3>
-            <p>Recognize plugins visually with a resizable selected-plugin preview.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-1">
-            <div class="mini-visual mini-image-tools" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Thumbnail tools</h3>
-            <p>Load, copy, paste, capture, reset, undo, and redo thumbnail changes.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-2">
-            <div class="mini-visual mini-notes" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Plugin notes</h3>
-            <p>Store local notes per plugin so important uses and reminders stay visible.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-3">
-            <div class="mini-visual mini-settings" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Live settings</h3>
-            <p>Adjust font size, thumbnail sizing, sort options, folders, and scan behavior.</p>
-          </article>
-
-          <article class="mini-feature-card reveal">
-            <div class="mini-visual mini-theme" aria-hidden="true"><span></span><span></span><span></span></div>
-            <h3>Theme editor</h3>
-            <p>Edit palettes, save user themes, and keep readable contrast automatically.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-1">
-            <div class="mini-visual mini-language" aria-hidden="true"><span>EN</span><span>PT</span><span>ES</span></div>
-            <h3>Localization</h3>
-            <p>UI strings are routed through localization with English, Portuguese, and Spanish.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-2">
-            <div class="mini-visual mini-backup" aria-hidden="true"><span></span><span></span></div>
-            <h3>Backup before cache edits</h3>
-            <p>Safe list/unlist workflows create backups before rewriting REAPER cache files.</p>
-          </article>
-          <article class="mini-feature-card reveal delay-3">
-            <div class="mini-visual mini-local" aria-hidden="true"><span></span><span></span></div>
-            <h3>Local user data</h3>
-            <p>Favorites, notes, thumbnails, settings, themes, and overrides remain local.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="section-shell split-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow">Compatibility</p>
-          <h2>Built specifically for REAPER plugin libraries.</h2>
-        </div>
-        <div class="section-copy reveal delay-1">
-          <p>
-            Virtue FX Manager is designed around REAPER’s plugin cache and resource-path workflow.
-            It supports the plugin formats REAPER stores in its library, including VST, VST3, AU,
-            CLAP, JSFX, and architecture/cache variants where REAPER stores them. Exact platform
-            support, installation steps, and release builds will be published with the first public
-            release.
-          </p>
-        </div>
-      </section>
-
-      <section class="section-shell card-grid three">
-        <article class="feature-card reveal"><h3>For producers</h3><p>Move through synths, instruments, effects, favorites, and session-building choices without digging through long menus.</p></article>
-        <article class="feature-card reveal delay-1"><h3>For mixers</h3><p>Use notes, thumbnails, favorites, and category filters to recall the right EQ, compressor, delay, reverb, or utility faster.</p></article>
-        <article class="feature-card reveal delay-2"><h3>For sound designers</h3><p>Build visual collections, organize unusual tools, and insert multiple plugins while staying close to the creative idea.</p></article>
       </section>
 
       <section class="section-shell cta-panel reveal" id="release">
         <div>
-          <p class="eyebrow">Release status</p>
-          <h2><span data-release-label>Early access coming soon</span></h2>
-          <p>
-            Virtue FX Manager is being prepared as a user-facing REAPER extension. Join the early
-            access list for release timing, first-build availability, and product updates.
-          </p>
+          <p class="eyebrow">Early access</p>
+          <h2>Be first to try Virtue FX Manager.</h2>
+          <p>Join the list for launch news, first-build availability, and paid release updates.</p>
         </div>
         <form class="newsletter-form" data-newsletter>
           <label class="sr-only" for="product-email">Email address</label>
@@ -334,39 +103,6 @@
           <button class="button button-primary" type="submit" data-release-cta>Get Early Access</button>
           <p class="form-note" data-form-note>No spam. Only product updates.</p>
         </form>
-      </section>
-
-      <section class="section-shell faq-section">
-        <div class="section-heading reveal">
-          <p class="eyebrow">FAQ</p>
-          <h2>Questions before release.</h2>
-        </div>
-        <div class="faq-list">
-          <details class="reveal" open>
-            <summary>What is Virtue FX Manager?</summary>
-            <p>A native plugin manager for REAPER that helps users browse, organize, preview, favorite, thumbnail, note, filter, list/unlist, and insert plugins faster.</p>
-          </details>
-          <details class="reveal">
-            <summary>Is it a plugin?</summary>
-            <p>It is intended as a native REAPER extension, not a browser-based plugin database. Final installer and delivery details will be published with the first public build.</p>
-          </details>
-          <details class="reveal">
-            <summary>Is it only for REAPER?</summary>
-            <p>Yes. The first product is designed specifically around REAPER workflows, plugin cache data, resource paths, and track insertion behavior.</p>
-          </details>
-          <details class="reveal">
-            <summary>When will it be available?</summary>
-            <p>The product is currently moving toward early access. Join the list for release timing and first-build news.</p>
-          </details>
-          <details class="reveal">
-            <summary>Will there be more Virtue tools?</summary>
-            <p>Yes. Virtue Creative Systems will expand into audio tools, plugin utilities, scripting apps, VFX helpers, and production utilities.</p>
-          </details>
-          <details class="reveal">
-            <summary>How do I get updates?</summary>
-            <p>Use the early access form or contact Virtue Creative Systems from the support page.</p>
-          </details>
-        </div>
       </section>
     </main>
 
