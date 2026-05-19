@@ -324,12 +324,15 @@ function mockupMarkup() {
       <div class="mockup-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       <span class="mockup-title">Virtue FX Manager</span>
     </div>
-    <div class="plugin-image-frame">
+    <figure class="plugin-image-frame">
       <img
-        src="${sitePath("virtue-fx-manager-screenshot.png")}"
-        alt="Virtue FX Manager native REAPER plugin manager interface with thumbnails, plugin list, and filter panels"
+        src="${sitePath("virtue-fx-manager-fictional-ui.png")}"
+        alt="Fictional Virtue FX Manager interface showing thumbnails, plugin ratings, a browser list, and filter panels"
       />
-    </div>
+      <figcaption class="media-caption">
+        Fictional VFxM marketing image. Names and artwork are invented for demonstration; no third-party plugin screenshots, logos, or branding are included.
+      </figcaption>
+    </figure>
   `;
 }
 

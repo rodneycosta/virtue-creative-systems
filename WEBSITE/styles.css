@@ -97,6 +97,10 @@ svg {
   max-width: 100%;
 }
 
+figure {
+  margin: 0;
+}
+
 button,
 input,
 select {
@@ -599,9 +603,17 @@ p {
 
 .product-strip-media img {
   width: 100%;
-  aspect-ratio: 1.42 / 1;
+  aspect-ratio: 2 / 1;
   object-fit: cover;
   object-position: left top;
+}
+
+.media-caption {
+  border-top: 1px solid rgba(255, 255, 255, 0.09);
+  padding: 0.72rem 0.85rem;
+  color: color-mix(in srgb, var(--muted) 82%, #ffffff);
+  font-size: 0.74rem;
+  line-height: 1.45;
 }
 
 .product-strip-copy {
@@ -1573,7 +1585,9 @@ p {
   display: grid;
   min-height: 360px;
   overflow: hidden;
-  place-items: center;
+  align-content: center;
+  justify-items: center;
+  gap: 0.75rem;
   padding: clamp(0.6rem, 1.5vw, 1rem);
   background:
     linear-gradient(135deg, rgba(0, 190, 178, 0.11), rgba(38, 185, 216, 0.1)),
@@ -1586,6 +1600,14 @@ p {
   border: 1px solid rgba(6, 42, 39, 0.16);
   border-radius: var(--radius);
   box-shadow: 0 24px 70px rgba(4, 31, 29, 0.18);
+}
+
+.plugin-image-frame .media-caption {
+  width: 100%;
+  border: 0;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.72rem;
 }
 
 .thumb-panel,

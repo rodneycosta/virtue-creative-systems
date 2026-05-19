@@ -8,7 +8,7 @@ const assetRefs = new Set([
   "styles.css",
   "script.js",
   "favicon.svg",
-  "virtue-fx-manager-screenshot.png",
+  "virtue-fx-manager-fictional-ui.png",
 ]);
 const errors = [];
 
