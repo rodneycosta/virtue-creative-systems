@@ -5,16 +5,19 @@ This is the implementation direction for selling Virtue FX Manager without makin
 ## Current status
 
 - Product: Virtue FX Manager for REAPER
-- Release state: in development / early access not public yet
-- Website store: placeholder page is live-ready
-- Payments: not connected
-- License keys: not generated yet
-- App activation: not connected yet
-- Installer delivery: not connected yet
+- Release state: official release infrastructure in progress
+- Website store: `/store/virtue-fx-manager/`
+- Payments: Lemon Squeezy setup pending
+- License keys: Lemon Squeezy license-key product setup pending
+- License API: Cloudflare Worker scaffold added under `cloudflare/license-worker`
+- License database: Cloudflare D1 migration scaffold added
+- Protected downloads: R2-backed Worker URL scaffold added
+- App activation: blocked until the VFxM app source code is provided
+- Installer delivery: blocked until tested release artifacts exist
 
 ## Recommended first paid-release flow
 
-1. Customer visits `store.html`.
+1. Customer visits `/store/virtue-fx-manager/`.
 2. Customer chooses the Virtue FX Manager license.
 3. Checkout provider processes payment.
 4. A webhook creates a customer record and license record.
@@ -28,32 +31,33 @@ This is the implementation direction for selling Virtue FX Manager without makin
 
 Pick one before implementing real checkout:
 
-- Stripe: strong developer control, but tax/VAT handling needs careful setup.
-- Lemon Squeezy: simpler software sales and license-key style products.
-- Paddle: merchant-of-record style flow, useful for global tax handling.
-
-For a small software launch, merchant-of-record can reduce tax/admin work. If full control matters more, Stripe is cleaner technically.
+Selected direction: Lemon Squeezy for store, merchant-of-record checkout, and license keys. Cloudflare Worker, D1, and R2 are used for the VFxM-facing licensing and protected-download backend.
 
 ## License data model
 
-Minimum database tables:
+Implemented D1 migration tables:
 
-- `customers`: email, name, checkout provider customer id, created date.
-- `orders`: customer id, provider order id, product id, amount, currency, status.
-- `licenses`: license key hash, customer id, product id, status, seats, activations allowed, created date.
-- `activations`: license id, machine fingerprint hash, app version, platform, activated date, last check date.
-- `releases`: version, platform, download url, checksum, release notes, required license status.
+- `licenses`
+- `license_activations`
+- `webhook_events`
+- `release_files`
+- `download_events`
+- `admin_audit_log`
 
-Never store raw license keys if avoidable. Store a hash and show the raw key only once to the customer.
+Never store raw license keys, raw passkeys, raw machine serials, raw card data, or unnecessary personal data.
 
 ## Activation API
 
-Future endpoints:
+Worker endpoints:
 
-- `POST /api/license/activate`
-- `POST /api/license/check`
-- `POST /api/license/deactivate`
-- `GET /api/releases/latest`
+- `GET /health`
+- `POST /v1/license/activate`
+- `POST /v1/license/validate`
+- `POST /v1/license/deactivate`
+- `GET /v1/license/status`
+- `GET /v1/releases/latest`
+- `POST /v1/download/request`
+- `POST /webhooks/lemonsqueezy`
 
 Suggested activation request:
 
@@ -87,11 +91,11 @@ Suggested activation response:
 
 ## Next implementation tasks
 
-1. Choose checkout provider.
-2. Decide first license policy: one user / how many machines / update period.
-3. Create database schema.
-4. Add webhook endpoint for paid orders.
-5. Add license key generator and activation endpoints.
-6. Add VFxM app activation screen.
-7. Add protected installer delivery.
-8. Test purchase, refund, license revoke, machine reset, and offline grace period.
+1. Create Lemon Squeezy product/variants/license keys.
+2. Add real env/secrets in Cloudflare.
+3. Create D1 database and R2 bucket.
+4. Apply D1 migrations.
+5. Upload a signed/tested release artifact to R2.
+6. Insert release metadata into `release_files`.
+7. Provide the VFxM app source repo so the app activation UI and token verification can be implemented.
+8. Run the full staging checkout, webhook, activation, offline grace, deactivation, and protected-download test plan.

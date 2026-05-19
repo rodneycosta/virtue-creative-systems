@@ -1,0 +1,21 @@
+name = "vfxm-license-worker"
+main = "src/index.js"
+compatibility_date = "2026-05-19"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "vfxm-licenses"
+database_id = "replace-with-cloudflare-d1-database-id"
+migrations_dir = "migrations"
+
+[[r2_buckets]]
+binding = "RELEASES"
+bucket_name = "replace-with-vfxm-release-bucket"
+
+[vars]
+VFXM_RELEASE_CHANNEL = "stable"
+VFXM_DEFAULT_GRACE_DAYS = "14"
+VFXM_DOWNLOAD_URL_TTL_SECONDS = "900"
+VFXM_ENABLE_TRIAL = "false"
+VFXM_ALLOWED_ORIGINS = "https://virtuecreativesystems.com"

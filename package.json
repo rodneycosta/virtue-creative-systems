@@ -4,6 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/validate-site.mjs"
+    "build": "node scripts/validate-site.mjs",
+    "test:worker": "cd cloudflare/license-worker && npm test",
+    "check": "npm run build && npm run test:worker"
   }
 }

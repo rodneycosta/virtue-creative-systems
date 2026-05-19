@@ -1,0 +1,43 @@
+const LEMON_SQUEEZY_API_BASE = "https://api.lemonsqueezy.com/v1";
+
+export async function callLicenseApi(env, action, formFields) {
+  const body = new URLSearchParams(formFields);
+  const headers = {
+    Accept: "application/json",
+    "Content-Type": "application/x-www-form-urlencoded",
+  };
+  if (env.LEMONSQUEEZY_API_KEY) headers.Authorization = `Bearer ${env.LEMONSQUEEZY_API_KEY}`;
+
+  const response = await fetch(`${LEMON_SQUEEZY_API_BASE}/licenses/${action}`, {
+    method: "POST",
+    headers,
+    body,
+  });
+
+  let data = null;
+  try {
+    data = await response.json();
+  } catch {
+    data = null;
+  }
+
+  return { ok: response.ok, configured: true, status: response.status, data };
+}
+
+export function extractWebhookEvent(payload) {
+  const meta = payload?.meta || {};
+  const data = payload?.data || {};
+  return {
+    eventName: meta.event_name || meta.eventName || data.type || "unknown",
+    providerEventId: meta.webhook_id || meta.event_id || data.id || null,
+    storeId: String(data?.relationships?.store?.data?.id || data?.attributes?.store_id || ""),
+    orderId: String(data?.relationships?.order?.data?.id || data?.attributes?.order_id || data.id || ""),
+    productId: String(data?.relationships?.product?.data?.id || data?.attributes?.product_id || ""),
+    variantId: String(data?.relationships?.variant?.data?.id || data?.attributes?.variant_id || ""),
+    customerId: String(data?.relationships?.customer?.data?.id || data?.attributes?.customer_id || ""),
+    licenseKeyId: String(data?.id || data?.attributes?.license_key_id || ""),
+    licenseKey: data?.attributes?.key || data?.attributes?.license_key || null,
+    status: String(data?.attributes?.status || data?.attributes?.license_key_status || "active").toLowerCase(),
+    email: data?.attributes?.user_email || data?.attributes?.customer_email || null,
+  };
+}

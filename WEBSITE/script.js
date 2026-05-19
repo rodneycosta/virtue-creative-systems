@@ -1,9 +1,20 @@
-const releaseStatus = "early-access";
+const releaseStatus = "store-setup";
+
+const commerceConfig = {
+  mode: "setup",
+  checkoutUrl: "",
+  licenseApiBaseUrl: "",
+  supportEmail: "hello@virtuecreativesystems.com",
+};
 
 const statusConfig = {
   "early-access": {
     label: "Early access coming soon",
     cta: "Get Early Access",
+  },
+  "store-setup": {
+    label: "Store setup pending",
+    cta: "Store Setup Pending",
   },
   development: {
     label: "In development",
@@ -26,8 +37,9 @@ const statusConfig = {
 const navItems = [
   ["Products", "products.html"],
   ["Virtue FX Manager", "products/virtue-fx-manager/"],
-  ["Store", "store.html"],
-  ["Support", "support.html"],
+  ["Store", "store/virtue-fx-manager/"],
+  ["Download", "download/vfxm/"],
+  ["Support", "support/"],
 ];
 
 function siteRoot() {
@@ -37,6 +49,14 @@ function siteRoot() {
 function sitePath(path) {
   if (path.startsWith("http") || path.startsWith("mailto:") || path.startsWith("#")) return path;
   return `${siteRoot()}${path}`;
+}
+
+function isCheckoutConfigured() {
+  return commerceConfig.mode === "live" && commerceConfig.checkoutUrl.startsWith("https://");
+}
+
+function checkoutHref() {
+  return isCheckoutConfigured() ? commerceConfig.checkoutUrl : sitePath("store/virtue-fx-manager/#store-setup");
 }
 
 function getSavedTheme() {
@@ -247,8 +267,8 @@ function renderHeader() {
   const header = document.querySelector("[data-site-header]");
   if (!header) return;
 
-  const navCtaText = releaseStatus === "available" ? "Download" : "Get Early Access";
-  const navCtaHref = releaseStatus === "available" ? "store.html" : "store.html#early-access";
+  const navCtaText = isCheckoutConfigured() ? "Buy VFxM" : "Store Setup";
+  const navCtaHref = isCheckoutConfigured() ? commerceConfig.checkoutUrl : "store/virtue-fx-manager/#store-setup";
   header.innerHTML = `
     <div class="nav-inner">
       <a class="brand" href="${sitePath("index.html")}" aria-label="Virtue Creative Systems home">
@@ -299,18 +319,21 @@ function renderFooter() {
       <div class="footer-col">
         <h3>Products</h3>
         <a href="${sitePath("products/virtue-fx-manager/")}">Virtue FX Manager</a>
-        <a href="${sitePath("store.html")}">Store</a>
-        <a href="${sitePath("downloads.html")}">Downloads</a>
+        <a href="${sitePath("store/virtue-fx-manager/")}">Store</a>
+        <a href="${sitePath("download/vfxm/")}">Downloads</a>
       </div>
       <div class="footer-col">
         <h3>Support</h3>
-        <a href="${sitePath("support.html")}">Contact</a>
-        <a href="${sitePath("store.html#licensing")}">License status</a>
-        <a href="${sitePath("downloads.html")}">Release status</a>
+        <a href="${sitePath("support/")}">Contact</a>
+        <a href="${sitePath("license/")}">License status</a>
+        <a href="${sitePath("download/vfxm/")}">Release status</a>
       </div>
       <div class="footer-col">
         <h3>Legal</h3>
-        <a href="mailto:hello@virtuecreativesystems.com">Email</a>
+        <a href="${sitePath("legal/terms/")}">Terms</a>
+        <a href="${sitePath("legal/privacy/")}">Privacy</a>
+        <a href="${sitePath("legal/refund-policy/")}">Refunds</a>
+        <a href="mailto:${commerceConfig.supportEmail}">Email</a>
         <span>&copy; ${new Date().getFullYear()}</span>
       </div>
     </div>
@@ -349,6 +372,21 @@ function applyReleaseStatus() {
   });
   document.querySelectorAll("[data-release-cta]").forEach((node) => {
     node.textContent = config.cta;
+  });
+}
+
+function setupCommerceLinks() {
+  document.querySelectorAll("[data-checkout-link]").forEach((link) => {
+    const liveLabel = link.dataset.liveLabel || "Buy Virtue FX Manager";
+    const setupLabel = link.dataset.setupLabel || "Store setup pending";
+    link.setAttribute("href", checkoutHref());
+    link.textContent = isCheckoutConfigured() ? liveLabel : setupLabel;
+    link.classList.toggle("is-setup-pending", !isCheckoutConfigured());
+    link.setAttribute("aria-label", isCheckoutConfigured() ? liveLabel : "Store setup is pending. No payment is processed here yet.");
+  });
+
+  document.querySelectorAll("[data-store-mode]").forEach((node) => {
+    node.textContent = isCheckoutConfigured() ? "Checkout ready" : "Store setup pending";
   });
 }
 
@@ -395,6 +433,7 @@ renderHeader();
 renderFooter();
 renderMockups();
 applyReleaseStatus();
+setupCommerceLinks();
 setupThemeToggle();
 setupNewsletterForms();
 setupReveals();
@@ -402,4 +441,4 @@ window.VirtueI18n?.apply();
 
 // Newsletter integration point:
 // Replace the placeholder submit handler above with Buttondown, Mailchimp,
-// ConvertKit, Supabase, or a custom API endpoint when early access signup is ready.
+// ConvertKit, Supabase, or a custom API endpoint when release-list signup is ready.
