@@ -24,10 +24,20 @@ const statusConfig = {
 };
 
 const navItems = [
-  ["Virtue FX Manager", "virtue-fx-manager.html"],
+  ["Products", "products.html"],
+  ["Virtue FX Manager", "products/virtue-fx-manager/"],
   ["Store", "store.html"],
   ["Support", "support.html"],
 ];
+
+function siteRoot() {
+  return document.body?.dataset.siteRoot || "";
+}
+
+function sitePath(path) {
+  if (path.startsWith("http") || path.startsWith("mailto:") || path.startsWith("#")) return path;
+  return `${siteRoot()}${path}`;
+}
 
 function getSavedTheme() {
   return window.localStorage.getItem("virtue-theme") || "light";
@@ -241,14 +251,14 @@ function renderHeader() {
   const navCtaHref = releaseStatus === "available" ? "store.html" : "store.html#early-access";
   header.innerHTML = `
     <div class="nav-inner">
-      <a class="brand" href="index.html" aria-label="Virtue Creative Systems home">
+      <a class="brand" href="${sitePath("index.html")}" aria-label="Virtue Creative Systems home">
         <span class="brand-mark" aria-hidden="true">V</span>
         <span class="brand-name">Virtue Creative Systems</span>
       </a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
       <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
-        ${navItems.map(([label, href]) => `<a href="${href}">${label}</a>`).join("")}
-        <a class="button button-primary" href="${navCtaHref}">${navCtaText}</a>
+        ${navItems.map(([label, href]) => `<a href="${sitePath(href)}">${label}</a>`).join("")}
+        <a class="button button-primary" href="${sitePath(navCtaHref)}">${navCtaText}</a>
         <div class="nav-tools">
           <label class="language-control">
             <span class="sr-only">Language</span>
@@ -280,7 +290,7 @@ function renderFooter() {
   footer.innerHTML = `
     <div class="footer-inner">
       <div class="footer-brand">
-        <a class="brand" href="index.html">
+        <a class="brand" href="${sitePath("index.html")}">
           <span class="brand-mark" aria-hidden="true">V</span>
           <span class="brand-name">Virtue Creative Systems</span>
         </a>
@@ -288,15 +298,15 @@ function renderFooter() {
       </div>
       <div class="footer-col">
         <h3>Products</h3>
-        <a href="virtue-fx-manager.html">Virtue FX Manager</a>
-        <a href="store.html">Store</a>
-        <a href="downloads.html">Downloads</a>
+        <a href="${sitePath("products/virtue-fx-manager/")}">Virtue FX Manager</a>
+        <a href="${sitePath("store.html")}">Store</a>
+        <a href="${sitePath("downloads.html")}">Downloads</a>
       </div>
       <div class="footer-col">
         <h3>Support</h3>
-        <a href="support.html">Contact</a>
-        <a href="store.html#licensing">License status</a>
-        <a href="downloads.html">Release status</a>
+        <a href="${sitePath("support.html")}">Contact</a>
+        <a href="${sitePath("store.html#licensing")}">License status</a>
+        <a href="${sitePath("downloads.html")}">Release status</a>
       </div>
       <div class="footer-col">
         <h3>Legal</h3>
@@ -316,7 +326,7 @@ function mockupMarkup() {
     </div>
     <div class="plugin-image-frame">
       <img
-        src="virtue-fx-manager-screenshot.png"
+        src="${sitePath("virtue-fx-manager-screenshot.png")}"
         alt="Virtue FX Manager native REAPER plugin manager interface with thumbnails, plugin list, and filter panels"
       />
     </div>

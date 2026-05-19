@@ -3,8 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const siteDir = path.join(root, "WEBSITE");
-const files = await readdir(siteDir);
-const htmlFiles = files.filter((file) => file.endsWith(".html"));
+const htmlFiles = [];
 const assetRefs = new Set([
   "styles.css",
   "script.js",
@@ -13,16 +12,42 @@ const assetRefs = new Set([
 ]);
 const errors = [];
 
-for (const file of htmlFiles) {
-  const fullPath = path.join(siteDir, file);
-  const html = await readFile(fullPath, "utf8");
+async function collectHtmlFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
 
-  if (!html.includes("<title>")) errors.push(`${file}: missing title`);
-  if (!html.includes('name="description"') && file !== "404.html") {
-    errors.push(`${file}: missing meta description`);
+  for (const entry of entries) {
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      await collectHtmlFiles(fullPath);
+    } else if (entry.isFile() && entry.name.endsWith(".html")) {
+      htmlFiles.push(fullPath);
+    }
   }
-  if (!html.includes('data-site-header')) errors.push(`${file}: missing shared header mount`);
-  if (!html.includes('data-site-footer')) errors.push(`${file}: missing shared footer mount`);
+}
+
+function displayPath(fullPath) {
+  return path.relative(siteDir, fullPath) || path.basename(fullPath);
+}
+
+function resolveLocalRef(ref, htmlPath) {
+  const cleanRef = ref.split("#")[0];
+  if (!cleanRef) return null;
+  if (cleanRef.startsWith("/")) return path.join(siteDir, cleanRef.slice(1));
+  return path.resolve(path.dirname(htmlPath), cleanRef);
+}
+
+await collectHtmlFiles(siteDir);
+
+for (const file of htmlFiles) {
+  const html = await readFile(file, "utf8");
+  const relativeFile = displayPath(file);
+
+  if (!html.includes("<title>")) errors.push(`${relativeFile}: missing title`);
+  if (!html.includes('name="description"') && relativeFile !== "404.html") {
+    errors.push(`${relativeFile}: missing meta description`);
+  }
+  if (!html.includes('data-site-header')) errors.push(`${relativeFile}: missing shared header mount`);
+  if (!html.includes('data-site-footer')) errors.push(`${relativeFile}: missing shared footer mount`);
 
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
   const srcs = [...html.matchAll(/src="([^"]+)"/g)].map((match) => match[1]);
@@ -37,18 +62,25 @@ for (const file of htmlFiles) {
       continue;
     }
 
-    const cleanRef = ref.split("#")[0];
-    if (cleanRef) assetRefs.add(cleanRef);
+    const target = resolveLocalRef(ref, file);
+    if (target) assetRefs.add(target);
   }
 }
 
 for (const ref of assetRefs) {
   try {
-    const target = path.join(siteDir, ref);
+    const target = path.isAbsolute(ref) ? ref : path.join(siteDir, ref);
     const info = await stat(target);
-    if (!info.isFile()) errors.push(`${ref}: not a file`);
+    if (info.isDirectory()) {
+      const indexPath = path.join(target, "index.html");
+      const indexInfo = await stat(indexPath);
+      if (!indexInfo.isFile()) errors.push(`${displayPath(target)}: directory link missing index.html`);
+    } else if (!info.isFile()) {
+      errors.push(`${displayPath(target)}: not a file`);
+    }
   } catch {
-    errors.push(`${ref}: referenced file not found`);
+    const label = path.isAbsolute(ref) ? displayPath(ref) : ref;
+    errors.push(`${label}: referenced file not found`);
   }
 }
 
