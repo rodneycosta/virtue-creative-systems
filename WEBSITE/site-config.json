@@ -1,0 +1,19 @@
+{
+  "releaseStatus": "store-setup",
+  "commerce": {
+    "provider": "lemonsqueezy",
+    "mode": "setup",
+    "checkoutUrl": "",
+    "supportEmail": "hello@virtuecreativesystems.com"
+  },
+  "download": {
+    "status": "pending",
+    "url": "",
+    "version": "Pending",
+    "channel": "stable",
+    "platform": "Pending tested artifact",
+    "fileName": "Published with release",
+    "releaseDate": "Published with release",
+    "sha256": "Published with release"
+  }
+}

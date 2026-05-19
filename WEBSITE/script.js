@@ -1,9 +1,21 @@
-const releaseStatus = "store-setup";
+let releaseStatus = "store-setup";
 
-const commerceConfig = {
+let commerceConfig = {
+  provider: "lemonsqueezy",
   mode: "setup",
   checkoutUrl: "",
   supportEmail: "hello@virtuecreativesystems.com",
+};
+
+let downloadConfig = {
+  status: "pending",
+  url: "",
+  version: "Pending",
+  channel: "stable",
+  platform: "Pending tested artifact",
+  fileName: "Published with release",
+  releaseDate: "Published with release",
+  sha256: "Published with release",
 };
 
 const statusConfig = {
@@ -57,6 +69,41 @@ function isCheckoutConfigured() {
 
 function checkoutHref() {
   return isCheckoutConfigured() ? commerceConfig.checkoutUrl : sitePath("store/virtue-fx-manager/#store-setup");
+}
+
+function isDownloadConfigured() {
+  return downloadConfig.status === "available" && downloadConfig.url.startsWith("https://");
+}
+
+function applySiteConfig(config) {
+  if (!config || typeof config !== "object") return;
+
+  if (config.releaseStatus) releaseStatus = config.releaseStatus;
+  if (config.commerce && typeof config.commerce === "object") {
+    commerceConfig = { ...commerceConfig, ...config.commerce };
+  }
+  if (config.download && typeof config.download === "object") {
+    downloadConfig = { ...downloadConfig, ...config.download };
+  }
+
+  renderHeader();
+  renderFooter();
+  applyTheme(getSavedTheme());
+  renderMockups();
+  applyReleaseStatus();
+  setupCommerceLinks();
+  setupDownloadInfo();
+  window.VirtueI18n?.apply?.();
+}
+
+async function loadSiteConfig() {
+  try {
+    const response = await fetch(sitePath("site-config.json"), { cache: "no-store" });
+    if (!response.ok) return;
+    applySiteConfig(await response.json());
+  } catch {
+    // The static site can run without generated public config.
+  }
 }
 
 function getSavedTheme() {
@@ -391,6 +438,37 @@ function setupCommerceLinks() {
   });
 }
 
+function setupDownloadInfo() {
+  const statusLabel = isDownloadConfigured() ? "Latest release available" : "No public release artifact yet";
+  document.querySelectorAll("[data-download-status]").forEach((node) => {
+    node.textContent = statusLabel;
+  });
+  document.querySelectorAll("[data-download-version]").forEach((node) => {
+    node.textContent = downloadConfig.version || "Pending";
+  });
+  document.querySelectorAll("[data-download-channel]").forEach((node) => {
+    node.textContent = downloadConfig.channel || "stable";
+  });
+  document.querySelectorAll("[data-download-platform]").forEach((node) => {
+    node.textContent = downloadConfig.platform || "Pending tested artifact";
+  });
+  document.querySelectorAll("[data-download-file]").forEach((node) => {
+    node.textContent = downloadConfig.fileName || "Published with release";
+  });
+  document.querySelectorAll("[data-download-date]").forEach((node) => {
+    node.textContent = downloadConfig.releaseDate || "Published with release";
+  });
+  document.querySelectorAll("[data-download-sha]").forEach((node) => {
+    node.textContent = downloadConfig.sha256 || "Published with release";
+  });
+  document.querySelectorAll("[data-download-link]").forEach((link) => {
+    link.setAttribute("href", isDownloadConfigured() ? downloadConfig.url : sitePath("download/vfxm/#release-pending"));
+    link.textContent = isDownloadConfigured() ? "Download Latest Version" : "Download pending";
+    link.classList.toggle("is-setup-pending", !isDownloadConfigured());
+    link.setAttribute("aria-label", isDownloadConfigured() ? "Download latest Virtue FX Manager release" : "Download is pending. No release artifact is public yet.");
+  });
+}
+
 function setupNewsletterForms() {
   document.querySelectorAll("[data-newsletter]").forEach((form) => {
     form.addEventListener("submit", (event) => {
@@ -435,10 +513,12 @@ renderFooter();
 renderMockups();
 applyReleaseStatus();
 setupCommerceLinks();
+setupDownloadInfo();
 setupThemeToggle();
 setupNewsletterForms();
 setupReveals();
 window.VirtueI18n?.apply();
+loadSiteConfig();
 
 // Newsletter integration point:
 // Replace the placeholder submit handler above with Buttondown, Mailchimp,

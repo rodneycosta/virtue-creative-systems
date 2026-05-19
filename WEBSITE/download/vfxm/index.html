@@ -33,14 +33,16 @@
         </p>
       </section>
 
-      <section class="section-shell release-panel reveal">
-        <span class="status-pill">No public release artifact yet</span>
+      <section class="section-shell release-panel reveal" id="release-pending">
+        <span class="status-pill" data-download-status>No public release artifact yet</span>
         <h2>Latest stable version</h2>
         <div class="metadata-grid">
-          <div><span>Version</span><strong>Pending</strong></div>
-          <div><span>Channel</span><strong>Stable</strong></div>
-          <div><span>Platform</span><strong>Pending tested artifact</strong></div>
-          <div><span>Checksum</span><strong>Published with release</strong></div>
+          <div><span>Version</span><strong data-download-version>Pending</strong></div>
+          <div><span>Channel</span><strong data-download-channel>stable</strong></div>
+          <div><span>Platform</span><strong data-download-platform>Pending tested artifact</strong></div>
+          <div><span>File</span><strong data-download-file>Published with release</strong></div>
+          <div><span>Release date</span><strong data-download-date>Published with release</strong></div>
+          <div><span>SHA-256</span><strong data-download-sha>Published with release</strong></div>
         </div>
         <p>
           A public installer download is acceptable for the first release because VFxM itself requires
@@ -48,7 +50,14 @@
           asking customers to paste a license key into the website.
         </p>
         <div class="button-row">
-          <a class="button button-primary" href="../../store/virtue-fx-manager/">Buy License</a>
+          <a
+            class="button button-primary"
+            href="../../store/virtue-fx-manager/"
+            data-checkout-link
+            data-live-label="Buy License"
+            data-setup-label="Store setup pending"
+          >Store setup pending</a>
+          <a class="button button-secondary" href="#release-pending" data-download-link>Download pending</a>
           <a class="button button-secondary" href="../../docs/install/">Install instructions</a>
           <a class="button button-secondary" href="../../docs/activation/">How to activate inside VFxM</a>
         </div>

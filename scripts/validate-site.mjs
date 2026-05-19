@@ -7,6 +7,7 @@ const htmlFiles = [];
 const assetRefs = new Set([
   "styles.css",
   "script.js",
+  "site-config.json",
   "favicon.svg",
   "virtue-fx-manager-fictional-ui.png",
 ]);
