@@ -1,10 +1,10 @@
 # Virtue FX Manager License Activation
 
-VFxM official release licensing is designed around Lemon Squeezy license keys and a Cloudflare Worker gateway.
+VFxM official release licensing is an app plus backend feature. The website explains purchase, download, and instructions only. It must not ask customers to activate a license or paste a license/passkey into a public website form.
 
 ## Activation
 
-The app sends:
+Activation happens inside Virtue FX Manager in REAPER. The app sends:
 
 - license/passkey entered by the customer
 - privacy-safe `machine_hash`
@@ -13,7 +13,7 @@ The app sends:
 - product code: `vfxm`
 - optional user-provided device label
 
-The Worker:
+The backend Worker:
 
 - rejects malformed requests
 - hashes the license/passkey with HMAC-SHA256
@@ -30,7 +30,7 @@ The VFxM app must verify the signed entitlement token offline before unlocking f
 
 ## Deactivation
 
-Users should deactivate from inside VFxM before moving computers. The app must delete or invalidate the local entitlement token after deactivation.
+Users should deactivate from inside VFxM before moving computers. Public website deactivation is intentionally not implemented. The app must delete or invalidate the local entitlement token after deactivation.
 
 ## Blocker
 

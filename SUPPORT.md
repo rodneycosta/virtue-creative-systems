@@ -18,3 +18,5 @@ When contacting support, include:
 - order ID, if relevant
 
 Do not send raw license keys, raw passkeys, raw machine IDs, or third-party plugin credentials.
+
+License entry, validation, offline grace, diagnostics, and deactivation belong inside the VFxM app. The website must not collect license keys or manage activated computers.

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Activation instructions for Virtue FX Manager. Activation happens inside the VFxM app in REAPER, not on the website."
+    />
+    <meta property="og:title" content="Activate Virtue FX Manager Inside REAPER" />
+    <meta property="og:description" content="How VFxM app activation, validation, offline grace, and deactivation are designed to work." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://virtuecreativesystems.com/docs/activation/" />
+    <meta name="theme-color" content="#eaf3f0" />
+    <title>Activate Virtue FX Manager Inside REAPER</title>
+    <link rel="canonical" href="https://virtuecreativesystems.com/docs/activation/" />
+    <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css" />
+  </head>
+  <body data-site-root="../../">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-site-header></header>
+    <main id="main">
+      <section class="page-hero section-shell reveal">
+        <p class="eyebrow">Documentation only</p>
+        <h1>Activate inside VFxM.</h1>
+        <p>
+          The website handles purchase, downloads, documentation, and support. License entry,
+          activation, validation, offline grace, and deactivation happen inside Virtue FX Manager in REAPER.
+          Activation happens inside the app, not on a public website page.
+        </p>
+      </section>
+
+      <section class="section-shell release-panel reveal">
+        <span class="status-pill">No website activation form</span>
+        <h2>Activation flow</h2>
+        <ol class="number-list">
+          <li>Buy Virtue FX Manager through the store checkout when it is live.</li>
+          <li>Receive the license/passkey from the store provider by email or provider account page.</li>
+          <li>Download and install VFxM.</li>
+          <li>Open REAPER and launch VFxM.</li>
+          <li>Enter the license/passkey inside the VFxM activation dialog.</li>
+          <li>VFxM contacts the secure license backend and stores a signed local entitlement if activation succeeds.</li>
+        </ol>
+      </section>
+
+      <section class="section-shell card-grid three">
+        <article class="feature-card reveal">
+          <span class="card-kicker">Offline</span>
+          <h3>Grace period</h3>
+          <p>After successful online validation, VFxM can continue during the configured offline grace window.</p>
+        </article>
+        <article class="feature-card reveal delay-1">
+          <span class="card-kicker">Move</span>
+          <h3>Deactivate in-app</h3>
+          <p>Device deactivation is an app feature. VFxM will deactivate only this computer when the official app flow is implemented.</p>
+        </article>
+        <article class="feature-card reveal delay-2">
+          <span class="card-kicker">Support</span>
+          <h3>Diagnostics</h3>
+          <p>VFxM diagnostics should include status and timestamps, never raw license keys or raw machine identifiers.</p>
+        </article>
+      </section>
+    </main>
+    <footer class="site-footer" data-site-footer></footer>
+    <script src="../../i18n.js"></script>
+    <script src="../../script.js"></script>
+  </body>
+</html>

@@ -16,4 +16,4 @@ When the first official VFxM build is available, publish:
 - installation notes
 - fixed issues and known limitations
 
-Do not mark a build as official until checkout, licensing, protected download delivery, activation, deactivation, and offline grace have passed staging tests.
+Do not mark a build as official until checkout, installer delivery, app-side activation, deactivation, validation, and offline grace have passed staging tests.

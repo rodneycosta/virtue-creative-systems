@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Virtue FX Manager license activation, validation, offline grace period, deactivation, and troubleshooting overview."
+      content="Virtue FX Manager license documentation has moved. Activation happens inside VFxM in REAPER, not on the website."
     />
-    <meta property="og:title" content="License Activation | Virtue FX Manager" />
-    <meta property="og:description" content="How VFxM official release licensing, passkeys, offline grace, and deactivation are designed to work." />
+    <meta property="og:title" content="License Docs | Virtue FX Manager" />
+    <meta property="og:description" content="VFxM license documentation. No website activation form." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://virtuecreativesystems.com/license/" />
     <meta name="theme-color" content="#eaf3f0" />
-    <title>License Activation | Virtue FX Manager</title>
-    <link rel="canonical" href="https://virtuecreativesystems.com/license/" />
+    <title>License Docs | Virtue FX Manager</title>
+    <link rel="canonical" href="https://virtuecreativesystems.com/docs/license/" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,44 +25,16 @@
     <header class="site-header" data-site-header></header>
     <main id="main">
       <section class="page-hero section-shell reveal">
-        <p class="eyebrow">License activation</p>
-        <h1>Activate VFxM inside REAPER.</h1>
+        <p class="eyebrow">Documentation moved</p>
+        <h1>License docs are documentation only.</h1>
         <p>
-          Official release builds will activate with a license/passkey issued after checkout. The app
-          validates online, receives a signed entitlement token, and can continue offline during the configured grace period.
+          This website does not activate licenses or manage devices. Activation happens inside Virtue
+          FX Manager in REAPER. Use the documentation pages for install and activation instructions.
         </p>
-      </section>
-
-      <section class="section-shell card-grid three">
-        <article class="feature-card reveal">
-          <span class="card-kicker">Activate</span>
-          <h3>License/passkey entry</h3>
-          <p>Enter the license/passkey inside Virtue FX Manager. Raw license keys are not stored by the backend.</p>
-        </article>
-        <article class="feature-card reveal delay-1">
-          <span class="card-kicker">Grace</span>
-          <h3>Offline validation window</h3>
-          <p>Paid licenses default to a 14-day offline grace period after successful validation, subject to final policy.</p>
-        </article>
-        <article class="feature-card reveal delay-2">
-          <span class="card-kicker">Deactivate</span>
-          <h3>Move computers safely</h3>
-          <p>Official builds will support deactivating this computer from inside VFxM before reactivating somewhere else.</p>
-        </article>
-      </section>
-
-      <section class="section-shell release-panel reveal">
-        <span class="status-pill">Setup pending</span>
-        <h2>License server status</h2>
-        <p>
-          The Cloudflare Worker, D1 database, Lemon Squeezy product variants, signing keys, and release artifacts
-          must be configured before customer activation is live.
-        </p>
-        <div class="metadata-grid">
-          <div><span>Activation endpoint</span><strong>/v1/license/activate</strong></div>
-          <div><span>Validation endpoint</span><strong>/v1/license/validate</strong></div>
-          <div><span>Deactivation endpoint</span><strong>/v1/license/deactivate</strong></div>
-          <div><span>Offline grace</span><strong>Policy controlled</strong></div>
+        <div class="button-row">
+          <a class="button button-primary" href="../docs/license/">License overview</a>
+          <a class="button button-secondary" href="../docs/activation/">Activation docs</a>
+          <a class="button button-secondary" href="../docs/install/">Install docs</a>
         </div>
       </section>
     </main>

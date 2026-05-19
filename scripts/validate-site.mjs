@@ -48,6 +48,15 @@ for (const file of htmlFiles) {
   }
   if (!html.includes('data-site-header')) errors.push(`${relativeFile}: missing shared header mount`);
   if (!html.includes('data-site-footer')) errors.push(`${relativeFile}: missing shared footer mount`);
+  if (html.includes("/v1/license/activate")) {
+    errors.push(`${relativeFile}: website must not call the license activation API`);
+  }
+  if (html.includes("/v1/license/deactivate")) {
+    errors.push(`${relativeFile}: website must not call the license deactivation API`);
+  }
+  if (/<form[\s\S]*?(license|passkey|machine_hash|entitlement_token)/i.test(html)) {
+    errors.push(`${relativeFile}: website must not contain a license activation form`);
+  }
 
   const hrefs = [...html.matchAll(/href="([^"]+)"/g)].map((match) => match[1]);
   const srcs = [...html.matchAll(/src="([^"]+)"/g)].map((match) => match[1]);

@@ -5,7 +5,10 @@
 - [x] Product page route exists: `/products/virtue-fx-manager/`
 - [x] Store route exists: `/store/virtue-fx-manager/`
 - [x] Download route exists: `/download/vfxm/`
-- [x] License route exists: `/license/`
+- [x] Install docs route exists: `/docs/install/`
+- [x] Activation docs route exists: `/docs/activation/`
+- [x] License docs route exists: `/docs/license/`
+- [x] Legacy `/license/` route points users to docs and contains no activation form
 - [x] Support route exists: `/support/`
 - [x] Checkout success/cancel routes exist
 - [x] Legal draft pages exist
@@ -29,7 +32,7 @@
 - [ ] Create production/staging D1 database
 - [ ] Apply migrations
 - [ ] Create private R2 bucket
-- [ ] Upload tested release artifact
+- [ ] Upload tested release artifact, public or protected
 - [ ] Add release row to `release_files`
 - [ ] Configure Worker secrets
 - [ ] Deploy staging Worker
@@ -47,4 +50,4 @@
 
 ## Release Gate
 
-The product is not ready for official sale until checkout, webhook receipt, license sync, activation, validation, offline grace, deactivation, protected download, and checksum verification pass in staging.
+The product is not ready for official sale until checkout, webhook receipt, license sync, app activation, validation, offline grace, app deactivation, release download, and checksum verification pass in staging.

@@ -3,7 +3,6 @@ const releaseStatus = "store-setup";
 const commerceConfig = {
   mode: "setup",
   checkoutUrl: "",
-  licenseApiBaseUrl: "",
   supportEmail: "hello@virtuecreativesystems.com",
 };
 
@@ -39,6 +38,7 @@ const navItems = [
   ["Virtue FX Manager", "products/virtue-fx-manager/"],
   ["Store", "store/virtue-fx-manager/"],
   ["Download", "download/vfxm/"],
+  ["Docs", "docs/activation/"],
   ["Support", "support/"],
 ];
 
@@ -325,7 +325,8 @@ function renderFooter() {
       <div class="footer-col">
         <h3>Support</h3>
         <a href="${sitePath("support/")}">Contact</a>
-        <a href="${sitePath("license/")}">License status</a>
+        <a href="${sitePath("docs/license/")}">License docs</a>
+        <a href="${sitePath("docs/activation/")}">Activation docs</a>
         <a href="${sitePath("download/vfxm/")}">Release status</a>
       </div>
       <div class="footer-col">

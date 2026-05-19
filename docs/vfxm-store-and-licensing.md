@@ -11,7 +11,7 @@ This is the implementation direction for selling Virtue FX Manager without makin
 - License keys: Lemon Squeezy license-key product setup pending
 - License API: Cloudflare Worker scaffold added under `cloudflare/license-worker`
 - License database: Cloudflare D1 migration scaffold added
-- Protected downloads: R2-backed Worker URL scaffold added
+- Downloads: public installer downloads are acceptable for first release; optional R2-backed protected URL scaffold exists
 - App activation: blocked until the VFxM app source code is provided
 - Installer delivery: blocked until tested release artifacts exist
 
@@ -21,9 +21,9 @@ This is the implementation direction for selling Virtue FX Manager without makin
 2. Customer chooses the Virtue FX Manager license.
 3. Checkout provider processes payment.
 4. A webhook creates a customer record and license record.
-5. Customer receives a receipt, license key, and download link.
+5. Customer receives a receipt and license/passkey from the provider.
 6. VFxM asks for the license key inside the app.
-7. The app calls a license activation endpoint.
+7. The app calls the backend license activation endpoint.
 8. The endpoint returns active / inactive / expired / blocked status.
 9. The app stores a local activation token so it can keep working without checking every launch.
 
@@ -87,7 +87,7 @@ Suggested activation response:
 - API: Cloudflare Worker or Pages Functions
 - Database: Cloudflare D1 for customers, orders, licenses, activations, releases
 - Secrets: checkout provider webhook secret, license signing secret
-- File delivery: Cloudflare R2 or private GitHub Releases plus signed download URLs
+- File delivery: public installer download for first release, or Cloudflare R2 with signed download URLs if protected delivery is needed later
 
 ## Next implementation tasks
 
@@ -95,7 +95,7 @@ Suggested activation response:
 2. Add real env/secrets in Cloudflare.
 3. Create D1 database and R2 bucket.
 4. Apply D1 migrations.
-5. Upload a signed/tested release artifact to R2.
-6. Insert release metadata into `release_files`.
+5. Upload a signed/tested release artifact to public hosting or R2.
+6. Insert release metadata into `release_files`, using `public_download_url` for public delivery or `r2_key` for protected delivery.
 7. Provide the VFxM app source repo so the app activation UI and token verification can be implemented.
 8. Run the full staging checkout, webhook, activation, offline grace, deactivation, and protected-download test plan.

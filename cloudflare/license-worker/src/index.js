@@ -345,7 +345,7 @@ async function handleLatestRelease(request, env) {
   const channel = url.searchParams.get("channel") || env.VFXM_RELEASE_CHANNEL || "stable";
   const release = await requireDb(env)
     .prepare(
-      "SELECT id, product_code, version, platform, channel, file_name, sha256, size_bytes, min_reaper_version, release_notes, created_at FROM release_files WHERE product_code = 'vfxm' AND platform = ? AND channel = ? AND is_latest = 1 LIMIT 1",
+      "SELECT id, product_code, version, platform, channel, file_name, sha256, size_bytes, min_reaper_version, release_notes, public_download_url, created_at FROM release_files WHERE product_code = 'vfxm' AND platform = ? AND channel = ? AND is_latest = 1 LIMIT 1",
     )
     .bind(platform, channel)
     .first();
@@ -373,6 +373,18 @@ async function handleDownloadRequest(request, env) {
   const channel = body?.channel || env.VFXM_RELEASE_CHANNEL || "stable";
   const release = await findRelease(db, platform, body?.version || "latest", channel);
   if (!release) return errorJson(request, env, ERROR_CODES.RELEASE_NOT_FOUND, 404);
+
+  if (release.public_download_url) {
+    return json(request, env, {
+      ok: true,
+      download_url: release.public_download_url,
+      sha256: release.sha256,
+      file_name: release.file_name,
+      expires_at: null,
+      release_notes: release.release_notes || null,
+      protected: false,
+    });
+  }
 
   let licenseHash = null;
   if (body?.entitlement_token) {

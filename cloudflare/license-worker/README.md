@@ -22,7 +22,8 @@ Cloudflare Worker scaffold for Virtue FX Manager official release licensing and 
 - Customer email is optional and stored only as an HMAC hash.
 - Raw machine identifiers are not accepted; the VFxM app must send a privacy-safe `machine_hash`.
 - Offline use is represented by signed ES256 entitlement tokens.
-- R2 files are delivered through short-lived signed Worker URLs, not raw bucket URLs.
+- Release files can be public for the first launch, because activation happens inside VFxM.
+- If protected downloads are enabled later, R2 files are delivered through short-lived signed Worker URLs, not raw bucket URLs.
 
 ## Local Commands
 
@@ -39,8 +40,8 @@ wrangler dev
 3. Apply migrations locally and in staging.
 4. Configure Worker secrets from `.env.example`.
 5. Configure Lemon Squeezy product, variants, license keys, and webhook URL.
-6. Upload a test release artifact to R2.
-7. Insert a matching `release_files` row with version, platform, checksum, and `r2_key`.
+6. Upload a test release artifact to public hosting or R2.
+7. Insert a matching `release_files` row with version, platform, checksum, and either `public_download_url` or `r2_key`.
 8. Run a Lemon Squeezy test checkout.
 9. Confirm webhook idempotency and license sync.
 10. Activate, validate, deactivate, and request a protected download using a staging VFxM build.
