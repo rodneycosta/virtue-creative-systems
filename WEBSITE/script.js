@@ -4,7 +4,31 @@ let commerceConfig = {
   provider: "lemonsqueezy",
   mode: "setup",
   checkoutUrl: "",
+  checkoutApiUrl: "",
   supportEmail: "hello@virtuecreativesystems.com",
+  variants: [
+    {
+      key: "personal",
+      name: "Personal License",
+      price: "Price pending",
+      seats: "2 activations planned",
+      checkoutUrl: "",
+    },
+    {
+      key: "studio",
+      name: "Studio License",
+      price: "Price pending",
+      seats: "Activation count configurable",
+      checkoutUrl: "",
+    },
+    {
+      key: "nfr",
+      name: "Creator / NFR License",
+      price: "Price pending",
+      seats: "By approval",
+      checkoutUrl: "",
+    },
+  ],
 };
 
 let downloadConfig = {
@@ -48,7 +72,7 @@ const statusConfig = {
 const navItems = [
   ["Products", "products.html"],
   ["Virtue FX Manager", "products/virtue-fx-manager/"],
-  ["Store", "store/virtue-fx-manager/"],
+  ["Store", "store/"],
   ["Download", "download/vfxm/"],
   ["Docs", "docs/activation/"],
   ["Support", "support/"],
@@ -64,11 +88,19 @@ function sitePath(path) {
 }
 
 function isCheckoutConfigured() {
-  return commerceConfig.mode === "live" && commerceConfig.checkoutUrl.startsWith("https://");
+  return commerceConfig.mode === "live" && (commerceConfig.checkoutUrl.startsWith("https://") || commerceConfig.checkoutApiUrl.startsWith("https://"));
 }
 
-function checkoutHref() {
-  return isCheckoutConfigured() ? commerceConfig.checkoutUrl : sitePath("store/virtue-fx-manager/#store-setup");
+function commerceVariant(key) {
+  return commerceConfig.variants.find((variant) => variant.key === key) || commerceConfig.variants[0];
+}
+
+function checkoutHref(variantKey = "personal") {
+  const variant = commerceVariant(variantKey);
+  if (variant?.checkoutUrl?.startsWith("https://")) return variant.checkoutUrl;
+  if (isCheckoutConfigured() && commerceConfig.checkoutUrl.startsWith("https://")) return commerceConfig.checkoutUrl;
+  if (isCheckoutConfigured() && commerceConfig.checkoutApiUrl.startsWith("https://")) return sitePath("store/virtue-fx-manager/#checkout");
+  return sitePath("store/virtue-fx-manager/#store-setup");
 }
 
 function isDownloadConfigured() {
@@ -315,7 +347,7 @@ function renderHeader() {
   if (!header) return;
 
   const navCtaText = isCheckoutConfigured() ? "Buy VFxM" : "Store Setup";
-  const navCtaHref = isCheckoutConfigured() ? commerceConfig.checkoutUrl : "store/virtue-fx-manager/#store-setup";
+  const navCtaHref = checkoutHref("personal");
   header.innerHTML = `
     <div class="nav-inner">
       <a class="brand" href="${sitePath("index.html")}" aria-label="Virtue Creative Systems home">
@@ -366,7 +398,7 @@ function renderFooter() {
       <div class="footer-col">
         <h3>Products</h3>
         <a href="${sitePath("products/virtue-fx-manager/")}">Virtue FX Manager</a>
-        <a href="${sitePath("store/virtue-fx-manager/")}">Store</a>
+        <a href="${sitePath("store/")}">Store</a>
         <a href="${sitePath("download/vfxm/")}">Downloads</a>
       </div>
       <div class="footer-col">
@@ -425,16 +457,58 @@ function applyReleaseStatus() {
 
 function setupCommerceLinks() {
   document.querySelectorAll("[data-checkout-link]").forEach((link) => {
+    const variantKey = link.dataset.variant || "personal";
+    const variant = commerceVariant(variantKey);
     const liveLabel = link.dataset.liveLabel || "Buy Virtue FX Manager";
     const setupLabel = link.dataset.setupLabel || "Store setup pending";
-    link.setAttribute("href", checkoutHref());
+    const hasVariantCheckout = Boolean(variant?.checkoutUrl?.startsWith("https://"));
+    const hasApiCheckout = Boolean(commerceConfig.checkoutApiUrl?.startsWith("https://"));
+    const ready = commerceConfig.mode === "live" && (hasVariantCheckout || hasApiCheckout || commerceConfig.checkoutUrl.startsWith("https://"));
+    link.setAttribute("href", ready ? checkoutHref(variantKey) : sitePath("store/virtue-fx-manager/#store-setup"));
     link.textContent = isCheckoutConfigured() ? liveLabel : setupLabel;
-    link.classList.toggle("is-setup-pending", !isCheckoutConfigured());
-    link.setAttribute("aria-label", isCheckoutConfigured() ? liveLabel : "Store setup is pending. No payment is processed here yet.");
+    link.classList.toggle("is-setup-pending", !ready);
+    link.setAttribute("aria-label", ready ? liveLabel : "Store setup is pending. No payment is processed here yet.");
+    if (!link.dataset.checkoutBound) {
+      link.dataset.checkoutBound = "true";
+      link.addEventListener("click", async (event) => {
+        const currentVariantKey = link.dataset.variant || "personal";
+        const currentVariant = commerceVariant(currentVariantKey);
+        const canCreateCheckout = commerceConfig.mode === "live" && commerceConfig.checkoutApiUrl?.startsWith("https://") && !currentVariant?.checkoutUrl?.startsWith("https://") && !commerceConfig.checkoutUrl.startsWith("https://");
+        if (!canCreateCheckout) return;
+        event.preventDefault();
+        link.textContent = "Opening checkout...";
+        link.setAttribute("aria-busy", "true");
+        try {
+          const response = await fetch(commerceConfig.checkoutApiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ product: "vfxm", variant: currentVariantKey }),
+          });
+          const payload = await response.json();
+          if (!response.ok || !payload.checkout_url) throw new Error(payload.message || "Checkout unavailable");
+          window.location.assign(payload.checkout_url);
+        } catch {
+          link.textContent = "Checkout unavailable";
+          link.classList.add("is-setup-pending");
+        } finally {
+          link.removeAttribute("aria-busy");
+        }
+      });
+    }
   });
 
   document.querySelectorAll("[data-store-mode]").forEach((node) => {
     node.textContent = isCheckoutConfigured() ? "Checkout ready" : "Store setup pending";
+  });
+
+  document.querySelectorAll("[data-variant-name]").forEach((node) => {
+    node.textContent = commerceVariant(node.dataset.variantName)?.name || "Virtue FX Manager";
+  });
+  document.querySelectorAll("[data-variant-price]").forEach((node) => {
+    node.textContent = commerceVariant(node.dataset.variantPrice)?.price || "Price pending";
+  });
+  document.querySelectorAll("[data-variant-seats]").forEach((node) => {
+    node.textContent = commerceVariant(node.dataset.variantSeats)?.seats || "Activation policy pending";
   });
 }
 

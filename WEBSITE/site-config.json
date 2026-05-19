@@ -4,7 +4,31 @@
     "provider": "lemonsqueezy",
     "mode": "setup",
     "checkoutUrl": "",
-    "supportEmail": "hello@virtuecreativesystems.com"
+    "checkoutApiUrl": "",
+    "supportEmail": "hello@virtuecreativesystems.com",
+    "variants": [
+      {
+        "key": "personal",
+        "name": "Personal License",
+        "price": "Price pending",
+        "seats": "2 activations planned",
+        "checkoutUrl": ""
+      },
+      {
+        "key": "studio",
+        "name": "Studio License",
+        "price": "Price pending",
+        "seats": "Activation count configurable",
+        "checkoutUrl": ""
+      },
+      {
+        "key": "nfr",
+        "name": "Creator / NFR License",
+        "price": "Price pending",
+        "seats": "By approval",
+        "checkoutUrl": ""
+      }
+    ]
   },
   "download": {
     "status": "pending",

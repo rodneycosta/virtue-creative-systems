@@ -1,10 +1,11 @@
 # VFxM License Worker
 
-Cloudflare Worker scaffold for Virtue FX Manager official release licensing and protected downloads.
+Cloudflare Worker scaffold for Virtue FX Manager official release checkout creation, app-side licensing, and protected downloads.
 
 ## Routes
 
 - `GET /health`
+- `POST /v1/checkout/create`
 - `POST /webhooks/lemonsqueezy`
 - `POST /v1/license/activate`
 - `POST /v1/license/validate`
@@ -17,6 +18,7 @@ Cloudflare Worker scaffold for Virtue FX Manager official release licensing and 
 ## Security Model
 
 - Webhooks are verified with Lemon Squeezy `X-Signature` HMAC SHA-256 over the raw request body.
+- Checkout creation uses Lemon Squeezy server-side API keys only inside the Worker.
 - Raw license keys/passkeys are never stored.
 - License keys are stored as `HMAC-SHA256(secret, license_key)`.
 - Customer email is optional and stored only as an HMAC hash.

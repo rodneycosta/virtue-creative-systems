@@ -10,12 +10,11 @@ import {
   verifyHmacHex,
   verifySignedDownloadPath,
 } from "./crypto.js";
-import { callLicenseApi, extractWebhookEvent } from "./lemonsqueezy.js";
+import { callLicenseApi, createCheckout, extractWebhookEvent, normalizeLicenseApiResponse } from "./lemonsqueezy.js";
 import {
   addDaysIso,
   entitlementPayload,
   evaluateActivation,
-  graceStatus,
   licenseStatusCode,
   nowIso,
 } from "./policy.js";
@@ -162,26 +161,89 @@ function activationLimitForTier(env, tier) {
 
 async function syncLicenseWithProvider(env, licenseKey, licenseHash) {
   const result = await callLicenseApi(env, "validate", { license_key: licenseKey });
-  if (!result.configured || !result.ok) return null;
+  if (!result.configured || !result.ok) return { license: null, code: ERROR_CODES.LICENSE_INVALID };
 
-  const attributes = result.data?.license_key || result.data?.data?.attributes || result.data || {};
-  const variantId = String(attributes.variant_id || attributes.variant?.id || "");
+  const normalized = normalizeLicenseApiResponse(result.data);
+  if (!providerLicenseMatches(env, normalized)) {
+    return { license: null, code: ERROR_CODES.LICENSE_PRODUCT_MISMATCH };
+  }
+  const variantId = normalized.variantId;
   const tier = tierFromVariant(env, variantId);
-  return upsertLicense(requireDb(env), {
+  const license = await upsertLicense(requireDb(env), {
     provider: "lemonsqueezy",
-    provider_store_id: env.LEMONSQUEEZY_STORE_ID || null,
-    provider_license_id: String(attributes.id || attributes.license_key_id || ""),
-    provider_order_id: String(attributes.order_id || ""),
-    provider_customer_id: String(attributes.customer_id || ""),
+    provider_store_id: normalized.storeId || env.LEMONSQUEEZY_STORE_ID || null,
+    provider_license_id: normalized.providerLicenseId,
+    provider_order_id: normalized.orderId,
+    provider_customer_id: normalized.customerId,
     product_code: "vfxm",
-    product_id: String(attributes.product_id || env.LEMONSQUEEZY_VFXM_PRODUCT_ID || ""),
+    product_id: normalized.productId || String(env.LEMONSQUEEZY_VFXM_PRODUCT_ID || ""),
     variant_id: variantId,
     license_hash: licenseHash,
-    email_hash: null,
+    email_hash: await hashEmail(normalized.email, env.VFXM_EMAIL_HASH_SECRET || env.VFXM_LICENSE_HASH_SECRET),
     tier,
-    status: attributes.status || "active",
-    activation_limit: Number(attributes.activation_limit || activationLimitForTier(env, tier)),
-    expires_at: attributes.expires_at || null,
+    status: normalized.status || "active",
+    activation_limit: Number(normalized.activationLimit || activationLimitForTier(env, tier)),
+    expires_at: normalized.expiresAt,
+  });
+  return { license, code: ERROR_CODES.LICENSE_VALID };
+}
+
+function providerLicenseMatches(env, normalized) {
+  const expectedStore = String(env.LEMONSQUEEZY_STORE_ID || "");
+  const expectedProduct = String(env.LEMONSQUEEZY_VFXM_PRODUCT_ID || "");
+  const allowedVariants = [
+    env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
+    env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID,
+    env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID,
+    env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID,
+    env.LEMONSQUEEZY_VFXM_TRIAL_VARIANT_ID,
+  ].filter(Boolean).map(String);
+
+  if (expectedStore && normalized.storeId && normalized.storeId !== expectedStore) return false;
+  if (expectedProduct && normalized.productId && normalized.productId !== expectedProduct) return false;
+  if (allowedVariants.length && normalized.variantId && !allowedVariants.includes(normalized.variantId)) return false;
+  return true;
+}
+
+function variantIdForKey(env, variantKey) {
+  const key = String(variantKey || "personal").toLowerCase();
+  const variants = {
+    personal: env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
+    studio: env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID,
+    nfr: env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID || env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID,
+    trial: env.VFXM_ENABLE_TRIAL === "true" ? env.LEMONSQUEEZY_VFXM_TRIAL_VARIANT_ID : "",
+  };
+  return variants[key] ? { key, id: String(variants[key]) } : null;
+}
+
+async function handleCreateCheckout(request, env) {
+  const body = await readJson(request);
+  const variant = variantIdForKey(env, body?.variant || "personal");
+  if (!variant) return errorJson(request, env, ERROR_CODES.CHECKOUT_NOT_CONFIGURED, 503);
+
+  const origin = new URL(request.url).origin;
+  const siteOrigin = String(env.VFXM_SITE_ORIGIN || "https://virtuecreativesystems.com").replace(/\/+$/, "");
+  const result = await createCheckout(env, {
+    variantId: variant.id,
+    productName: variant.key === "studio" ? "Virtue FX Manager Studio" : "Virtue FX Manager",
+    redirectUrl: env.VFXM_CHECKOUT_SUCCESS_URL || `${siteOrigin}/checkout/success/`,
+    receiptLinkUrl: env.VFXM_RECEIPT_DOWNLOAD_URL || `${siteOrigin}/download/vfxm/`,
+    testMode: String(env.STORE_MODE || env.VFXM_STORE_MODE || "test") !== "live",
+  });
+
+  if (!result.configured) return errorJson(request, env, ERROR_CODES.CHECKOUT_NOT_CONFIGURED, 503);
+  if (!result.ok) {
+    return errorJson(request, env, ERROR_CODES.LICENSE_SERVER_UNAVAILABLE, 502, {
+      provider_status: result.status,
+    });
+  }
+
+  return json(request, env, {
+    ok: true,
+    provider: "lemonsqueezy",
+    variant: variant.key,
+    checkout_url: result.data?.data?.attributes?.url,
+    request_origin: origin,
   });
 }
 
@@ -200,11 +262,16 @@ async function handleActivate(request, env) {
   const db = requireDb(env);
   const licenseHash = await hashLicenseKey(body.license_key, requireSecret(env, "VFXM_LICENSE_HASH_SECRET"));
   let license = await getLicenseByHash(db, licenseHash);
-  if (!license) license = await syncLicenseWithProvider(env, body.license_key, licenseHash);
-  if (!license) return errorJson(request, env, ERROR_CODES.CONFIG_MISSING, 503);
+  if (!license) {
+    const synced = await syncLicenseWithProvider(env, body.license_key, licenseHash);
+    if (!synced.license) return errorJson(request, env, synced.code || ERROR_CODES.LICENSE_INVALID, synced.code === ERROR_CODES.LICENSE_PRODUCT_MISMATCH ? 403 : 503);
+    license = synced.license;
+  }
 
   const statusCode = licenseStatusCode(license.status);
-  if (statusCode !== ERROR_CODES.LICENSE_VALID) return errorJson(request, env, statusCode, 403);
+  if (statusCode !== ERROR_CODES.LICENSE_VALID && String(license.status || "").toLowerCase() !== "inactive") {
+    return errorJson(request, env, statusCode, 403);
+  }
 
   const existingActivation = await getActiveActivation(db, license.id, body.machine_hash);
   const activeCount = await activeActivationCount(db, license.id);
@@ -226,14 +293,56 @@ async function handleActivate(request, env) {
       .run();
     activation = await getActiveActivation(db, license.id, body.machine_hash);
   } else {
+    let providerInstanceId = null;
+    const providerActivation = await callLicenseApi(env, "activate", {
+      license_key: body.license_key,
+      instance_name: body.device_label || `VFxM ${String(body.machine_hash).slice(0, 12)}`,
+    });
+    if (providerActivation.ok) {
+      const normalized = normalizeLicenseApiResponse(providerActivation.data);
+      if (!providerLicenseMatches(env, normalized)) {
+        return errorJson(request, env, ERROR_CODES.LICENSE_PRODUCT_MISMATCH, 403);
+      }
+      providerInstanceId = normalized.providerInstanceId;
+      license = await upsertLicense(db, {
+        provider: "lemonsqueezy",
+        provider_store_id: normalized.storeId || license.provider_store_id,
+        provider_license_id: normalized.providerLicenseId || license.provider_license_id,
+        provider_order_id: normalized.orderId || license.provider_order_id,
+        provider_customer_id: normalized.customerId || license.provider_customer_id,
+        product_code: "vfxm",
+        product_id: normalized.productId || license.product_id,
+        variant_id: normalized.variantId || license.variant_id,
+        license_hash: licenseHash,
+        email_hash: await hashEmail(normalized.email, env.VFXM_EMAIL_HASH_SECRET || env.VFXM_LICENSE_HASH_SECRET),
+        tier: tierFromVariant(env, normalized.variantId || license.variant_id),
+        status: normalized.status || license.status,
+        activation_limit: normalized.activationLimit || license.activation_limit,
+        expires_at: normalized.expiresAt || license.expires_at,
+      });
+    } else if (providerActivation.data?.error && /activation limit/i.test(providerActivation.data.error)) {
+      return errorJson(request, env, ERROR_CODES.LICENSE_ACTIVATION_LIMIT_REACHED, 403, {
+        activation_limit: license.activation_limit,
+        activation_count: activeCount,
+      });
+    } else {
+      return errorJson(
+        request,
+        env,
+        providerActivation.status === 404 ? ERROR_CODES.LICENSE_INVALID : ERROR_CODES.LICENSE_SERVER_UNAVAILABLE,
+        providerActivation.status === 404 ? 403 : 502,
+        { provider_status: providerActivation.status },
+      );
+    }
+
     const activationInstanceId = crypto.randomUUID();
     await db.prepare(
       `INSERT INTO license_activations (
-        license_id, activation_instance_id, machine_hash, device_label, platform, app_version,
+        license_id, provider_instance_id, activation_instance_id, machine_hash, device_label, platform, app_version,
         status, activated_at, last_seen_at
-      ) VALUES (?, ?, ?, ?, ?, ?, 'active', ?, ?)`,
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', ?, ?)`,
     )
-      .bind(license.id, activationInstanceId, body.machine_hash, body.device_label || null, body.platform, body.app_version, now, now)
+      .bind(license.id, providerInstanceId, activationInstanceId, body.machine_hash, body.device_label || null, body.platform, body.app_version, now, now)
       .run();
     activation = await getActiveActivation(db, license.id, body.machine_hash);
   }
@@ -269,12 +378,25 @@ async function handleValidate(request, env) {
         401,
       );
     }
+    const db = requireDb(env);
+    const license = await getLicenseByHash(db, verified.payload.license_hash);
+    if (!license) return errorJson(request, env, ERROR_CODES.LICENSE_INVALID, 404);
+    const statusCode = licenseStatusCode(license.status);
+    if (statusCode !== ERROR_CODES.LICENSE_VALID) return errorJson(request, env, statusCode, 403);
+    const activation = await db
+      .prepare("SELECT * FROM license_activations WHERE license_id = ? AND activation_instance_id = ? AND status = 'active'")
+      .bind(license.id, verified.payload.activation_instance_id)
+      .first();
+    if (!activation) return errorJson(request, env, ERROR_CODES.LICENSE_MACHINE_NOT_ACTIVE, 404);
+    await db.prepare("UPDATE license_activations SET last_seen_at = ? WHERE id = ?").bind(nowIso(), activation.id).run();
+    const issued = await issueToken(env, license, activation);
     return json(request, env, {
       ok: true,
-      code: graceStatus(verified.payload.grace_until),
-      status: verified.payload.license_status,
-      grace_until: verified.payload.grace_until,
-      next_check_at: verified.payload.online_check_required_after,
+      code: ERROR_CODES.LICENSE_VALID,
+      status: license.status,
+      grace_until: issued.payload.grace_until,
+      next_check_at: issued.payload.online_check_required_after,
+      entitlement_token: issued.token,
     });
   }
 
@@ -536,6 +658,7 @@ export async function handleRequest(request, env) {
 
   try {
     if (request.method === "GET" && path === "/health") return json(request, env, { ok: true, service: "vfxm-license-worker" });
+    if (request.method === "POST" && path === "/v1/checkout/create") return handleCreateCheckout(request, env);
     if (request.method === "POST" && path === "/webhooks/lemonsqueezy") return handleWebhook(request, env);
     if (request.method === "POST" && path === "/v1/license/activate") return handleActivate(request, env);
     if (request.method === "POST" && path === "/v1/license/validate") return handleValidate(request, env);

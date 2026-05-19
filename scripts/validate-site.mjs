@@ -10,6 +10,7 @@ const assetRefs = new Set([
   "site-config.json",
   "favicon.svg",
   "virtue-fx-manager-fictional-ui.png",
+  "vfxm-store-hero.png",
 ]);
 const errors = [];
 

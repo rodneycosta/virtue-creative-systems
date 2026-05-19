@@ -3,6 +3,7 @@
 ## Website
 
 - [x] Product page route exists: `/products/virtue-fx-manager/`
+- [x] Store catalog route exists: `/store/`
 - [x] Store route exists: `/store/virtue-fx-manager/`
 - [x] Download route exists: `/download/vfxm/`
 - [x] Install docs route exists: `/docs/install/`
@@ -13,13 +14,15 @@
 - [x] Checkout success/cancel routes exist
 - [x] Legal draft pages exist
 - [x] Checkout buttons do not pretend payment is live
+- [x] Public site config can switch checkout/download links from setup mode to live mode
 
 ## Lemon Squeezy
 
 - [ ] Create VFxM product
 - [ ] Enable license keys
 - [ ] Create Personal, Studio, Creator/NFR, and optional Trial variants
-- [ ] Configure hosted checkout URL or server-side checkout creation
+- [x] Worker route scaffold exists for server-side checkout creation: `/v1/checkout/create`
+- [ ] Configure hosted checkout URLs or server-side checkout creation secrets
 - [ ] Configure success URL: `/checkout/success/`
 - [ ] Configure cancel URL: `/checkout/cancel/`
 - [ ] Configure webhook URL: `/webhooks/lemonsqueezy`

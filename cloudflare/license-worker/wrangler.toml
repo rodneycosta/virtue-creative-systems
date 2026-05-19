@@ -14,6 +14,12 @@ binding = "RELEASES"
 bucket_name = "replace-with-vfxm-release-bucket"
 
 [vars]
+STORE_PROVIDER = "lemonsqueezy"
+STORE_MODE = "test"
+VFXM_SITE_ORIGIN = "https://virtuecreativesystems.com"
+VFXM_CHECKOUT_SUCCESS_URL = "https://virtuecreativesystems.com/checkout/success/"
+VFXM_CHECKOUT_CANCEL_URL = "https://virtuecreativesystems.com/checkout/cancel/"
+VFXM_RECEIPT_DOWNLOAD_URL = "https://virtuecreativesystems.com/download/vfxm/"
 VFXM_RELEASE_CHANNEL = "stable"
 VFXM_DEFAULT_GRACE_DAYS = "14"
 VFXM_DOWNLOAD_URL_TTL_SECONDS = "900"
