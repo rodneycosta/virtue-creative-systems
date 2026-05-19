@@ -30,83 +30,84 @@
     <header class="site-header" data-site-header></header>
 
     <main id="main">
-      <section class="hero sales-hero section-shell">
-        <div class="hero-copy reveal">
-          <p class="eyebrow">Virtue FX Manager for REAPER</p>
-          <h1>A visual plugin manager built for REAPER.</h1>
-          <p class="hero-lede">
-            Stop scrolling through long plugin menus. VFxM helps you search, preview, favorite,
-            organize, hide, and insert your plugins faster from inside REAPER.
-          </p>
-          <div class="button-row">
-            <a class="button button-primary" href="store.html">Get Early Access</a>
-            <a class="button button-secondary" href="virtue-fx-manager.html">View Features</a>
-          </div>
-          <ul class="hero-proof-list" aria-label="Product highlights">
-            <li>Native C++ REAPER extension</li>
-            <li>VST, VST3, AU, CLAP, and JSFX workflows</li>
-            <li>Thumbnails, favorites, notes, filters, and batch insertion</li>
-          </ul>
-        </div>
-        <div class="hero-visual reveal delay-1" aria-label="Virtue FX Manager interface preview">
-          <div class="mockup mockup-large" data-mockup></div>
-        </div>
+      <section class="home-intro section-shell reveal">
+        <p class="eyebrow">Virtue Creative Systems</p>
+        <h1>Focused tools for faster REAPER sessions.</h1>
+        <p>
+          Virtue FX Manager is a native plugin manager for REAPER users with large effect and
+          instrument libraries. Browse visually, save favorites, add notes, hide clutter, and load
+          plugins without breaking the session.
+        </p>
       </section>
 
-      <section class="section-shell simple-sales-grid" id="why">
+      <section class="section-shell product-list" aria-label="Virtue products">
+        <article class="product-strip reveal">
+          <div class="product-strip-media">
+            <img
+              src="virtue-fx-manager-screenshot.png"
+              alt="Virtue FX Manager interface with plugin thumbnails, browser list, and filter panels"
+            />
+          </div>
+          <div class="product-strip-copy">
+            <span class="status-pill" data-release-label>Early access coming soon</span>
+            <h2>virtue fx manager</h2>
+            <p class="tagline">A visual plugin manager built for REAPER.</p>
+            <p>
+              Search, preview, favorite, thumbnail, note, filter, list or unlist, and insert plugins
+              faster from inside REAPER. Built for producers, mixers, composers, and sound designers
+              who need speed without losing control of their library.
+            </p>
+            <div class="product-actions" aria-label="Virtue FX Manager actions">
+              <a href="store.html">Early access</a>
+              <a href="store.html#licensing">Licensing</a>
+              <a href="virtue-fx-manager.html">Learn more</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-strip product-strip-compact reveal">
+          <div class="product-strip-copy">
+            <p class="eyebrow">Store foundation</p>
+            <h2>licensing system</h2>
+            <p>
+              Checkout, license keys, activation, installer delivery, and update delivery are being
+              prepared before public sale.
+            </p>
+            <div class="product-actions" aria-label="Store actions">
+              <a href="store.html">Store status</a>
+              <a href="support.html">Contact</a>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="section-shell feature-lineup">
         <article class="feature-card reveal">
-          <span class="card-kicker">01</span>
+          <span class="card-kicker">Browse</span>
           <h3>Find plugins faster</h3>
           <p>Search visually with thumbnails, developer filters, categories, listed/unlisted views, and clean plugin names.</p>
         </article>
         <article class="feature-card reveal delay-1">
-          <span class="card-kicker">02</span>
-          <h3>Clean up duplicate formats</h3>
-          <p>Make sense of the same plugin appearing as VST, VST3, AU, CLAP, JSFX, or REAPER cache variants.</p>
+          <span class="card-kicker">Organize</span>
+          <h3>Control plugin clutter</h3>
+          <p>Make sense of duplicate VST, VST3, AU, CLAP, JSFX, and REAPER cache variants.</p>
         </article>
         <article class="feature-card reveal delay-2">
-          <span class="card-kicker">03</span>
-          <h3>Load without losing momentum</h3>
-          <p>Insert effects and instruments into tracks, batch-add favorites, and keep your session moving.</p>
+          <span class="card-kicker">Load</span>
+          <h3>Stay in the session</h3>
+          <p>Insert effects and instruments into tracks, batch-add favorites, and keep your creative flow moving.</p>
         </article>
       </section>
 
-      <section class="section-shell product-card sales-card reveal">
+      <section class="section-shell mailing-panel reveal" id="release-list">
         <div>
-          <span class="status-pill" data-release-label>Early access coming soon</span>
-          <h2>Virtue FX Manager</h2>
-          <p class="tagline">Your REAPER FX workflow, organized.</p>
-          <ul class="check-list">
-            <li>Visual plugin browser <span>Search and preview faster</span></li>
-            <li>Favorites tabs <span>Color-code your real workflow</span></li>
-            <li>Notes and thumbnails <span>Remember why each tool matters</span></li>
-            <li>List/unlist controls <span>Hide plugins you do not use</span></li>
-            <li>Track insertion <span>Load plugins directly into REAPER</span></li>
-            <li>Local user data <span>Favorites, notes, themes, and thumbnails stay local</span></li>
-          </ul>
-          <div class="button-row">
-            <a class="button button-primary" href="store.html">See Store Status</a>
-            <a class="button button-secondary" href="virtue-fx-manager.html">Read Details</a>
-          </div>
-        </div>
-        <div class="store-mini-panel" aria-label="Store status">
-          <p class="eyebrow">Store</p>
-          <h3>Paid release in development</h3>
-          <p>Checkout, license keys, activation, installer delivery, and update delivery are being prepared before public sale.</p>
-          <a class="text-link" href="store.html#licensing">View licensing plan</a>
-        </div>
-      </section>
-
-      <section class="section-shell cta-panel reveal" id="release-list">
-        <div>
-          <p class="eyebrow">Early access</p>
-          <h2>Be first to try Virtue FX Manager.</h2>
-          <p>Join the early access list for launch news, development updates, and first-build availability.</p>
+          <p class="eyebrow">Mailing list</p>
+          <h2>Get the first build announcement.</h2>
         </div>
         <form class="newsletter-form" data-newsletter>
           <label class="sr-only" for="home-email">Email address</label>
-          <input id="home-email" type="email" name="email" placeholder="you@example.com" required />
-          <button class="button button-primary" type="submit">Get Early Access</button>
+          <input id="home-email" type="email" name="email" placeholder="e-mail address" required />
+          <button class="button button-primary" type="submit">Subscribe</button>
           <p class="form-note" data-form-note>No spam. Only product updates.</p>
         </form>
       </section>
