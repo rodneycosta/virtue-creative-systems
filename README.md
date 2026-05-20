@@ -28,3 +28,7 @@ The website never handles card data and never activates licenses. It can open Le
 2. Server-created checkout URLs through the Worker endpoint `POST /v1/checkout/create`, configured with `VFXM_CHECKOUT_API_URL`.
 
 If checkout config is missing, the site shows `Store setup pending` instead of a fake purchase flow.
+
+## Release Setup Guide
+
+Follow [docs/step-by-step-release-setup.md](docs/step-by-step-release-setup.md) to configure Lemon Squeezy, Cloudflare D1, Cloudflare R2, Worker secrets, checkout, downloads, and the VFxM app activation flow.
