@@ -7,6 +7,11 @@
     "build": "node scripts/generate-site-config.mjs && node scripts/validate-site.mjs",
     "generate:secrets": "node scripts/generate-release-secrets.mjs",
     "test:worker": "cd cloudflare/license-worker && npm test",
-    "check": "npm run build && npm run test:worker"
+    "check": "npm run build && npm run test:worker",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^4.93.0"
   }
 }
