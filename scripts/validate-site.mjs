@@ -9,8 +9,9 @@ const assetRefs = new Set([
   "script.js",
   "site-config.json",
   "favicon.svg",
-  "virtue-fx-manager-fictional-ui.png",
-  "vfxm-store-hero.png",
+  "virtue-fx-manager-screenshot.png",
+  "VFxM_Main.png",
+  "docs/docs-data.js",
 ]);
 const errors = [];
 

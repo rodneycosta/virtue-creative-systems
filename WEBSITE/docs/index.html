@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Detailed documentation, tutorials, user guide, and keyboard shortcuts cheat sheet for Virtue FX Manager."
+    />
+    <meta property="og:title" content="Documentation | Virtue FX Manager" />
+    <meta
+      property="og:description"
+      content="Learn how to visually organize, filter, and load your massive plugin library instantly inside REAPER."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://virtuecreativesystems.com/docs/" />
+    <meta name="theme-color" content="#eaf3f0" />
+    <title>Documentation | Virtue FX Manager</title>
+    <link rel="canonical" href="https://virtuecreativesystems.com/docs/" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css" />
+  </head>
+  <body data-site-root="../">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header" data-site-header></header>
+
+    <main id="main">
+      <section class="section-shell" style="padding-top: 3rem; padding-bottom: 0;">
+        <p class="eyebrow" id="breadcrumbs-home">Help</p>
+        <h1 id="docs-main-title">Documentation & Wiki</h1>
+        <p class="subtitle" id="docs-main-subtitle">
+          Learn how to visually organize, filter, and load your massive plugin library instantly inside REAPER.
+        </p>
+      </section>
+
+      <section class="section-shell" style="padding-top: 0;">
+        <div class="docs-container">
+          <aside class="docs-sidebar">
+            <div class="docs-search-wrapper">
+              <input
+                type="search"
+                class="docs-search-input"
+                id="docs-search"
+                placeholder="Search help..."
+                aria-label="Search documentation"
+              />
+            </div>
+            <div class="docs-nav-group">
+              <div class="docs-nav-title" id="toc-title">Table of Contents</div>
+              <nav class="docs-nav-list" id="docs-nav" aria-labelledby="toc-title">
+                <!-- Rendered dynamically -->
+              </nav>
+            </div>
+          </aside>
+
+          <article class="docs-content">
+            <div id="docs-sections-container">
+              <!-- Sections rendered dynamically -->
+            </div>
+            <div class="docs-search-results" id="docs-search-results">
+              <!-- Search results rendered dynamically -->
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" data-site-footer></footer>
+
+    <script src="../i18n.js"></script>
+    <script src="./docs-data.js"></script>
+    <script>
+      // Hydration and rendering logic for Virtue FX Manager Documentation
+      document.addEventListener("DOMContentLoaded", () => {
+        const activeLang = window.VirtueI18n ? window.VirtueI18n.getLanguage() : "en";
+        const data = window.VirtueDocsData ? window.VirtueDocsData[activeLang] || window.VirtueDocsData.en : null;
+
+        if (!data) {
+          console.error("Documentation data could not be loaded");
+          return;
+        }
+
+        // Translate page static titles
+        document.title = data.title;
+        const mainTitle = document.getElementById("docs-main-title");
+        if (mainTitle) mainTitle.textContent = data.title;
+        const mainSubtitle = document.getElementById("docs-main-subtitle");
+        if (mainSubtitle) mainSubtitle.textContent = data.subtitle;
+        const breadcrumbs = document.getElementById("breadcrumbs-home");
+        if (breadcrumbs) breadcrumbs.textContent = data.breadcrumbsHome;
+        const tocTitle = document.getElementById("toc-title");
+        if (tocTitle) tocTitle.textContent = data.tableOfContents;
+        const searchInput = document.getElementById("docs-search");
+        if (searchInput) searchInput.setAttribute("placeholder", data.searchPlaceholder);
+
+        // Build sidebar navigation
+        const nav = document.getElementById("docs-nav");
+        nav.innerHTML = data.sections.map(sec => {
+          // Extract chapter index and title
+          return `<button class="docs-nav-link" data-section-id="${sec.id}">${sec.title}</button>`;
+        }).join("");
+
+        // Build sections container
+        const sectionsContainer = document.getElementById("docs-sections-container");
+        sectionsContainer.innerHTML = data.sections.map(sec => {
+          const mediaHtml = getSectionMedia(sec.id);
+          return `
+            <section class="docs-section" id="section-${sec.id}">
+              <h2>${sec.title}</h2>
+              <div class="docs-body-content">${sec.content}</div>
+              ${mediaHtml}
+            </section>
+          `;
+        }).join("");
+
+        // Hydrate any ColorListDemo components
+        data.sections.forEach(sec => {
+          const secElement = document.getElementById(`section-${sec.id}`);
+          if (secElement && secElement.querySelector('.color-list-demo-placeholder')) {
+            initColorListDemo(secElement.querySelector('.color-list-demo-placeholder'));
+          }
+        });
+
+        // Set active section from Hash or first section
+        const hash = window.location.hash.substring(1);
+        const defaultSectionId = hash || data.sections[0]?.id || "";
+        setActiveSection(defaultSectionId);
+
+        // Bind click handlers to nav links
+        document.querySelectorAll(".docs-nav-link").forEach(link => {
+          link.addEventListener("click", () => {
+            const sectionId = link.dataset.sectionId;
+            window.location.hash = sectionId;
+            setActiveSection(sectionId);
+          });
+        });
+
+        // Setup Search functionality
+        setupSearch(data);
+      });
+
+      function getSectionMedia(sectionId) {
+        if (sectionId === "visual-thumbnails") {
+          return `
+            <figure>
+              <img src="../VFxM_Main.png" alt="Virtue FX Manager Main Browser Interface" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Virtue FX Manager Main Browser Interface
+              </figcaption>
+            </figure>
+            <figure style="margin-top: 2rem;">
+              <img src="../VFxM_BigThumbnails.png" alt="Grid View with Big Thumbnails enabled" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Grid View with Big Thumbnails enabled
+              </figcaption>
+            </figure>
+          `;
+        }
+        if (sectionId === "track-insertion") {
+          return `
+            <figure>
+              <img src="../VFxM_Speed_workflow_discover_hidden_plugins.png" alt="Fast session building via drag and drop track insertion" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Fast session building via drag and drop track insertion
+              </figcaption>
+            </figure>
+          `;
+        }
+        if (sectionId === "status-circles") {
+          return `
+            <figure>
+              <img src="../VFxM_List_Rating.jpg" alt="Status circles showing active (listed) and inactive (hidden) plugins" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Status circles showing active (listed) and inactive (hidden) plugins
+              </figcaption>
+            </figure>
+          `;
+        }
+        if (sectionId === "color-codes") {
+          return `
+            <figure>
+              <img src="../VFxM_Developer_Type_Cathegorie.png" alt="Plugin lists colored dynamically by category" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Plugin lists colored dynamically by category
+              </figcaption>
+            </figure>
+          `;
+        }
+        if (sectionId === "favorites-organization") {
+          return `
+            <figure>
+              <img src="../VFxM_Favorites_Presets_FXChains.png" alt="Favorites tabs and FX presets" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Favorites tabs and FX presets
+              </figcaption>
+            </figure>
+            <figure style="margin-top: 2rem;">
+              <img src="../VFxM_Favorites_Tab_organition.png" alt="Organizing tabs and editing settings inside Virtue FX Manager" />
+              <figcaption class="media-caption" style="font-size: 0.85rem; color: var(--muted); text-align: center; margin-top: 0.5rem;">
+                Organizing tabs and editing settings inside Virtue FX Manager
+              </figcaption>
+            </figure>
+          `;
+        }
+        return "";
+      }
+
+      function initColorListDemo(placeholder) {
+        if (!placeholder) return;
+        placeholder.innerHTML = `
+          <div style="margin-top: 2rem; padding: 1.5rem; background-color: rgba(0,0,0,0.02); border: 1px solid var(--line); border-radius: 10px;">
+            <h4 style="margin: 0 0 1rem 0; font-size: 1rem; color: var(--ink);" id="demo-title">Interactive Demo: Color List by Category</h4>
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem;">
+              <input 
+                type="checkbox" 
+                id="demo-color-checkbox" 
+                style="cursor: pointer; accent-color: var(--accent);" 
+              />
+              <label for="demo-color-checkbox" style="font-size: 0.9rem; color: var(--ink); cursor: pointer; user-select: none;">
+                <strong id="demo-checkbox-label">Enable "Color list by category" settings option</strong>
+              </label>
+            </div>
+            
+            <div style="background-color: rgba(0,0,0,0.05); border-radius: 6px; overflow: hidden; border: 1px solid var(--line);">
+              <div style="display: flex; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); font-size: 0.8rem; color: var(--muted); font-weight: bold; background-color: rgba(0,0,0,0.05);">
+                <div style="width: 40%;" id="demo-hdr-name">Plugin Name</div>
+                <div style="width: 30%;" id="demo-hdr-dev">Developer</div>
+                <div style="width: 30%;" id="demo-hdr-cat">Category</div>
+              </div>
+              
+              <div class="demo-plugin-row" data-color="#33b8ff" style="display: flex; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); font-size: 0.85rem; transition: color 0.2s;">
+                <div class="plugin-name" style="width: 40%; font-weight: 600;">FabFilter Pro-Q 3</div>
+                <div style="width: 30%; color: var(--muted);">FabFilter</div>
+                <div style="width: 30%; color: var(--muted); display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #33b8ff;"></span>
+                  <span class="cat-label">EQ & Filters</span>
+                </div>
+              </div>
+              <div class="demo-plugin-row" data-color="#ff473d" style="display: flex; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); font-size: 0.85rem; transition: color 0.2s;">
+                <div class="plugin-name" style="width: 40%; font-weight: 600;">Decapitator</div>
+                <div style="width: 30%; color: var(--muted);">Soundtoys</div>
+                <div style="width: 30%; color: var(--muted); display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #ff473d;"></span>
+                  <span class="cat-label">Distortion & Saturation</span>
+                </div>
+              </div>
+              <div class="demo-plugin-row" data-color="#b27aff" style="display: flex; padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--line); font-size: 0.85rem; transition: color 0.2s;">
+                <div class="plugin-name" style="width: 40%; font-weight: 600;">Valhalla VintageVerb</div>
+                <div style="width: 30%; color: var(--muted);">Valhalla DSP</div>
+                <div style="width: 30%; color: var(--muted); display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #b27aff;"></span>
+                  <span class="cat-label">Reverb & Space</span>
+                </div>
+              </div>
+              <div class="demo-plugin-row" data-color="#ff6cbe" style="display: flex; padding: 0.6rem 0.8rem; font-size: 0.85rem; transition: color 0.2s;">
+                <div class="plugin-name" style="width: 40%; font-weight: 600;">Serum</div>
+                <div style="width: 30%; color: var(--muted);">Xfer Records</div>
+                <div style="width: 30%; color: var(--muted); display: flex; align-items: center; gap: 0.4rem;">
+                  <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: #ff6cbe;"></span>
+                  <span class="cat-label">Instruments & Synths</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        const activeLang = window.VirtueI18n ? window.VirtueI18n.getLanguage() : "en";
+        if (activeLang !== "en" && window.VirtueI18n) {
+          const t = window.VirtueI18n.t;
+          const demoTitle = placeholder.querySelector("#demo-title");
+          if (demoTitle) demoTitle.textContent = t("Interactive Demo: Color List by Category");
+          const demoLabel = placeholder.querySelector("#demo-checkbox-label");
+          if (demoLabel) demoLabel.textContent = t("Enable \"Color list by category\" settings option");
+          const demoHdrName = placeholder.querySelector("#demo-hdr-name");
+          if (demoHdrName) demoHdrName.textContent = t("Plugin Name");
+          const demoHdrDev = placeholder.querySelector("#demo-hdr-dev");
+          if (demoHdrDev) demoHdrDev.textContent = t("Developer");
+          const demoHdrCat = placeholder.querySelector("#demo-hdr-cat");
+          if (demoHdrCat) demoHdrCat.textContent = t("Category");
+
+          placeholder.querySelectorAll(".demo-plugin-row").forEach(row => {
+            const catLabel = row.querySelector(".cat-label");
+            if (catLabel) {
+              catLabel.textContent = t(catLabel.textContent);
+            }
+          });
+        }
+
+        const checkbox = placeholder.querySelector("#demo-color-checkbox");
+        checkbox.addEventListener("change", () => {
+          const isChecked = checkbox.checked;
+          placeholder.querySelectorAll(".demo-plugin-row").forEach(row => {
+            const color = row.dataset.color;
+            const nameDiv = row.querySelector(".plugin-name");
+            nameDiv.style.color = isChecked ? color : "var(--ink)";
+          });
+        });
+      }
+
+      function setActiveSection(sectionId) {
+        // Toggle Nav link active state
+        document.querySelectorAll(".docs-nav-link").forEach(link => {
+          if (link.dataset.sectionId === sectionId) {
+            link.classList.add("is-active");
+            link.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          } else {
+            link.classList.remove("is-active");
+          }
+        });
+
+        // Toggle Section visibility
+        document.querySelectorAll(".docs-section").forEach(sec => {
+          if (sec.id === `section-${sectionId}`) {
+            sec.classList.add("is-active");
+          } else {
+            sec.classList.remove("is-active");
+          }
+        });
+      }
+
+      function setupSearch(data) {
+        const searchInput = document.getElementById("docs-search");
+        searchInput.addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase().trim();
+          const sectionsContainer = document.getElementById("docs-sections-container");
+          const searchResultsContainer = document.getElementById("docs-search-results");
+
+          if (query.length === 0) {
+            sectionsContainer.style.display = "block";
+            searchResultsContainer.style.display = "none";
+            searchResultsContainer.innerHTML = "";
+
+            const hash = window.location.hash.substring(1);
+            const activeSectionId = hash || data.sections[0]?.id || "";
+            setActiveSection(activeSectionId);
+            return;
+          }
+
+          sectionsContainer.style.display = "none";
+          searchResultsContainer.style.display = "block";
+
+          document.querySelectorAll(".docs-nav-link").forEach(link => link.classList.remove("is-active"));
+
+          const matches = data.sections.filter(sec => {
+            return sec.title.toLowerCase().includes(query) || sec.content.toLowerCase().includes(query);
+          });
+
+          if (matches.length === 0) {
+            searchResultsContainer.innerHTML = `
+              <div style="text-align: center; padding: 3rem 0; color: var(--muted);">
+                <p style="font-size: 1.25rem; font-weight: 500;">No results found for "${query}"</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Try searching for other terms like 'install', 'favorite', or 'shortcut'.</p>
+              </div>
+            `;
+            return;
+          }
+
+          searchResultsContainer.innerHTML = matches.map(sec => {
+            const titleHtml = highlightText(sec.title, query);
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = sec.content;
+            const cleanText = tempDiv.textContent || tempDiv.innerText || "";
+
+            let snippet = "";
+            const qIdx = cleanText.toLowerCase().indexOf(query);
+            if (qIdx !== -1) {
+              const start = Math.max(0, qIdx - 60);
+              const end = Math.min(cleanText.length, qIdx + query.length + 100);
+              snippet = (start > 0 ? "..." : "") + cleanText.substring(start, end) + (end < cleanText.length ? "..." : "");
+            } else {
+              snippet = cleanText.substring(0, 160) + (cleanText.length > 160 ? "..." : "");
+            }
+
+            const snippetHtml = highlightText(snippet, query);
+
+            return `
+              <article class="docs-search-item">
+                <h3><a onclick="showSection('${sec.id}')">${titleHtml}</a></h3>
+                <p>${snippetHtml}</p>
+              </article>
+            `;
+          }).join("");
+        });
+      }
+
+      function highlightText(text, query) {
+        const parts = text.split(new RegExp(`(${escapeRegExp(query)})`, "gi"));
+        return parts.map(part => {
+          if (part.toLowerCase() === query) {
+            return `<span class="docs-search-match-highlight">${part}</span>`;
+          }
+          return part;
+        }).join("");
+      }
+
+      function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      }
+
+      function showSection(sectionId) {
+        const searchInput = document.getElementById("docs-search");
+        searchInput.value = "";
+
+        const sectionsContainer = document.getElementById("docs-sections-container");
+        const searchResultsContainer = document.getElementById("docs-search-results");
+        sectionsContainer.style.display = "block";
+        searchResultsContainer.style.display = "none";
+        searchResultsContainer.innerHTML = "";
+
+        window.location.hash = sectionId;
+        setActiveSection(sectionId);
+      }
+    </script>
+    <script src="../script.js"></script>
+  </body>
+</html>

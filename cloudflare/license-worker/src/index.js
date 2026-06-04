@@ -10,7 +10,7 @@ import {
   verifyHmacHex,
   verifySignedDownloadPath,
 } from "./crypto.js";
-import { callLicenseApi, createCheckout, extractWebhookEvent, normalizeLicenseApiResponse } from "./lemonsqueezy.js";
+import { callLicenseApi, createCheckout, extractWebhookEvent, normalizeLicenseApiResponse, getLemonSqueezyLicenseKey } from "./lemonsqueezy.js";
 import {
   addDaysIso,
   entitlementPayload,
@@ -134,7 +134,7 @@ async function upsertLicense(db, license) {
       license.variant_id || null,
       license.license_hash,
       license.email_hash || null,
-      license.tier || "personal",
+      license.tier || "commercial",
       license.status || "active",
       Number(license.activation_limit || 2),
       license.expires_at || null,
@@ -150,13 +150,13 @@ function tierFromVariant(env, variantId) {
   if (variantId && variantId === env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID) return "studio";
   if (variantId && (variantId === env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID || variantId === env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID)) return "creator-nfr";
   if (variantId && variantId === env.LEMONSQUEEZY_VFXM_TRIAL_VARIANT_ID) return "trial";
-  return "personal";
+  return "commercial";
 }
 
 function activationLimitForTier(env, tier) {
   if (tier === "trial") return Number(env.VFXM_TRIAL_ACTIVATION_LIMIT || 1);
   if (tier === "studio") return Number(env.VFXM_STUDIO_ACTIVATION_LIMIT || 5);
-  return Number(env.VFXM_PERSONAL_ACTIVATION_LIMIT || 2);
+  return Number(env.VFXM_COMMERCIAL_ACTIVATION_LIMIT || env.VFXM_PERSONAL_ACTIVATION_LIMIT || 2);
 }
 
 async function syncLicenseWithProvider(env, licenseKey, licenseHash) {
@@ -192,6 +192,7 @@ function providerLicenseMatches(env, normalized) {
   const expectedStore = String(env.LEMONSQUEEZY_STORE_ID || "");
   const expectedProduct = String(env.LEMONSQUEEZY_VFXM_PRODUCT_ID || "");
   const allowedVariants = [
+    env.LEMONSQUEEZY_VFXM_COMMERCIAL_VARIANT_ID,
     env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
     env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID,
     env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID,
@@ -206,8 +207,9 @@ function providerLicenseMatches(env, normalized) {
 }
 
 function variantIdForKey(env, variantKey) {
-  const key = String(variantKey || "personal").toLowerCase();
+  const key = String(variantKey || "commercial").toLowerCase();
   const variants = {
+    commercial: env.LEMONSQUEEZY_VFXM_COMMERCIAL_VARIANT_ID || env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
     personal: env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
     studio: env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID,
     nfr: env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID || env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID,
@@ -218,7 +220,7 @@ function variantIdForKey(env, variantKey) {
 
 async function handleCreateCheckout(request, env) {
   const body = await readJson(request);
-  const variant = variantIdForKey(env, body?.variant || "personal");
+  const variant = variantIdForKey(env, body?.variant || "commercial");
   if (!variant) return errorJson(request, env, ERROR_CODES.CHECKOUT_NOT_CONFIGURED, 503);
 
   const origin = new URL(request.url).origin;
@@ -651,6 +653,221 @@ async function handleWebhook(request, env) {
   return json(request, env, { ok: true });
 }
 
+export async function handleRecoverLicense(request, env) {
+  const body = await readJson(request);
+  const email = String(body?.email || "").trim().toLowerCase();
+
+  if (!email || !email.includes("@")) {
+    return json(request, env, { ok: false, message: "Please enter a valid email address." }, 400);
+  }
+
+  const genericResponse = {
+    ok: true,
+    message: "If this email is associated with a purchase, we will send your license information shortly."
+  };
+
+  // 1. Compute email hash
+  const licenseSecret = requireSecret(env, "VFXM_LICENSE_HASH_SECRET");
+  const emailHashSecret = env.VFXM_EMAIL_HASH_SECRET || licenseSecret;
+  const emailHash = await hashEmail(email, emailHashSecret);
+
+  // 2. Query matching licenses from D1
+  const db = requireDb(env);
+  const { results: licenses } = await db
+    .prepare("SELECT provider_license_id, tier, status FROM licenses WHERE email_hash = ?")
+    .bind(emailHash)
+    .all();
+
+  if (!licenses || licenses.length === 0) {
+    return json(request, env, genericResponse);
+  }
+
+  // 3. Retrieve raw keys from Lemon Squeezy
+  const retrievedKeys = [];
+  for (const lic of licenses) {
+    if (!lic.provider_license_id) continue;
+    try {
+      const lsLicense = await getLemonSqueezyLicenseKey(env, lic.provider_license_id);
+      if (lsLicense?.attributes?.key) {
+        retrievedKeys.push({
+          key: lsLicense.attributes.key,
+          status: lsLicense.attributes.status || lic.status,
+          activation_limit: lsLicense.attributes.activation_limit || 2,
+          order_id: lsLicense.attributes.order_id || ""
+        });
+      }
+    } catch {
+      // Continue retrieving others
+    }
+  }
+
+  if (retrievedKeys.length === 0) {
+    return json(request, env, genericResponse);
+  }
+
+  // 4. Send email via Resend
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey || apiKey === "mock_resend_key_123" || apiKey.startsWith("mock_")) {
+    console.log(`[MOCK EMAIL] To: ${email}, Keys: ${JSON.stringify(retrievedKeys)}`);
+    return json(request, env, genericResponse);
+  }
+
+  const from = env.VFXM_LICENSE_EMAIL_FROM || "Virtue FX Manager <licenses@virtuecreativesystems.com>";
+  const supportEmail = env.VFXM_SUPPORT_EMAIL || "hello@virtuecreativesystems.com";
+  const downloadUrl = env.VFXM_PUBLIC_DOWNLOAD_URL || "https://www.virtuecreativesystems.com/download/vfxm/";
+
+  const subject = "Your Virtue FX Manager License Keys";
+
+  const licenseRowsHtml = retrievedKeys.map(lic => {
+    return `
+    <div style="background-color: #f0f4f8; border: 1px dashed #0284c7; border-radius: 8px; padding: 16px; margin: 16px 0; color: #0f172a;">
+      <div style="font-family: 'Courier New', Courier, monospace; font-size: 18px; font-weight: bold; color: #0284c7; word-break: break-all;">${lic.key}</div>
+      <div style="font-size: 12px; color: #475569; margin-top: 8px;">
+        Order Reference: #${lic.order_id} | Limit: ${lic.activation_limit} devices | Status: ${lic.status}
+      </div>
+    </div>
+    `;
+  }).join("");
+
+  const licenseRowsText = retrievedKeys.map(lic => {
+    return `
+License Key: ${lic.key}
+Order Reference: #${lic.order_id}
+Limit: ${lic.activation_limit} devices
+Status: ${lic.status}
+----------------------------------------
+    `;
+  }).join("\n");
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f0f4f8;
+      color: #0f172a;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0284c7;
+      letter-spacing: 1px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    h1 {
+      font-size: 22px;
+      color: #0f172a;
+      margin-top: 0;
+    }
+    p {
+      line-height: 1.6;
+      color: #475569;
+    }
+    .button {
+      display: inline-block;
+      background: #0284c7;
+      color: #ffffff !important;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin: 20px 0;
+      text-align: center;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 32px;
+    }
+    .footer a {
+      color: #0284c7;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">VIRTUE CREATIVE SYSTEMS</div>
+    <div class="card">
+      <h1>Your Requested License Information</h1>
+      <p>Hello,</p>
+      <p>We received a request to retrieve the license keys associated with this email address for <strong>Virtue FX Manager</strong>.</p>
+
+      ${licenseRowsHtml}
+
+      <p style="text-align: center;">
+        <a href="${downloadUrl}" class="button">Download Virtue FX Manager</a>
+      </p>
+
+      <p>To activate, open the app, navigate to <strong>Settings -> License</strong>, and paste your key.</p>
+    </div>
+    <div class="footer">
+      <p>Need help? Contact us at <a href="mailto:${supportEmail}">${supportEmail}</a>.</p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const text = `Hello,
+
+We received a request to retrieve the license keys associated with this email address for Virtue FX Manager.
+
+Here are your licenses:
+
+${licenseRowsText}
+
+Download Virtue FX Manager:
+${downloadUrl}
+
+To activate, open the app, navigate to Settings -> License, and paste your key.
+
+Need help? Contact us at ${supportEmail}.`;
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        from,
+        to: [email],
+        subject,
+        html,
+        text,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Resend API error: ${errorText}`);
+    }
+  } catch (err) {
+    console.error(`Resend dispatch exception: ${err}`);
+  }
+
+  return json(request, env, genericResponse);
+}
+
 export async function handleRequest(request, env) {
   if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(request, env) });
   const url = new URL(request.url);
@@ -663,6 +880,7 @@ export async function handleRequest(request, env) {
     if (request.method === "POST" && path === "/v1/license/activate") return handleActivate(request, env);
     if (request.method === "POST" && path === "/v1/license/validate") return handleValidate(request, env);
     if (request.method === "POST" && path === "/v1/license/deactivate") return handleDeactivate(request, env);
+    if (request.method === "POST" && path === "/v1/license/recover") return handleRecoverLicense(request, env);
     if (request.method === "GET" && path === "/v1/license/status") return handleStatus(request, env);
     if (request.method === "GET" && path === "/v1/releases/latest") return handleLatestRelease(request, env);
     if (request.method === "POST" && path === "/v1/download/request") return handleDownloadRequest(request, env);

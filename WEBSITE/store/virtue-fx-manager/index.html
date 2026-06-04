@@ -29,22 +29,15 @@
 
     <main id="main">
       <section class="page-hero section-shell reveal">
-        <p class="eyebrow">Official store</p>
+        <p class="eyebrow">Buy / Try</p>
         <h1>Virtue FX Manager</h1>
         <p>
-          Visual Plugin Manager for REAPER. Browse, organize, favorite, rate, thumbnail, note, hide clutter,
-          and insert plugins or saved FX chains by double-clicking or dragging directly into REAPER.
+          Get the visual plugin manager for REAPER. Purchase a lifetime license key to permanently unlock the full product, or download the free trial installer to start optimizing your session workflow.
         </p>
         <div class="button-row">
-          <a
-            class="button button-primary"
-            href="#store-setup"
-            data-checkout-link
-            data-live-label="Buy Virtue FX Manager"
-            data-setup-label="Store setup pending"
-          >Store setup pending</a>
-          <a class="button button-secondary" href="../../download/vfxm/">Download Latest Version</a>
-          <a class="button button-secondary" href="../../docs/activation/">How activation works</a>
+          <a class="button button-primary" href="#checkout">Buy License</a>
+          <a class="button button-secondary" href="../../download/vfxm/">Download Trial</a>
+          <a class="button button-secondary" href="../../docs/">Documentation</a>
         </div>
       </section>
 
@@ -52,21 +45,15 @@
         <div>
           <figure class="product-strip-media">
             <img
-              src="../../vfxm-store-hero.png"
-              alt="Fictional Virtue FX Manager product art with visual plugin browser, favorites, ratings, and filter panels"
+              src="../../VFxM_Main.png"
+              alt="Virtue FX Manager visual interface showing plugin browser grid and favorites tabs"
             />
-            <figcaption class="media-caption">
-              Fictional VFxM marketing art. Plugin and developer names are invented for demonstration; no third-party plugin screenshots, logos, or branding are included.
-            </figcaption>
           </figure>
-          <span class="status-pill" data-store-mode>Store setup pending</span>
+          <span class="status-pill" data-store-mode>Store active</span>
           <h2>Visual Plugin Manager for REAPER</h2>
           <p class="tagline">A focused REAPER-native workflow accelerator for large plugin libraries.</p>
           <p>
-            Virtue FX Manager is a professional visual plugin manager for REAPER. Browse your entire
-            plugin collection, search by name, developer, type, or category, organize favorites into
-            custom tabs, rate plugins, attach notes and thumbnails, hide clutter, and insert plugins
-            or saved FX chains by double-clicking or dragging directly into REAPER.
+            Virtue FX Manager brings clarity to your audio production. Browse your plugin collection visually with custom screenshots, search instantly, build favorite boards for different mixing workflows, and insert tracks or FX chains directly into REAPER with a double-click or drag-and-drop.
           </p>
           <ul class="check-list">
             <li>Visual plugin browser <span>Thumbnails and fast recognition</span></li>
@@ -78,59 +65,29 @@
           </ul>
         </div>
 
-        <aside class="price-card" aria-label="Virtue FX Manager purchase status">
-          <p class="eyebrow">Checkout status</p>
-          <h3>Checkout not live yet</h3>
-          <p class="price-note">
-            Lemon Squeezy checkout, product variants, license keys, and protected downloads must be configured before this button can process payment.
-          </p>
-          <a
-            class="button button-primary"
-            href="#store-setup"
-            data-checkout-link
-            data-live-label="Buy Virtue FX Manager"
-            data-setup-label="Store setup pending"
-          >Store setup pending</a>
-          <a class="button button-secondary" href="mailto:hello@virtuecreativesystems.com">Contact support</a>
-        </aside>
-      </section>
-
-      <section class="section-shell card-grid three" id="checkout">
-        <article class="feature-card reveal commerce-plan">
-          <span class="card-kicker">Personal</span>
-          <h3 data-variant-name="personal">Personal License</h3>
-          <p class="plan-price" data-variant-price="personal">Price pending</p>
-          <p data-variant-seats="personal">2 activations planned</p>
-          <a
-            class="button button-primary"
-            href="#store-setup"
-            data-checkout-link
-            data-variant="personal"
-            data-live-label="Buy Personal"
-            data-setup-label="Store setup pending"
-          >Store setup pending</a>
-        </article>
-        <article class="feature-card reveal delay-1 commerce-plan">
-          <span class="card-kicker">Studio</span>
-          <h3 data-variant-name="studio">Studio License</h3>
-          <p class="plan-price" data-variant-price="studio">Price pending</p>
-          <p data-variant-seats="studio">Activation count configurable</p>
-          <a
-            class="button button-secondary"
-            href="#store-setup"
-            data-checkout-link
-            data-variant="studio"
-            data-live-label="Buy Studio"
-            data-setup-label="Store setup pending"
-          >Store setup pending</a>
-        </article>
-        <article class="feature-card reveal delay-2 commerce-plan">
-          <span class="card-kicker">Creator / NFR</span>
-          <h3 data-variant-name="nfr">Creator / NFR License</h3>
-          <p class="plan-price" data-variant-price="nfr">Price pending</p>
-          <p data-variant-seats="nfr">By approval</p>
-          <a class="button button-secondary" href="mailto:hello@virtuecreativesystems.com">Contact</a>
-        </article>
+        <div class="pricing-sidebar" id="checkout" style="display: grid; gap: 1rem; align-content: start;">
+          <article class="feature-card reveal commerce-plan">
+            <span class="card-kicker">Try</span>
+            <h3>Free Trial</h3>
+            <p class="plan-price">Free</p>
+            <p>10-day evaluation period</p>
+            <a class="button button-secondary" href="../../download/vfxm/">Download Trial</a>
+          </article>
+          <article class="feature-card reveal delay-1 commerce-plan">
+            <span class="card-kicker">Commercial</span>
+            <h3 data-variant-name="commercial">Commercial License</h3>
+            <p class="plan-price" data-variant-price="commercial">Price pending</p>
+            <p data-variant-seats="commercial">2 activations included</p>
+            <a
+              class="button button-primary"
+              href="#store-setup"
+              data-checkout-link
+              data-variant="commercial"
+              data-live-label="Buy Commercial"
+              data-setup-label="Store setup pending"
+            >Store setup pending</a>
+          </article>
+        </div>
       </section>
 
       <section class="section-shell split-section">
@@ -138,14 +95,14 @@
           <p class="eyebrow">System requirements</p>
           <h2>REAPER is required.</h2>
           <p>
-            VFxM is a REAPER-native workflow tool. Final platform support, installer files, and minimum REAPER version will be listed only after tested release artifacts exist.
+            VFxM runs as a native C++ extension inside Cockos REAPER. Check compatibility below before installing.
           </p>
         </div>
         <ul class="feature-bullet-list reveal delay-1">
-          <li>Current product target: REAPER workflows only.</li>
-          <li>No multi-DAW support is advertised.</li>
-          <li>Windows, macOS, or Linux support must come from real tested release files.</li>
-          <li>Installer downloads may be public for the first release; the app itself enforces licensing.</li>
+          <li>REAPER 6.0 or newer is required.</li>
+          <li>macOS: macOS 11 (Big Sur) or newer, native Apple Silicon & Intel.</li>
+          <li>Windows: Windows 10 & 11, standard 64-bit.</li>
+          <li>No licensing requirements for trial downloads; the app itself handles license entry.</li>
         </ul>
       </section>
     </main>

@@ -38,8 +38,7 @@ const config = {
     checkoutApiUrl,
     supportEmail: env("VFXM_SUPPORT_EMAIL", "hello@virtuecreativesystems.com"),
     variants: [
-      variantConfig("personal", "Personal License", "2 activations planned"),
-      variantConfig("studio", "Studio License", "Activation count configurable"),
+      variantConfig("commercial", "Commercial License", "2 activations included"),
       variantConfig("nfr", "Creator / NFR License", "By approval"),
     ],
   },

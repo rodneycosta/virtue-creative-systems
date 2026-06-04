@@ -29,16 +29,32 @@
           Official app diagnostics should never include a raw license key or raw machine identifier.
         </p>
       </section>
-      <section class="section-shell card-grid two">
+      <section class="section-shell card-grid three">
         <article class="feature-card reveal">
           <h2>Contact support</h2>
           <p>Email the studio with your order ID, app version, platform, license status, and any VFxM diagnostic text that the app provides.</p>
           <a class="button button-primary" href="mailto:hello@virtuecreativesystems.com">Email support</a>
         </article>
         <article class="feature-card reveal delay-1">
+          <h2>License key recovery</h2>
+          <p>Lost your license key? Enter your purchase email address below and we'll email you all associated license keys.</p>
+          <div data-recover-form style="margin-top: 1rem; display: grid; gap: 0.75rem;">
+            <label class="sr-only" for="recover-email">Email Address</label>
+            <input
+              type="email"
+              id="recover-email"
+              placeholder="Enter your email"
+              required
+              style="padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-size: 1rem;"
+            />
+            <button type="button" class="button button-secondary" data-recover-submit>Send Recovery Email</button>
+            <p data-recover-note style="margin: 0.5rem 0 0; font-size: 0.9rem; color: var(--muted); min-height: 1.25rem;"></p>
+          </div>
+        </article>
+        <article class="feature-card reveal delay-2">
           <h2>License troubleshooting</h2>
           <p>Activation limits, disabled licenses, expired grace periods, and device deactivation are handled inside VFxM through the backend, not on a public website page.</p>
-          <a class="button button-secondary" href="../docs/activation/">Activation docs</a>
+          <a class="button button-secondary" href="../docs/#installation-launching">Activation docs</a>
         </article>
       </section>
     </main>

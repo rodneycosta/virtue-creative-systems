@@ -26,59 +26,40 @@
     <main id="main">
       <section class="page-hero section-shell reveal">
         <p class="eyebrow">VFxM download</p>
-        <h1>Download Virtue FX Manager.</h1>
+        <h1>Get Virtue FX Manager</h1>
         <p>
-          Official VFxM release files will appear here with version, platform, release date, checksum,
-          installation notes, and download links. Activation happens later inside VFxM in REAPER.
+          Download the trial version or purchase a license key to unlock the ultimate visual plugin manager for REAPER.
         </p>
       </section>
 
-      <section class="section-shell release-panel reveal" id="release-pending">
-        <span class="status-pill" data-download-status>No public release artifact yet</span>
-        <h2>Latest stable version</h2>
-        <div class="metadata-grid">
-          <div><span>Version</span><strong data-download-version>Pending</strong></div>
-          <div><span>Channel</span><strong data-download-channel>stable</strong></div>
-          <div><span>Platform</span><strong data-download-platform>Pending tested artifact</strong></div>
-          <div><span>File</span><strong data-download-file>Published with release</strong></div>
-          <div><span>Release date</span><strong data-download-date>Published with release</strong></div>
-          <div><span>SHA-256</span><strong data-download-sha>Published with release</strong></div>
+      <section class="section-shell split-section reveal" style="padding-top: 3rem; margin-top: 0;">
+        <div class="downloads-panel">
+          <h2>Select your option</h2>
+          <p>The free trial is fully featured and runs for 10 days. No sign-up required.</p>
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; max-width: 320px;">
+            <a class="button button-primary" href="../../store/virtue-fx-manager/" data-checkout-link data-live-label="Buy License" data-setup-label="Store setup pending">Buy License</a>
+            <a class="button button-secondary" href="../../downloads/vfxm-mac.pkg" data-download-link="mac">Download macOS (.pkg)</a>
+            <a class="button button-secondary" href="../../downloads/vfxm-win.exe" data-download-link="win">Download Windows (.exe)</a>
+          </div>
         </div>
-        <p>
-          A public installer download is acceptable for the first release because VFxM itself requires
-          activation. If protected downloads are added later, they should use signed temporary URLs without
-          asking customers to paste a license key into the website.
-        </p>
-        <div class="button-row">
-          <a
-            class="button button-primary"
-            href="../../store/virtue-fx-manager/"
-            data-checkout-link
-            data-live-label="Buy License"
-            data-setup-label="Store setup pending"
-          >Store setup pending</a>
-          <a class="button button-secondary" href="#release-pending" data-download-link>Download pending</a>
-          <a class="button button-secondary" href="../../docs/install/">Install instructions</a>
-          <a class="button button-secondary" href="../../docs/activation/">How to activate inside VFxM</a>
-        </div>
-      </section>
 
-      <section class="section-shell card-grid three">
-        <article class="feature-card reveal">
-          <span class="card-kicker">Install</span>
-          <h3>Installer notes</h3>
-          <p>Official install instructions will be published with the first signed or release-candidate artifact.</p>
-        </article>
-        <article class="feature-card reveal delay-1">
-          <span class="card-kicker">Checksum</span>
-          <h3>Verify the file</h3>
-          <p>Each release file will include a SHA-256 checksum so customers can verify the downloaded installer.</p>
-        </article>
-        <article class="feature-card reveal delay-2">
-          <span class="card-kicker">Access</span>
-          <h3>Protected delivery</h3>
-          <p>Optional protected delivery can use short-lived URLs instead of exposing raw R2 bucket locations.</p>
-        </article>
+        <div class="instructions-panel">
+          <h2>Installation Instructions</h2>
+          <ol class="step-list" style="margin-top: 1.5rem; display: grid; gap: 1.25rem; padding-left: 1.25rem; line-height: 1.6;">
+            <li>
+              <strong>Download:</strong> Click the button for your operating system to download the installer.
+            </li>
+            <li>
+              <strong>Install:</strong> Run the installer file (<code>.pkg</code> on macOS, <code>.exe</code> on Windows) and follow the prompts.
+            </li>
+            <li>
+              <strong>Configure:</strong> Open Cockos REAPER. VFxM can be opened from the Action list or from the icon installed on the interface.
+            </li>
+            <li>
+              <strong>License:</strong> If you bought a license, enter your key inside the app to permanently activate it. Otherwise, click "Start Trial".
+            </li>
+          </ol>
+        </div>
       </section>
     </main>
     <footer class="site-footer" data-site-footer></footer>

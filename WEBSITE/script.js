@@ -8,17 +8,10 @@ let commerceConfig = {
   supportEmail: "hello@virtuecreativesystems.com",
   variants: [
     {
-      key: "personal",
-      name: "Personal License",
+      key: "commercial",
+      name: "Commercial License",
       price: "Price pending",
-      seats: "2 activations planned",
-      checkoutUrl: "",
-    },
-    {
-      key: "studio",
-      name: "Studio License",
-      price: "Price pending",
-      seats: "Activation count configurable",
+      seats: "2 activations included",
       checkoutUrl: "",
     },
     {
@@ -70,11 +63,10 @@ const statusConfig = {
 };
 
 const navItems = [
-  ["Products", "products.html"],
-  ["Virtue FX Manager", "products/virtue-fx-manager/"],
-  ["Store", "store/"],
+  ["Home", "index.html"],
+  ["Buy / Try", "store/virtue-fx-manager/"],
   ["Download", "download/vfxm/"],
-  ["Docs", "docs/activation/"],
+  ["Docs", "docs/"],
   ["Support", "support/"],
 ];
 
@@ -95,7 +87,7 @@ function commerceVariant(key) {
   return commerceConfig.variants.find((variant) => variant.key === key) || commerceConfig.variants[0];
 }
 
-function checkoutHref(variantKey = "personal") {
+function checkoutHref(variantKey = "commercial") {
   const variant = commerceVariant(variantKey);
   if (variant?.checkoutUrl?.startsWith("https://")) return variant.checkoutUrl;
   if (isCheckoutConfigured() && commerceConfig.checkoutUrl.startsWith("https://")) return commerceConfig.checkoutUrl;
@@ -347,7 +339,7 @@ function renderHeader() {
   if (!header) return;
 
   const navCtaText = isCheckoutConfigured() ? "Buy VFxM" : "Store Setup";
-  const navCtaHref = checkoutHref("personal");
+  const navCtaHref = checkoutHref("commercial");
   header.innerHTML = `
     <div class="nav-inner">
       <a class="brand" href="${sitePath("index.html")}" aria-label="Virtue Creative Systems home">
@@ -404,8 +396,8 @@ function renderFooter() {
       <div class="footer-col">
         <h3>Support</h3>
         <a href="${sitePath("support/")}">Contact</a>
-        <a href="${sitePath("docs/license/")}">License docs</a>
-        <a href="${sitePath("docs/activation/")}">Activation docs</a>
+        <a href="${sitePath("docs/")}">Documentation</a>
+        <a href="${sitePath("docs/#installation-launching")}">Installation Guide</a>
         <a href="${sitePath("download/vfxm/")}">Release status</a>
       </div>
       <div class="footer-col">
@@ -457,7 +449,7 @@ function applyReleaseStatus() {
 
 function setupCommerceLinks() {
   document.querySelectorAll("[data-checkout-link]").forEach((link) => {
-    const variantKey = link.dataset.variant || "personal";
+    const variantKey = link.dataset.variant || "commercial";
     const variant = commerceVariant(variantKey);
     const liveLabel = link.dataset.liveLabel || "Buy Virtue FX Manager";
     const setupLabel = link.dataset.setupLabel || "Store setup pending";
@@ -471,7 +463,7 @@ function setupCommerceLinks() {
     if (!link.dataset.checkoutBound) {
       link.dataset.checkoutBound = "true";
       link.addEventListener("click", async (event) => {
-        const currentVariantKey = link.dataset.variant || "personal";
+        const currentVariantKey = link.dataset.variant || "commercial";
         const currentVariant = commerceVariant(currentVariantKey);
         const canCreateCheckout = commerceConfig.mode === "live" && commerceConfig.checkoutApiUrl?.startsWith("https://") && !currentVariant?.checkoutUrl?.startsWith("https://") && !commerceConfig.checkoutUrl.startsWith("https://");
         if (!canCreateCheckout) return;
@@ -536,10 +528,16 @@ function setupDownloadInfo() {
     node.textContent = downloadConfig.sha256 || "Published with release";
   });
   document.querySelectorAll("[data-download-link]").forEach((link) => {
-    link.setAttribute("href", isDownloadConfigured() ? downloadConfig.url : sitePath("download/vfxm/#release-pending"));
-    link.textContent = isDownloadConfigured() ? "Download Latest Version" : "Download pending";
-    link.classList.toggle("is-setup-pending", !isDownloadConfigured());
-    link.setAttribute("aria-label", isDownloadConfigured() ? "Download latest Virtue FX Manager release" : "Download is pending. No release artifact is public yet.");
+    const platform = link.dataset.downloadLink || "mac";
+    let url = downloadConfig.url;
+    if (platform === "win" && url) {
+      url = url.replace("vfxm-mac.pkg", "vfxm-win.exe").replace("vfxm-mac.dmg", "vfxm-win.exe");
+    }
+    const ready = isDownloadConfigured() && url;
+    link.setAttribute("href", ready ? url : sitePath("download/vfxm/#release-pending"));
+    link.textContent = ready ? (platform === "mac" ? "Download for macOS" : "Download for Windows") : `Download for ${platform === "mac" ? "macOS" : "Windows"} pending`;
+    link.classList.toggle("is-setup-pending", !ready);
+    link.setAttribute("aria-label", ready ? `Download latest Virtue FX Manager release for ${platform === "mac" ? "macOS" : "Windows"}` : `Download for ${platform === "mac" ? "macOS" : "Windows"} is pending.`);
   });
 }
 
@@ -554,6 +552,63 @@ function setupNewsletterForms() {
           : "Thanks. This form is a placeholder until a release-list backend is connected.";
       }
       form.reset();
+    });
+  });
+}
+
+function setupRecoverForms() {
+  document.querySelectorAll("[data-recover-form]").forEach((container) => {
+    const input = container.querySelector("#recover-email");
+    const button = container.querySelector("[data-recover-submit]");
+    const note = container.querySelector("[data-recover-note]");
+    if (!input || !note || !button) return;
+
+    const performSubmit = async () => {
+      const email = input.value.trim();
+      if (!email) return;
+      if (!email.includes("@")) {
+        note.style.color = "#dc2626";
+        note.textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Sending...";
+      note.textContent = "";
+
+      const apiUrl = "https://virtue-licensing-service.virtuecreativesystems.workers.dev/api/license/request";
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          note.style.color = "var(--ink)";
+          note.textContent = data.message || "Recovery email sent successfully.";
+          input.value = "";
+        } else {
+          note.style.color = "#dc2626";
+          note.textContent = data.error || data.message || "Failed to request recovery. Please try again.";
+        }
+      } catch (err) {
+        note.style.color = "#dc2626";
+        note.textContent = "Network error. Please try again later.";
+      } finally {
+        button.disabled = false;
+        button.textContent = "Send Recovery Email";
+      }
+    };
+
+    button.addEventListener("click", performSubmit);
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        performSubmit();
+      }
     });
   });
 }
@@ -590,6 +645,7 @@ setupCommerceLinks();
 setupDownloadInfo();
 setupThemeToggle();
 setupNewsletterForms();
+setupRecoverForms();
 setupReveals();
 window.VirtueI18n?.apply();
 loadSiteConfig();

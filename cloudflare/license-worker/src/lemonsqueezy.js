@@ -137,3 +137,17 @@ export function extractWebhookEvent(payload) {
     email: data?.attributes?.user_email || data?.attributes?.customer_email || null,
   };
 }
+
+export async function getLemonSqueezyLicenseKey(env, licenseId) {
+  const apiKey = env.LEMONSQUEEZY_API_KEY;
+  if (!apiKey || !licenseId) return null;
+  const response = await fetch(`${LEMON_SQUEEZY_API_BASE}/license-keys/${licenseId}`, {
+    headers: {
+      Accept: "application/vnd.api+json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+  });
+  if (!response.ok) return null;
+  const payload = await response.json();
+  return payload?.data;
+}

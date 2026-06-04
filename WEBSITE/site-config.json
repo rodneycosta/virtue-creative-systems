@@ -1,25 +1,18 @@
 {
-  "releaseStatus": "store-setup",
+  "releaseStatus": "available",
   "commerce": {
     "provider": "lemonsqueezy",
-    "mode": "setup",
-    "checkoutUrl": "",
+    "mode": "live",
+    "checkoutUrl": "https://virtuecreativesystems.lemonsqueezy.com/checkout/buy/4e73c2f6-ec90-495e-939e-c15de6599089",
     "checkoutApiUrl": "",
     "supportEmail": "hello@virtuecreativesystems.com",
     "variants": [
       {
-        "key": "personal",
-        "name": "Personal License",
-        "price": "Price pending",
-        "seats": "2 activations planned",
-        "checkoutUrl": ""
-      },
-      {
-        "key": "studio",
-        "name": "Studio License",
-        "price": "Price pending",
-        "seats": "Activation count configurable",
-        "checkoutUrl": ""
+        "key": "commercial",
+        "name": "Commercial License",
+        "price": "$29",
+        "seats": "2 activations included",
+        "checkoutUrl": "https://virtuecreativesystems.lemonsqueezy.com/checkout/buy/4e73c2f6-ec90-495e-939e-c15de6599089"
       },
       {
         "key": "nfr",
@@ -31,13 +24,13 @@
     ]
   },
   "download": {
-    "status": "pending",
-    "url": "",
-    "version": "Pending",
+    "status": "available",
+    "url": "https://www.virtuecreativesystems.com/downloads/vfxm-mac.pkg",
+    "version": "1.0.0",
     "channel": "stable",
-    "platform": "Pending tested artifact",
-    "fileName": "Published with release",
-    "releaseDate": "Published with release",
-    "sha256": "Published with release"
+    "platform": "macOS & Windows",
+    "fileName": "vfxm-mac.pkg",
+    "releaseDate": "2026-06-03",
+    "sha256": "96e674bc4dc0e800b426491252e856f7d3ed504bd9cd62772f2edced2886f814"
   }
 }

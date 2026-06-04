@@ -38,7 +38,7 @@ test("entitlement token signs and verifies with ES256", async () => {
     activation_instance_id: "act_1",
     machine_hash: "machine-hash",
     license_status: "active",
-    tier: "personal",
+    tier: "commercial",
     issued_at: new Date().toISOString(),
     online_check_required_after: new Date(Date.now() + 1000).toISOString(),
     grace_until: new Date(Date.now() + 1000).toISOString(),

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/generate-site-config.mjs && node scripts/validate-site.mjs",
+    "build": "node --env-file=.env scripts/generate-site-config.mjs && node scripts/validate-site.mjs",
     "generate:secrets": "node scripts/generate-release-secrets.mjs",
     "test:worker": "cd cloudflare/license-worker && npm test",
     "check": "npm run build && npm run test:worker"

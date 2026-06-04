@@ -44,12 +44,9 @@
         <article class="product-strip reveal">
           <figure class="product-strip-media">
             <img
-              src="virtue-fx-manager-fictional-ui.png"
-              alt="Fictional Virtue FX Manager interface showing plugin thumbnails, browser list, ratings, and filter panels"
+              src="VFxM_Main.png"
+              alt="Virtue FX Manager visual interface showing plugin browser grid and favorites tabs"
             />
-            <figcaption class="media-caption">
-              Fictional VFxM marketing image. Names and artwork are invented for demonstration; no third-party plugin screenshots, logos, or branding are included.
-            </figcaption>
           </figure>
           <div class="product-strip-copy">
             <span class="status-pill" data-release-label>Early access coming soon</span>
@@ -60,30 +57,135 @@
               faster from inside REAPER. Built for producers, mixers, composers, and sound designers
               who need speed without losing control of their library.
             </p>
-            <div class="product-actions" aria-label="Virtue FX Manager actions">
-              <a href="store/virtue-fx-manager/">Store</a>
-              <a href="docs/license/">Licensing</a>
-              <a href="products/virtue-fx-manager/">Learn more</a>
+            <div class="button-row" style="margin-top: 1.5rem;">
+              <a class="button button-primary" href="store/virtue-fx-manager/">Buy / Try</a>
+              <a class="button button-secondary" href="download/vfxm/">Download</a>
+              <a class="button button-secondary" href="docs/">Documentation</a>
             </div>
           </div>
         </article>
       </section>
 
-      <section class="section-shell feature-lineup">
-        <article class="feature-card reveal">
-          <span class="card-kicker">Browse</span>
-          <h3>Find plugins faster</h3>
-          <p>Search visually with thumbnails, developer filters, categories, listed/unlisted views, and clean plugin names.</p>
+      <!-- Detailed Features Showcase -->
+      <section class="section-shell" aria-label="Virtue FX Manager features">
+        <div style="text-align: center; margin-bottom: 4rem; margin-top: 3rem;" class="reveal">
+          <p class="eyebrow">Everything you need</p>
+          <h2 style="font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -0.05em; font-weight: 800; line-height: 1.1; color: var(--ink);">
+            Built for creative speed.
+          </h2>
+          <p style="color: var(--muted); font-size: 1.1rem; max-width: 38rem; margin: 1rem auto 0 auto; line-height: 1.6;">
+            Every feature is designed to remove menu hunting and clutter, keeping your focus on the mix.
+          </p>
+        </div>
+
+        <!-- Feature 1: Visual Recognition -->
+        <article class="product-strip reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
+          <figure class="product-strip-media">
+            <img
+              src="VFxM_BigThumbnails.png"
+              alt="Virtue FX Manager showing large plugin thumbnails in a clean layout grid"
+            />
+          </figure>
+          <div class="product-strip-copy">
+            <span class="status-pill" style="background: rgba(2, 132, 199, 0.08); color: var(--accent);">Visual Browser</span>
+            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
+              Browse by Thumbnail, Not Lists
+            </h3>
+            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
+              Reclaim your visual memory. Identify instruments and processors by their actual graphical interfaces.
+            </p>
+            <p>
+              Trade plain alphabetical text menu hunting for a rich, visual plugin dashboard. Open plugins in REAPER, capture their custom interfaces in one click with the built-in crop camera tool, and scroll through thumbnails that your brain recognizes instantly.
+            </p>
+          </div>
         </article>
-        <article class="feature-card reveal delay-1">
-          <span class="card-kicker">Organize</span>
-          <h3>Control plugin clutter</h3>
-          <p>Make sense of duplicate VST, VST3, AU, CLAP, JSFX, and REAPER cache variants.</p>
+
+        <!-- Feature 2: Drag and Drop Insertion -->
+        <article class="product-strip product-strip-reverse reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
+          <figure class="product-strip-media">
+            <img
+              src="VFxM_Speed_workflow_discover_hidden_plugins.png"
+              alt="Fast track and plugin insertion inside Cockos REAPER"
+            />
+          </figure>
+          <div class="product-strip-copy">
+            <span class="status-pill" style="background: rgba(2, 132, 199, 0.08); color: var(--accent);">Instant Load</span>
+            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
+              Accelerated Track Insertion
+            </h3>
+            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
+              Stay in the zone. Load effects or instruments without breaking your creative flow.
+            </p>
+            <p>
+              Double-click to instantly load any plugin onto your active track, or drag a card directly into REAPER's arranger to auto-create track pathways. Select multiple plugins to insert entire signal chains sequentially in a single action.
+            </p>
+          </div>
         </article>
-        <article class="feature-card reveal delay-2">
-          <span class="card-kicker">Load</span>
-          <h3>Stay in the session</h3>
-          <p>Insert effects and instruments into tracks, batch-add favorites, and keep your creative flow moving.</p>
+
+        <!-- Feature 3: Advanced Filtering -->
+        <article class="product-strip reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
+          <figure class="product-strip-media">
+            <img
+              src="VFxM_Developer_Type_Cathegorie.png"
+              alt="Filtering options including developer, format, and categories chips"
+            />
+          </figure>
+          <div class="product-strip-copy">
+            <span class="status-pill" style="background: rgba(2, 132, 199, 0.08); color: var(--accent);">Millisecond search</span>
+            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
+              Advanced Filter Engine
+            </h3>
+            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
+              Slice through large libraries. Filter by developer, format, or category in one tap.
+            </p>
+            <p>
+              Manage thousands of effects without breaking a sweat. Quickly focus your library using multi-column chips to filter by brand developer, plugin format (VST, VST3, AU, CLAP, JSFX), or functional categories like EQs, Compressors, and Reverbs.
+            </p>
+          </div>
+        </article>
+
+        <!-- Feature 4: Favorites and Workflow Boards -->
+        <article class="product-strip product-strip-reverse reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
+          <figure class="product-strip-media">
+            <img
+              src="VFxM_Favorites_Presets_FXChains.png"
+              alt="Favorites tab organization and custom plugin lists"
+            />
+          </figure>
+          <div class="product-strip-copy">
+            <span class="status-pill" style="background: rgba(2, 132, 199, 0.08); color: var(--accent);">Personalized Boards</span>
+            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
+              Custom Favorites & Lists
+            </h3>
+            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
+              Design custom layout boards for vocals, drums, mixing, or sound design.
+            </p>
+            <p>
+              Group your go-to mixing chains and instruments into custom tabs. Double-click tabs to rename them, drag horizontally to organize them, write persistent routing notes, and pin REAPER FX Chains for instant recall.
+            </p>
+          </div>
+        </article>
+
+        <!-- Feature 5: Listed vs Unlisted Firewall -->
+        <article class="product-strip reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
+          <figure class="product-strip-media">
+            <img
+              src="VFxM_List_Rating.jpg"
+              alt="Plugin list view displaying status circles and rating attributes"
+            />
+          </figure>
+          <div class="product-strip-copy">
+            <span class="status-pill" style="background: rgba(2, 132, 199, 0.08); color: var(--accent);">Workspace Control</span>
+            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
+              Clutter Management Firewall
+            </h3>
+            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
+              Non-destructively manage listed vs unlisted plugin visibility.
+            </p>
+            <p>
+              Hide trial formats, secondary wrappers, or utility plugins you don't need to see while mixing. Toggle status circles to list or unlist items instantly, keeping your main search workspace pristine and focused.
+            </p>
+          </div>
         </article>
       </section>
 
