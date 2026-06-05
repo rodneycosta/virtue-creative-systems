@@ -6,12 +6,12 @@ workers_dev = true
 [[d1_databases]]
 binding = "DB"
 database_name = "vfxm-licenses"
-database_id = "replace-with-cloudflare-d1-database-id"
+database_id = "5c3f4e69-56b8-46b2-a71d-bc90c94c64f7"
 migrations_dir = "migrations"
 
-[[r2_buckets]]
-binding = "RELEASES"
-bucket_name = "replace-with-vfxm-release-bucket"
+# [[r2_buckets]]
+# binding = "RELEASES"
+# bucket_name = "vfxm-releases"
 
 [vars]
 STORE_PROVIDER = "lemonsqueezy"

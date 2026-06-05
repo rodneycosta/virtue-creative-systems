@@ -880,7 +880,7 @@ export async function handleRequest(request, env) {
     if (request.method === "POST" && path === "/v1/license/activate") return handleActivate(request, env);
     if (request.method === "POST" && path === "/v1/license/validate") return handleValidate(request, env);
     if (request.method === "POST" && path === "/v1/license/deactivate") return handleDeactivate(request, env);
-    if (request.method === "POST" && path === "/v1/license/recover") return handleRecoverLicense(request, env);
+    if (request.method === "POST" && (path === "/v1/license/recover" || path === "/v1/license/request" || path === "/api/license/request")) return handleRecoverLicense(request, env);
     if (request.method === "GET" && path === "/v1/license/status") return handleStatus(request, env);
     if (request.method === "GET" && path === "/v1/releases/latest") return handleLatestRelease(request, env);
     if (request.method === "POST" && path === "/v1/download/request") return handleDownloadRequest(request, env);

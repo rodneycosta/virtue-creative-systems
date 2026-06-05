@@ -1,2 +1,8 @@
 .DS_Store
 WEBSITE/preview-*.png
+.env
+.wrangler/
+VFxM_Library/
+scratch/
+checkout_bug_report.md
+wrangler.toml

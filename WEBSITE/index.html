@@ -14,7 +14,7 @@
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://virtuecreativesystems.com/" />
-    <meta name="theme-color" content="#eaf3f0" />
+    <meta name="theme-color" content="#e0f2fe" />
     <title>Virtue Creative Systems | Creative Workflow Software</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,7 +43,7 @@
       <section class="section-shell product-list" aria-label="Virtue products">
         <article class="product-strip reveal">
           <figure class="product-strip-media">
-            <img
+            <img fetchpriority="high" decoding="sync"
               src="VFxM_Main.png"
               alt="Virtue FX Manager visual interface showing plugin browser grid and favorites tabs"
             />
@@ -60,7 +60,7 @@
             <div class="button-row" style="margin-top: 1.5rem;">
               <a class="button button-primary" href="store/virtue-fx-manager/">Buy / Try</a>
               <a class="button button-secondary" href="download/vfxm/">Download</a>
-              <a class="button button-secondary" href="docs/">Documentation</a>
+              <a class="button button-secondary" href="docs/">Help</a>
             </div>
           </div>
         </article>
@@ -81,7 +81,7 @@
         <!-- Feature 1: Visual Recognition -->
         <article class="product-strip reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
           <figure class="product-strip-media">
-            <img
+            <img loading="lazy"
               src="VFxM_BigThumbnails.png"
               alt="Virtue FX Manager showing large plugin thumbnails in a clean layout grid"
             />
@@ -103,7 +103,7 @@
         <!-- Feature 2: Drag and Drop Insertion -->
         <article class="product-strip product-strip-reverse reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
           <figure class="product-strip-media">
-            <img
+            <img loading="lazy"
               src="VFxM_Speed_workflow_discover_hidden_plugins.png"
               alt="Fast track and plugin insertion inside Cockos REAPER"
             />
@@ -125,7 +125,7 @@
         <!-- Feature 3: Advanced Filtering -->
         <article class="product-strip reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
           <figure class="product-strip-media">
-            <img
+            <img loading="lazy"
               src="VFxM_Developer_Type_Cathegorie.png"
               alt="Filtering options including developer, format, and categories chips"
             />
@@ -147,7 +147,7 @@
         <!-- Feature 4: Favorites and Workflow Boards -->
         <article class="product-strip product-strip-reverse reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
           <figure class="product-strip-media">
-            <img
+            <img loading="lazy"
               src="VFxM_Favorites_Presets_FXChains.png"
               alt="Favorites tab organization and custom plugin lists"
             />
@@ -169,7 +169,7 @@
         <!-- Feature 5: Listed vs Unlisted Firewall -->
         <article class="product-strip reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
           <figure class="product-strip-media">
-            <img
+            <img loading="lazy"
               src="VFxM_List_Rating.jpg"
               alt="Plugin list view displaying status circles and rating attributes"
             />
@@ -184,6 +184,29 @@
             </p>
             <p>
               Hide trial formats, secondary wrappers, or utility plugins you don't need to see while mixing. Toggle status circles to list or unlist items instantly, keeping your main search workspace pristine and focused.
+            </p>
+          </div>
+        </article>
+
+        <!-- Feature 6: Auto Thumbnail Scanner -->
+        <article class="product-strip product-strip-reverse reveal" style="border-top: 1px solid var(--line); padding-top: 4rem; margin-bottom: 4rem;">
+          <figure class="product-strip-media">
+            <img loading="lazy"
+              src="virtue-fx-manager-screenshot.png"
+              alt="Virtue FX Manager batch thumbnail scan utility in progress"
+            />
+          </figure>
+          <div class="product-strip-copy">
+            <span class="status-pill" style="background: rgba(2, 132, 199, 0.08); color: var(--accent);">Automation</span>
+            <span class="status-pill" style="background: rgba(245, 158, 11, 0.08); color: #d97706; margin-left: 0.5rem;">Requires user interaction</span>
+            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
+              Auto Thumbnail Scanner
+            </h3>
+            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
+              Automatically build your visual library in minutes.
+            </p>
+            <p>
+              Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.
             </p>
           </div>
         </article>

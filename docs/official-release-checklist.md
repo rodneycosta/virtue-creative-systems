@@ -23,9 +23,9 @@
 - [ ] Create Personal, Studio, Creator/NFR, and optional Trial variants
 - [x] Worker route scaffold exists for server-side checkout creation: `/v1/checkout/create`
 - [ ] Configure hosted checkout URLs or server-side checkout creation secrets
-- [ ] Configure success URL: `/checkout/success/`
-- [ ] Configure cancel URL: `/checkout/cancel/`
-- [ ] Configure webhook URL: `/webhooks/lemonsqueezy`
+- [ ] Configure success URL (must be absolute): `https://virtuecreativesystems.com/checkout/success/`
+- [ ] Configure cancel URL (must be absolute): `https://virtuecreativesystems.com/checkout/cancel/`
+- [ ] Configure webhook URL (must be absolute): `https://YOUR-WORKER-DOMAIN/webhooks/lemonsqueezy`
 - [ ] Add webhook secret to Worker secrets
 
 ## Cloudflare

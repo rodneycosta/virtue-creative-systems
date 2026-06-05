@@ -307,7 +307,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "Recibe el aviso del primer build.",
     "Mailing list": "Lista de correo",
     "Subscribe": "Suscribirse",
-    "e-mail address": "correo electrónico"
+    "e-mail address": "correo electrónico",
+    "Automation": "Automatización",
+    "Requires user interaction": "Requiere interacción del usuario",
+    "Auto Thumbnail Scanner": "Escáner automático de miniaturas",
+    "Automatically build your visual library in minutes.": "Construye tu biblioteca visual automáticamente en minutos.",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "Olvídate de las capturas de pantalla manuales. El escáner integrado se ejecuta automáticamente en segundo plano para cargar tus plugins en una pista temporal, capturar sus interfaces gráficas personalizadas y crear una hermosa cuadrícula visual para ti. Ignora automáticamente los plugins no listados u ocultos, omite las rutas de unidades externas desconectadas y añade a la lista de bloqueo los plugins inestables para evitar bloqueos del DAW.",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "Utilidad de escaneo por lotes de miniaturas de Virtue FX Manager en progreso"
   },
   "pt": {
     "404": "404",
@@ -660,7 +666,13 @@ const VirtueI18n = (() => {
     "Unused plugins": "Plugins sem uso",
     "Slow setup": "Preparação lenta",
     "Store Status": "Status da loja",
-    "Join the list for launch news, first-build availability, and paid release updates.": "Entre na lista para receber notícias do lançamento, disponibilidade do primeiro build e atualizações da versão paga."
+    "Join the list for launch news, first-build availability, and paid release updates.": "Entre na lista para receber notícias do lançamento, disponibilidade do primeiro build e atualizações da versão paga.",
+    "Automation": "Automação",
+    "Requires user interaction": "Requer interação do usuário",
+    "Auto Thumbnail Scanner": "Scanner automático de miniaturas",
+    "Automatically build your visual library in minutes.": "Construa sua biblioteca visual automaticamente em minutos.",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "Esqueça as capturas de tela manuais. O scanner integrado roda automaticamente em segundo plano para carregar seus plugins em uma faixa temporária, capturar suas interfaces gráficas personalizadas e criar uma bela grade visual para você. Ele ignora automaticamente plugins não listados ou ocultos, pula caminhos de unidades externas desconectadas e adiciona plugins instáveis à lista de bloqueio para evitar travamentos do DAW.",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "Utilitário de digitalização em lote de miniaturas do Virtue FX Manager em andamento"
   },
   "fr": {
     "404": "404",
@@ -956,7 +968,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "Recevez l’annonce du premier build.",
     "Mailing list": "Liste d’e-mails",
     "Subscribe": "S’inscrire",
-    "e-mail address": "adresse e-mail"
+    "e-mail address": "adresse e-mail",
+    "Automation": "Automatisation",
+    "Requires user interaction": "Nécessite l'interaction de l'utilisateur",
+    "Auto Thumbnail Scanner": "Scanner automatique de miniatures",
+    "Automatically build your visual library in minutes.": "Construisez automatiquement votre bibliothèque visuelle en quelques minutes.",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "Oubliez les captures d'écran manuelles. Le scanner intégré s'exécute automatiquement en arrière-plan pour charger vos plug-ins sur une piste temporaire, capturer leurs interfaces graphiques personnalisées et créer une magnifique grille visuelle pour vous. Il ignore automatiquement les plug-ins non répertoriés ou masqués, ignore les chemins de disques externes déconnectés et place sur liste noire les plug-ins instables pour éviter les plantages de la DAW.",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "Utilitaire de numérisation par lots de miniatures Virtue FX Manager en cours"
   },
   "zh": {
     "404": "404",
@@ -1252,7 +1270,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "接收首个版本通知。",
     "Mailing list": "邮件列表",
     "Subscribe": "订阅",
-    "e-mail address": "电子邮箱"
+    "e-mail address": "电子邮箱",
+    "Automation": "自动化",
+    "Requires user interaction": "需要用户交互",
+    "Auto Thumbnail Scanner": "自动缩略图扫描器",
+    "Automatically build your visual library in minutes.": "几分钟内自动构建您的视觉库。",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "无需手动截图。内置的扫描器会自动在后台运行，将您的插件加载到临时轨道上，捕获它们自定义的图形界面，并为您构建美观的视觉网格。它会自动忽略未列出/隐藏的插件，跳过未连接的外接硬盘路径，并将不稳定的插件列入黑名单以防止 DAW 崩溃。",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "Virtue FX Manager 批量缩略图扫描实用程序正在进行中"
   },
   "hi": {
     "404": "404",
@@ -1548,7 +1572,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "पहले बिल्ड की सूचना पाएं।",
     "Mailing list": "मेलिंग सूची",
     "Subscribe": "सब्सक्राइब",
-    "e-mail address": "ईमेल पता"
+    "e-mail address": "ईमेल पता",
+    "Automation": "स्वचालन",
+    "Requires user interaction": "उपयोगकर्ता सहभागिता की आवश्यकता है",
+    "Auto Thumbnail Scanner": "ऑटो थंबनेल स्कैनर",
+    "Automatically build your visual library in minutes.": "कुछ ही मिनटों में अपनी विज़ुअल लाइब्रेरी स्वचालित रूप से बनाएं।",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "मैनुअल स्क्रीनशॉट लेने की कोई आवश्यकता नहीं है। अंतर्निहित स्कैनर स्वचालित रूप से पृष्ठभूमि में चलता है ताकि आपके प्लगइन्स को एक अस्थायी ट्रैक पर लोड किया जा सके, उनके कस्टम ग्राफिकल इंटरफेस को कैप्चर किया जा सके, और आपके लिए एक सुंदर विज़ुअल ग्रिड बनाया जा सके। यह स्वचालित रूप से गैर-सूचीबद्ध/छिपे हुए प्लगइन्स को अनदेखा करता है, डिस्कनेक्ट किए गए बाहरी ड्राइव पथों को छोड़ देता है, और DAW क्रैश को रोकने के लिए अस्थिर प्लगइन्स को ब्लॉकलिस्ट करता है।",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "वर्चू एफ़एक्स मैनेजर बैच थंबनेल स्कैन उपयोगिता प्रगति पर है"
   },
   "ar": {
     "404": "404",
@@ -1844,7 +1874,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "احصل على إعلان أول إصدار.",
     "Mailing list": "القائمة البريدية",
     "Subscribe": "اشترك",
-    "e-mail address": "البريد الإلكتروني"
+    "e-mail address": "البريد الإلكتروني",
+    "Automation": "الأتمتة",
+    "Requires user interaction": "يتطلب تفاعل المستخدم",
+    "Auto Thumbnail Scanner": "ماسح الصور المصغرة التلقائي",
+    "Automatically build your visual library in minutes.": "أنشئ مكتبتك المرئية تلقائيًا في دقائق.",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "تجاوز لقطات الشاشة اليدوية. يعمل الماسح المدمج تلقائيًا في الخلفية لتحميل مكوناتك الإضافية على مسار مؤقت، والتقاط واجهاتها الرسومية المخصصة، وإنشاء شبكة مرئية جميلة لك. يتجاهل تلقائيًا المكونات الإضافية غير المدرجة أو المخفية، ويتخطى مسارات محركات الأقراص الخارجية غير المتصلة، ويضع المكونات الإضافية غير المستقرة في قائمة الحظر لمنع تعطل محطة العمل الصوتية الرقمية (DAW).",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "أداة فحص الصور المصغرة المجمعة لـ Virtue FX Manager قيد التشغيل حاليًا"
   },
   "bn": {
     "404": "404",
@@ -2140,7 +2176,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "প্রথম বিল্ডের খবর পান।",
     "Mailing list": "মেইলিং লিস্ট",
     "Subscribe": "সাবস্ক্রাইব",
-    "e-mail address": "ই-মেইল ঠিকানা"
+    "e-mail address": "ই-মেইল ঠিকানা",
+    "Automation": "স্বয়ংক্রিয়তা",
+    "Requires user interaction": "ব্যবহারকারীর মিথস্ক্রিয়া প্রয়োজন",
+    "Auto Thumbnail Scanner": "অটো থাম্বনেইল স্ক্যানার",
+    "Automatically build your visual library in minutes.": "কয়েক মিনিটের মধ্যে স্বয়ংক্রিয়ভাবে আপনার ভিজ্যুয়াল লাইব্রেরি তৈরি করুন।",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "ম্যানুয়াল स्क्रीनशॉट নেওয়া বাদ দিন। অন্তর্নির্মিত স্ক্যানারটি স্বয়ংক্রিয়ভাবে ব্যাকগ্রাউন্ডে চলে আপনার প্লাগইনগুলিকে একটি অস্থায়ী ট্র্যাকে লোড করতে, তাদের কাস্টম গ্রাফিক্যাল ইন্টারফেস ক্যাপচার করতে এবং আপনার জন্য একটি সুন্দর ভিজ্যুয়াল গ্রিড তৈরি করতে। এটি স্বয়ংক্রিয়ভাবে তালিকাভুক্ত নয়/লুকানো প্লাগইনগুলিকে উপেক্ষা করে, সংযোগ বিচ্ছিন্ন বাহ্যিক ড্রাইভ পাথগুলি এড়িয়ে যায় এবং DAW ক্র্যাশ প্রতিরোধ করতে অস্থির প্লাগইনগুলিকে ব্লক তালিকাভুক্ত করে।",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "ভার্চু এফএক্স ম্যানেজার ব্যাচ থাম্বনেইল স্ক্যান ইউটিلیটি প্রগতিতে রয়েছে"
   },
   "ru": {
     "404": "404",
@@ -2436,7 +2478,13 @@ const VirtueI18n = (() => {
     "Get the first build announcement.": "Получите новость о первом билде.",
     "Mailing list": "Рассылка",
     "Subscribe": "Подписаться",
-    "e-mail address": "адрес e-mail"
+    "e-mail address": "адрес e-mail",
+    "Automation": "Автоматизация",
+    "Requires user interaction": "Требуется участие пользователя",
+    "Auto Thumbnail Scanner": "Автоматический сканер миниатюр",
+    "Automatically build your visual library in minutes.": "Автоматическое создание визуальной библиотеки за считанные минуты.",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "Забудьте о снимках экрана вручную. Встроенный сканер автоматически работает в фоновом режиме: загружает плагины на временную дорожку, фиксирует их пользовательские графические интерфейсы и создает красивую визуальную сетку. Он автоматически игнорирует скрытые и не указанные в списке плагины, пропускает пути к отключенным внешним дискам и вносит в черный список нестабильные плагины для предотвращения сбоев DAW.",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "Выполняется пакетное сканирование миниатюр Virtue FX Manager"
   },
   "ur": {
     "404": "404",
@@ -2758,7 +2806,13 @@ const VirtueI18n = (() => {
       acceptNode(node) {
         const parent = node.parentElement;
         if (!parent || ["SCRIPT", "STYLE", "NOSCRIPT"].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
-        return normalize(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        return normalize(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;,
+    "Automation": "آٹومیشن",
+    "Requires user interaction": "صارف کے تعامل کی ضرورت ہے",
+    "Auto Thumbnail Scanner": "آٹو تھمب نیل اسکینر",
+    "Automatically build your visual library in minutes.": "منٹوں میں اپنی بصری لائبریری خود بخود بنائیں۔",
+    "Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.": "دستی اسکرین شاٹس کو چھوڑیں۔ بلٹ ان اسکینر خود بخود پس منظر میں چلتا ہے تاکہ آپ کے پلگ انز کو ایک عارضی ٹریک پر لوڈ کیا جا سکے، ان کے حسب ضرورت گرافیکل انٹرفیسز کو کیپچر کیا جا سکے، اور آپ کے لیے ایک خوبصورت بصری گرڈ تیار کیا جا سکے۔ یہ خود بخود غیر فہرست شدہ/پوشیدہ پلگ انز کو نظر انداز کرتا ہے، غیر منسلک بیرونی ڈرائیو کے راستوں کو چھوڑ دیتا ہے، اور DAW کے کریش ہونے سے بچنے کے لیے غیر مستحکم پلگ انز کو بلاک لسٹ کرتا ہے۔",
+    "Virtue FX Manager batch thumbnail scan utility in progress": "ورچو ایف ایکس مینیجر بیچ تھمب نیل اسکین یوٹیلیٹی جاری ہے"
       },
     });
 

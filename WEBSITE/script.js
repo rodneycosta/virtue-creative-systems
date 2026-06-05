@@ -66,7 +66,7 @@ const navItems = [
   ["Home", "index.html"],
   ["Buy / Try", "store/virtue-fx-manager/"],
   ["Download", "download/vfxm/"],
-  ["Docs", "docs/"],
+  ["Help", "docs/"],
   ["Support", "support/"],
 ];
 
@@ -183,14 +183,14 @@ function setupAmbientCanvas() {
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    const count = Math.min(120, Math.max(58, Math.round(width / 13)));
+    const count = Math.min(80, Math.max(40, Math.round(width / 20)));
     notes = Array.from({ length: count }, (_, index) => ({
       x: Math.random() * (width + 360) - 180,
       lane: index % 7,
       phase: Math.random() * Math.PI * 2,
       speed: 0.32 + Math.random() * 0.42,
       amplitude: 18 + Math.random() * 38,
-      size: index % 9 === 0 ? 19 : 12 + Math.random() * 5,
+      size: index % 9 === 0 ? 38 : 22 + Math.random() * 8,
       tone: index % 4,
       symbol: ["♪", "♫", "♩", "♬", "♭", "♮"][index % 6],
       rotation: (Math.random() - 0.5) * 0.22,
@@ -218,14 +218,14 @@ function setupAmbientCanvas() {
         if (step === -80) ctx.moveTo(step, y);
         else ctx.lineTo(step, y);
       }
-      ctx.strokeStyle = `rgba(0, 99, 92, ${lane % 2 === 0 ? 0.038 : 0.026})`;
+      ctx.strokeStyle = `rgba(2, 132, 199, ${lane % 2 === 0 ? 0.038 : 0.026})`;
       ctx.lineWidth = 1;
       ctx.stroke();
     }
   }
 
   function drawNote(note) {
-    const colors = ["8, 33, 32", "0, 190, 178", "42, 151, 214", "76, 108, 105"];
+    const colors = ["15, 23, 42", "14, 165, 233", "37, 99, 235", "71, 85, 105"];
     ctx.save();
     ctx.translate(note.x, note.y);
     ctx.rotate(note.rotation + Math.sin(time * 1.8 + note.phase) * 0.12);
@@ -293,7 +293,7 @@ function setupAmbientCanvas() {
             note.x,
             note.y,
           );
-          ctx.strokeStyle = `rgba(0, 190, 178, ${0.11 * (1 - distance / 165)})`;
+          ctx.strokeStyle = `rgba(14, 165, 233, ${0.11 * (1 - distance / 165)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -304,9 +304,9 @@ function setupAmbientCanvas() {
 
     if (pointer.active) {
       const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 230);
-      glow.addColorStop(0, "rgba(0, 190, 178, 0.18)");
-      glow.addColorStop(0.45, "rgba(42, 151, 214, 0.065)");
-      glow.addColorStop(1, "rgba(0, 190, 178, 0)");
+      glow.addColorStop(0, "rgba(14, 165, 233, 0.18)");
+      glow.addColorStop(0.45, "rgba(37, 99, 235, 0.065)");
+      glow.addColorStop(1, "rgba(14, 165, 233, 0)");
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(pointer.x, pointer.y, 230, 0, Math.PI * 2);
@@ -396,7 +396,7 @@ function renderFooter() {
       <div class="footer-col">
         <h3>Support</h3>
         <a href="${sitePath("support/")}">Contact</a>
-        <a href="${sitePath("docs/")}">Documentation</a>
+        <a href="${sitePath("docs/")}">Help</a>
         <a href="${sitePath("docs/#installation-launching")}">Installation Guide</a>
         <a href="${sitePath("download/vfxm/")}">Release status</a>
       </div>
@@ -576,7 +576,7 @@ function setupRecoverForms() {
       button.textContent = "Sending...";
       note.textContent = "";
 
-      const apiUrl = "https://virtue-licensing-service.virtuecreativesystems.workers.dev/api/license/request";
+      const apiUrl = "https://virtue-licensing-service.virtuecreativesystems.workers.dev/v1/license/recover";
 
       try {
         const response = await fetch(apiUrl, {
