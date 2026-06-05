@@ -183,14 +183,14 @@ function setupAmbientCanvas() {
     canvas.style.height = `${height}px`;
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    const count = Math.min(80, Math.max(40, Math.round(width / 20)));
+    const count = Math.min(60, Math.max(30, Math.round(width / 30)));
     notes = Array.from({ length: count }, (_, index) => ({
       x: Math.random() * (width + 360) - 180,
       lane: index % 7,
       phase: Math.random() * Math.PI * 2,
       speed: 0.32 + Math.random() * 0.42,
       amplitude: 18 + Math.random() * 38,
-      size: index % 9 === 0 ? 38 : 22 + Math.random() * 8,
+      size: index % 9 === 0 ? 76 : 44 + Math.random() * 16,
       tone: index % 4,
       symbol: ["♪", "♫", "♩", "♬", "♭", "♮"][index % 6],
       rotation: (Math.random() - 0.5) * 0.22,
@@ -218,14 +218,14 @@ function setupAmbientCanvas() {
         if (step === -80) ctx.moveTo(step, y);
         else ctx.lineTo(step, y);
       }
-      ctx.strokeStyle = `rgba(2, 132, 199, ${lane % 2 === 0 ? 0.038 : 0.026})`;
+      ctx.strokeStyle = `rgba(37, 99, 235, ${lane % 2 === 0 ? 0.038 : 0.026})`;
       ctx.lineWidth = 1;
       ctx.stroke();
     }
   }
 
   function drawNote(note) {
-    const colors = ["15, 23, 42", "14, 165, 233", "37, 99, 235", "71, 85, 105"];
+    const colors = ["15, 23, 42", "59, 130, 246", "37, 99, 235", "71, 85, 105"];
     ctx.save();
     ctx.translate(note.x, note.y);
     ctx.rotate(note.rotation + Math.sin(time * 1.8 + note.phase) * 0.12);
@@ -293,7 +293,7 @@ function setupAmbientCanvas() {
             note.x,
             note.y,
           );
-          ctx.strokeStyle = `rgba(14, 165, 233, ${0.11 * (1 - distance / 165)})`;
+          ctx.strokeStyle = `rgba(59, 130, 246, ${0.11 * (1 - distance / 165)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -304,9 +304,9 @@ function setupAmbientCanvas() {
 
     if (pointer.active) {
       const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 230);
-      glow.addColorStop(0, "rgba(14, 165, 233, 0.18)");
+      glow.addColorStop(0, "rgba(59, 130, 246, 0.18)");
       glow.addColorStop(0.45, "rgba(37, 99, 235, 0.065)");
-      glow.addColorStop(1, "rgba(14, 165, 233, 0)");
+      glow.addColorStop(1, "rgba(59, 130, 246, 0)");
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(pointer.x, pointer.y, 230, 0, Math.PI * 2);
