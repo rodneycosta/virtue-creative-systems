@@ -293,7 +293,7 @@ const docData = {
 
               <div style="padding: 1rem; border-radius: 8px; border: 1px solid rgba(220, 62, 54, 0.2); background-color: rgba(220, 62, 54, 0.04); margin: 1rem 0">
                 <h4 style="margin: 0 0 0.5rem 0; color: #dc3e36">Best Practices & Disclaimer</h4>
-                <p style="margin: 0; font-size: 0.9rem">To ensure the smoothest deployment, we strongly advise following the setup instructions (such as isolating known unstable paths or managing disconnected external drives). Due to the unpredictable nature of hosting third-party software, the automated scanning feature is utilized entirely at the user's own risk and responsibility. VFxM is not liable for data loss or system interruptions resulting from third-party plugin instabilities during the scanning process.</p>
+                <p style="margin: 0; font-size: 0.9rem">To ensure the smoothest deployment, we strongly advise following the setup instructions (such as isolating known unstable paths or managing disconnected external drives). Due to the unpredictable nature of hosting third-party software, the automated scanning feature is utilized entirely at the user's discretion and responsibility. VFxM is not liable for data loss or system interruptions resulting from third-party plugin instabilities during the scanning process.</p>
               </div>
             </div>`
         }
@@ -343,7 +343,7 @@ const docData = {
               <p>Virtue FX Manager 以直观视觉为主导。您可以通过插件的实际界面进行浏览，而非单调的文本列表：</p>
               <ul>
                 <li><strong>网格视图与列表视图：</strong> 使用浏览器顶部的切换按钮，在图形化的卡片布局与详尽的电子表格列表视图之间快速切换。</li>
-                <li><strong>内置相机截图：</strong> 在 REAPER 中打开目标插件界面，在 Virtue 中将鼠标悬停在插件项上，然后点击<strong>相机图标</strong>即可立即捕获、裁剪并存储自定义截图。完全支持剪贴板命令（<kbd>Cmd/Ctrl + C/V</kbd>）以及撤销/重做（<kbd>Cmd/Ctrl + Z / Shift+Z</kbd>）。</li>
+                <li><strong>内置相机截图：</strong> 在 REAPER 中打开目标插件界面，在 Virtue 中将鼠标悬停在插件项上，然后点击<strong>相机图标</strong>即可立即捕获、裁剪并存储自定义截图。完全支持剪贴板命令（<kbd>Cmd/Ctrl + C/V</kbd>) 以及撤销/重做（<kbd>Cmd/Ctrl + Z / Shift+Z</kbd>)。</li>
                 <li><strong>自动缩略图扫描器：</strong> 使用内置的批量扫描实用程序（可通过顶栏 Settings 旁的 <strong>Plugin Manager</strong> 窗口访问），在几分钟内自动构建您的整个视觉库。使用自动完成建议过滤并扫描特定开发商（如 Waves）的插件，并通过选择重新生成模式刷新缩略图以清除黄色试用版水印。它在后台运行，将每个插件依次加载到临时轨道上，捕获其图形界面并保存到您的网格中。</li>
                 <li><strong>DAW 崩溃预防与黑名单：</strong> 为了防止扫描过程中由于不稳定插件导致的崩溃循环，VfxM 会检查外部路径是否在线，忽略未列出/隐藏的插件，并自动将任何导致崩溃的插件加入黑名单，在后续运行中跳过它们。您可以在 <strong>Plugin Manager</strong> 窗口的<strong>稳定性与黑名单</strong>部分管理并取消阻止这些插件。</li>
                 <li><strong>可配置的捕获延迟：</strong> 渲染缓慢或基于 GPU 的插件可能需要额外的时间才能完全渲染。在“设置”面板中调整捕获延迟设置（以帧为单位），以确保获得清晰、无噪点的缩略图。</li>
@@ -590,7 +590,7 @@ const docData = {
                   <li>Abra o VfxM, clique no botão <strong>Plugin Manager</strong> e clique em <strong>Retomar Escaneamento</strong> para continuar de onde parou. O plugin problemático será pulado automaticamente.</li>
                   <li><strong>Como Desbloquear:</strong> Gerencie os plugins bloqueados diretamente na seção <strong>Estabilidade & Lista de Bloqueio</strong> no <strong>Plugin Manager</strong>. Desbloqueie individualmente clicando no botão <strong>X</strong> ou limpe a lista inteira clicando em <strong>Clear Blocklist</strong>.</li>
                 </ol>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;"><em>Nota:</em> Se a sua biblioteca contiver múltiplos plugins instáveis, poderá ser necessário executar o processo de digitalização várias vezes, reiniciando o REAPER após cada travamento, até que todos os plugins problemáticos estejam na lista de bloqueio e toda a biblioteca seja processada. Além disso, pode ser necessário executar a digitalização várias vezes e gerar miniaturas várias vezes, ou capturar manualmente miniaturas específicas, para garantir que todos os plugins sejam capturados com sucesso.</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;"><em>Nota:</em> Se a sua biblioteca contiver múltiplos plugins instáveis, poderá ser necessário executar o processo de digitalização várias vezes, reiniciando o REAPER após cada travamento, até que todos os plugins problemáticos estejam na lista de bloqueio e toda a biblioteca seja processada. Além disso, poderá ser necessário executar a digitalização várias vezes e gerar miniaturas várias vezes, ou capturar manualmente miniaturas específicas, para garantir que todos os plugins sejam capturados com sucesso.</p>
               </div>
               <div style="margin-top: 1rem; padding: 1rem; border-radius: var(--radius); border: 1px solid var(--accent-line); background-color: var(--accent-soft); color: var(--ink);">
                 <strong style="color: var(--accent-strong); display: block; margin-bottom: 0.5rem;">💾 Requisitos de Armazenamento:</strong>
@@ -779,13 +779,13 @@ const docData = {
               <p>Embora o escaneador seja altamente otimizado e inclua recursos de fixação de memória para manter os plug-ins carregados com segurança durante a limpeza, o ecossistema de plug-ins de áudio é vasto. Por causa disso, carregar certos plug-ins instáveis em rápida sucessão pode ocasionalmente fazer com que o REAPER trave. Projetamos o escaneador para ser completamente resiliente, de modo que seu progresso nunca seja perdido:</p>
               <ul>
                 <li><strong>Retomada Automática:</strong> Se o REAPER travar durante um escaneamento, basta reiniciá-lo. O escaneador detectará automaticamente a interrupção e solicitará a retomada do processo exatamente de onde parou.</li>
-                <li><strong>Lista de Bloqueio Inteligente:</strong> Ao reiniciar, o sistema adiciona automaticamente o plug-in específico que causou a instabilidade à lista de bloco. Isso ignora o arquivo problemático para evitar travamentos repetidos e proteger suas sessões futuras. Você pode gerenciar e limpar a lista de bloqueio no painel de Configurações a qualquer momento.</li>
+                <li><strong>Lista de Bloqueio Inteligente:</strong> Ao reiniciar, o sistema adiciona automaticamente o plug-in específico que causou a instabilidade à lista de bloco. Isso ignora o arquivo problemático para evitar travamentos repetidos e proteger suas sessões futuras. Você pode gerenciar e desbloquear esses plugins diretamente na seção de lista de bloqueio no <strong>Plugin Manager</strong>.</li>
                 <li><strong>Painel de Progresso Ativo:</strong> Durante o escaneamento, uma barra de progresso na tela exibe o índice atual da fila, o nome do plug-in ativo, um tempo estimado restante (ETA) e um botão <strong>Cancelar</strong> para abortar o processo com segurança a qualquer momento.</li>
               </ul>
 
               <div style="padding: 1rem; border-radius: 8px; border: 1px solid rgba(220, 62, 54, 0.2); background-color: rgba(220, 62, 54, 0.04); margin: 1rem 0">
                 <h4 style="margin: 0 0 0.5rem 0; color: #dc3e36">Boas Práticas e Isenção de Responsabilidade</h4>
-                <p style="margin: 0; font-size: 0.9rem">Para garantir uma execução tranquila, recomendamos fortemente seguir as instruções de configuração (como isolar caminhos sabidamente instáveis ou gerenciar unidades externas desconectadas). Devido à natureza imprevisível do carregamento de softwares de terceiros, o recurso de escaneamento automatizado é utilizado inteiramente por conta e risco do usuário. O VFxM não se responsabiliza por perda de dados ou interrupções do sistema resultantes de instabilidades de plug-ins de terceiros durante o processo de escaneamento.</p>
+                <p style="margin: 0; font-size: 0.9rem">Para garantir uma execução tranquila, recomendamos fortemente seguir as instruções de configuração (como isolar caminhos sabidamente instáveis ou gerenciar unidades externas desconectadas). Devido à natureza imprevisível do carregamento de softwares de terceiros, o recurso de escaneamento automatizado é utilizado inteiramente a critério e responsabilidade do usuário. O VFxM não se responsabiliza por perda de dados ou interrupções do sistema resultantes de instabilidades de plug-ins de terceiros durante o processo de escaneamento.</p>
               </div>
             </div>`
         }
@@ -1044,7 +1044,7 @@ const docData = {
 
               <div style="padding: 1rem; border-radius: 8px; border: 1px solid rgba(220, 62, 54, 0.2); background-color: rgba(220, 62, 54, 0.04); margin: 1rem 0">
                 <h4 style="margin: 0 0 0.5rem 0; color: #dc3e36">Prácticas Recomendadas y Descargo de Responsabilidad</h4>
-                <p style="margin: 0; font-size: 0.9rem">Para garantizar la implementación más fluida, recomendamos encarecidamente seguir las instrucciones de configuración (como aislar rutas inestables conocidas o administrar unidades externas desconectadas). Debido a la naturaleza impredecible del alojamiento de software de terceros, la función de escaneo automatizado se utiliza bajo el propio riesgo y responsabilidad del usuario. VFxM no es responsable de la pérdida de datos o las interrupciones del sistema resultantes de las inestabilidades de los complementos de terceros durante el proceso de escaneo.</p>
+                <p style="margin: 0; font-size: 0.9rem">Para garantizar la implementación más fluida, recomendamos encarecidamente seguir las instrucciones de configuración (como aislar rutas inestables conocidas o administrar unidades externas desconectadas). Debido a la naturaleza impredecible del alojamiento de software de terceros, la función de escaneo automatizado se realiza bajo la propia discreción y responsabilidad del usuario. VFxM no es responsable de la pérdida de datos o las interrupciones del sistema resultantes de las inestabilidades de los complementos de terceros durante el proceso de escaneo.</p>
               </div>
             </div>`
         }
