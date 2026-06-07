@@ -252,6 +252,50 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. Troubleshooting macOS Permissions",
+          content: `<div>
+              <p>Apple's macOS has strict security policies regarding screen capturing. When Virtue FX Manager tries to capture a thumbnail for the first time, macOS will likely block it and show a prompt asking for permission.</p>
+              
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">How to allow Screen Recording</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Open your Mac's <strong>System Settings</strong> and go to <strong>Privacy & Security</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Click on <strong>Screen & System Audio Recording</strong> (or just <em>Screen Recording</em> on older versions).</li>
+                  <li style="margin-bottom: 0.5rem">Find <strong>REAPER.app</strong> in the list and toggle the switch to <strong>ON</strong>.</li>
+                  <li><strong>CRITICAL:</strong> You must completely <strong>Quit and Restart REAPER</strong> for the permission to take effect. If you do not restart REAPER, the OS will continue to block captures.</li>
+                </ol>
+              </div>
+              <p>Once REAPER has been restarted with the proper permissions, the thumbnail capture shortcut (<code>C</code>) will work instantly without any further prompts.</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Auto Thumbnail Scanner & Stability",
+          content: `<div>
+              <p>The Auto Thumbnail Scanner is designed to save you hours of manual effort by automatically building your visual library. It dynamically instantiates plugins on a temporary track, renders their graphical interface, captures a cropped screenshot, and unloads them.</p>
+              
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Flexible Scan Options</h4>
+              <ul>
+                <li><strong>Full Library Scan:</strong> Initiate a bulk library build from the settings menu (gear icon). You can choose to scan all plugins or target only those with missing thumbnails.</li>
+                <li><strong>Targeted Selection Scan:</strong> Select one or multiple plugins directly in the main browser or favorites lists, right-click, and choose <strong>Autocapture Selected Thumbnails</strong> to build images for only the highlighted items.</li>
+              </ul>
+
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Built-In Crash Resilience</h4>
+              <p>While the scanner is highly optimized and includes memory-pinning features to keep plugins safely loaded during cleanup, the audio plugin ecosystem is vast. Because of this, loading certain unstable plugins in rapid succession can occasionally cause REAPER to crash. We engineered the scanner to be completely resilient so your progress is never lost:</p>
+              <ul>
+                <li><strong>Automatic Resumption:</strong> If REAPER crashes during a scan, simply relaunch it. The scanner will automatically detect the interruption and prompt to resume from the exact point it stopped.</li>
+                <li><strong>Smart Blocklisting:</strong> Upon restarting, the system automatically blocklists the specific plugin that caused the instability. This bypasses the problematic file to prevent repeated crashes and safeguard your future sessions. You can manage and clear the blocklist in the Settings panel at any time.</li>
+                <li><strong>Active Progress Overlay:</strong> While scanning, an on-screen progress bar displays the current queue index, the active plugin name, an estimated time remaining (ETA), and a <strong>Cancel</strong> button to safely abort the scan at any point.</li>
+              </ul>
+
+              <div style="padding: 1rem; border-radius: 8px; border: 1px solid rgba(220, 62, 54, 0.2); background-color: rgba(220, 62, 54, 0.04); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: #dc3e36">Best Practices & Disclaimer</h4>
+                <p style="margin: 0; font-size: 0.9rem">To ensure the smoothest deployment, we strongly advise following the setup instructions (such as isolating known unstable paths or managing disconnected external drives). Due to the unpredictable nature of hosting third-party software, the automated scanning feature is utilized entirely at the user's own risk and responsibility. VFxM is not liable for data loss or system interruptions resulting from third-party plugin instabilities during the scanning process.</p>
+              </div>
+            </div>`
         }
       ]
     },
@@ -718,6 +762,32 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Escaneador Automático de Miniaturas e Estabilidade",
+          content: `<div>
+              <p>O Escaneador Automático de Miniaturas foi projetado para economizar horas de esforço manual, construindo automaticamente sua biblioteca visual. Ele instancia dinamicamente os plug-ins em uma faixa temporária, renderiza sua interface gráfica, captura uma captura de tela recortada e os descarrega.</p>
+              
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Opções de Escaneamento Flexíveis</h4>
+              <ul>
+                <li><strong>Escaneamento Completo da Biblioteca:</strong> Inicie uma compilação em lote da biblioteca a partir do menu de configurações (ícone de engrenagem). Você pode optar por escanear todos os plug-ins ou focar apenas naqueles com miniaturas ausentes.</li>
+                <li><strong>Escaneamento de Seleção Direcionado:</strong> Selecione um ou vários plug-ins diretamente no navegador principal ou nas listas de favoritos, clique com o botão direito e escolha <strong>Auto-capturar Miniaturas Selecionadas</strong> para gerar imagens apenas para os itens destacados.</li>
+              </ul>
+
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Resiliência Contra Travamentos Integrada</h4>
+              <p>Embora o escaneador seja altamente otimizado e inclua recursos de fixação de memória para manter os plug-ins carregados com segurança durante a limpeza, o ecossistema de plug-ins de áudio é vasto. Por causa disso, carregar certos plug-ins instáveis em rápida sucessão pode ocasionalmente fazer com que o REAPER trave. Projetamos o escaneador para ser completamente resiliente, de modo que seu progresso nunca seja perdido:</p>
+              <ul>
+                <li><strong>Retomada Automática:</strong> Se o REAPER travar durante um escaneamento, basta reiniciá-lo. O escaneador detectará automaticamente a interrupção e solicitará a retomada do processo exatamente de onde parou.</li>
+                <li><strong>Lista de Bloqueio Inteligente:</strong> Ao reiniciar, o sistema adiciona automaticamente o plug-in específico que causou a instabilidade à lista de bloco. Isso ignora o arquivo problemático para evitar travamentos repetidos e proteger suas sessões futuras. Você pode gerenciar e limpar a lista de bloqueio no painel de Configurações a qualquer momento.</li>
+                <li><strong>Painel de Progresso Ativo:</strong> Durante o escaneamento, uma barra de progresso na tela exibe o índice atual da fila, o nome do plug-in ativo, um tempo estimado restante (ETA) e um botão <strong>Cancelar</strong> para abortar o processo com segurança a qualquer momento.</li>
+              </ul>
+
+              <div style="padding: 1rem; border-radius: 8px; border: 1px solid rgba(220, 62, 54, 0.2); background-color: rgba(220, 62, 54, 0.04); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: #dc3e36">Boas Práticas e Isenção de Responsabilidade</h4>
+                <p style="margin: 0; font-size: 0.9rem">Para garantir uma execução tranquila, recomendamos fortemente seguir as instruções de configuração (como isolar caminhos sabidamente instáveis ou gerenciar unidades externas desconectadas). Devido à natureza imprevisível do carregamento de softwares de terceiros, o recurso de escaneamento automatizado é utilizado inteiramente por conta e risco do usuário. O VFxM não se responsabiliza por perda de dados ou interrupções do sistema resultantes de instabilidades de plug-ins de terceiros durante o processo de escaneamento.</p>
+              </div>
+            </div>`
         }
       ]
     },
@@ -949,6 +1019,32 @@ const docData = {
                   <code style="color: var(--accent); font-weight: bold">Cmd / Ctrl + Clic</code>
                   <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Permite seleccionar múltiples plugins discontinuos.</p>
                 </div>
+              </div>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Escáner de Miniaturas Automático y Estabilidad",
+          content: `<div>
+              <p>El Escáner de Miniaturas Automático está diseñado para ahorrarle horas de esfuerzo manual al crear automáticamente su biblioteca visual. Modifica e instancia dinámicamente complementos en una pista temporal, genera su interfaz gráfica, realiza una captura de pantalla recortada y los descarga.</p>
+              
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Opciones de Escaneo Flexibles</h4>
+              <ul>
+                <li><strong>Escaneo Completo de la Biblioteca:</strong> Inicie una compilación masiva de la biblioteca desde el menú de configuración (icono de engranaje). Puede elegir escanear todos los complementos o dirigirse solo a aquellos que no tienen miniaturas.</li>
+                <li><strong>Escaneo de Selección Dirigido:</strong> Seleccione uno o varios complementos directamente en el navegador principal o en las listas de favoritos, haga clic con el botón derecho y elija <strong>Autocapturar Miniaturas Seleccionadas</strong> para generar imágenes solo para los elementos resaltados.</li>
+              </ul>
+
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Resiliencia Ante Caídas Integrada</h4>
+              <p>Aunque el escáner está altamente optimizado e incluye funciones de anclaje de memoria para mantener los complementos cargados de manera segura durante la limpieza, el ecosistema de complementos de audio es vasto. Debido a esto, cargar ciertos complementos inestables en rápida sucesión ocasionalmente puede hacer que REAPER se caiga. Diseñamos el escáner para que sea completamente resistente para que su progreso nunca se pierda:</p>
+              <ul>
+                <li><strong>Reanudación Automática:</strong> Si REAPER se cae durante un escaneo, simplemente reinícielo. El escáner detectará automáticamente la interrupción y le pedirá que reanude desde el punto exacto en que se detuvo.</li>
+                <li><strong>Lista de Bloqueo Inteligente:</strong> Al reiniciar, el sistema bloquea automáticamente el complemento específico que causó la inestabilidad. Esto omite el archivo problemático para evitar caídas repetidas y proteger sus sesiones futuras. Puede administrar y borrar la lista de bloqueo en el panel de Configuración en cualquier momento.</li>
+                <li><strong>Superposición de Progreso Activo:</strong> Durante el escaneo, una barra de progreso en pantalla muestra el índice de la cola actual, el nombre del complemento activo, un tiempo estimado restante (ETA) y un botón de <strong>Cancelar</strong> para abortar el escaneo de forma segura en cualquier momento.</li>
+              </ul>
+
+              <div style="padding: 1rem; border-radius: 8px; border: 1px solid rgba(220, 62, 54, 0.2); background-color: rgba(220, 62, 54, 0.04); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: #dc3e36">Prácticas Recomendadas y Descargo de Responsabilidad</h4>
+                <p style="margin: 0; font-size: 0.9rem">Para garantizar la implementación más fluida, recomendamos encarecidamente seguir las instrucciones de configuración (como aislar rutas inestables conocidas o administrar unidades externas desconectadas). Debido a la naturaleza impredecible del alojamiento de software de terceros, la función de escaneo automatizado se utiliza bajo el propio riesgo y responsabilidad del usuario. VFxM no es responsable de la pérdida de datos o las interrupciones del sistema resultantes de las inestabilidades de los complementos de terceros durante el proceso de escaneo.</p>
               </div>
             </div>`
         }
