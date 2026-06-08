@@ -157,6 +157,20 @@
                 Grid View with Big Thumbnails enabled
               </figcaption>
             </figure>
+            <div style="margin-top: 2rem; padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--accent-line); background-color: var(--accent-soft); color: var(--ink);">
+              <h4 style="margin: 0 0 1rem 0; color: var(--accent-strong); font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Important: First-Time Thumbnail Scanning
+              </h4>
+              <p style="margin-bottom: 1rem;">When performing an automated batch scan to generate thumbnails, the scanner must sequentially load each plugin. Please be aware of the following:</p>
+              <ul style="margin-bottom: 1rem; padding-left: 1.5rem;">
+                <li><strong>Server Connections:</strong> Some plugins (like those requiring license verification or iLok) might prompt for a server connection or display a pop-up dialog. The scan will pause until you manually click <strong>"OK"</strong> or <strong>"Allow"</strong> on these prompts.</li>
+                <li><strong>Volume Warning:</strong> Because the plugins are fully loaded into the session, some virtual instruments might emit a default sound or sine wave upon initialization. <strong>Please turn down your speakers or headphones during the scan</strong> to protect your ears and equipment.</li>
+              </ul>
+              <figure style="margin-top: 1rem; margin-bottom: 0;">
+                <img loading="lazy" src="../server_connection_alert.png" alt="Plugin asking for server connection during scan" style="border: 1px solid var(--line); border-radius: 6px;" />
+              </figure>
+            </div>
           `;
         }
         if (sectionId === "track-insertion") {
