@@ -304,12 +304,14 @@ const Store = () => {
                 </li>
               </ul>
 
-              <div style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--line)' }}>
-                <h3 style={{ fontSize: '14px', fontWeight: '800', color: 'var(--t)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>System Requirements</h3>
-                <ul style={{ paddingLeft: '1.25rem', display: 'grid', gap: '8px', fontSize: '13px', color: 'var(--t-2)', lineHeight: '1.5', margin: 0 }}>
-                  <li>Recommended and tested on macOS Tahoe and Windows 11. It might work on earlier systems, but I recommend testing it before buying with the 10-day trial version.</li>
-                </ul>
-              </div>
+              <ul className="check-list" style={{ listStyle: 'none', padding: 0, display: 'grid', gap: '16px', marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--line)' }}>
+                <li style={{ display: 'flex', alignItems: 'start', gap: '12px' }}>
+                  <span style={{ color: 'var(--o)', fontWeight: 'bold', marginTop: '2px' }}>✓</span>
+                  <div style={{ color: 'var(--t-2)', fontSize: '15px', lineHeight: '1.6' }}>
+                    Recommended and tested on macOS Tahoe and Windows 11. It might work on earlier systems, but I recommend testing it before buying with the 10-day trial version.
+                  </div>
+                </li>
+              </ul>
             </div>
 
             {/* Pricing Sidebar Column */}
