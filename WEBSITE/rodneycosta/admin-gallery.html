@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Manager • Rodney Costa Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { background: #050508; color: #fff; font-family: 'Montserrat', sans-serif; }
+        .admin-container { max-width: 1200px; margin: 120px auto 60px; padding: 0 24px; }
+        .admin-card { background: #0c0c14; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        @media(max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 0.8rem; font-weight: 700; color: var(--accent-primary); letter-spacing: 1px; text-transform: uppercase; }
+        .form-group input, .form-group select, .form-group textarea {
+            background: #12121c; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 16px; color: #fff; font-family: inherit; font-size: 0.95rem;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent-primary); outline: none; }
+        .btn-admin { background: var(--accent-primary); color: #fff; border: none; padding: 14px 28px; border-radius: 8px; font-weight: 800; font-size: 0.9rem; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; transition: all 0.3s ease; }
+        .btn-admin:hover { background: #c0392b; transform: translateY(-2px); }
+        .table-wrapper { overflow-x: auto; margin-top: 24px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.9rem; }
+        th { color: var(--accent-primary); font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: 0.78rem; }
+        tr:hover { background: rgba(255,255,255,0.02); }
+        .thumb-preview { width: 70px; height: 45px; object-fit: cover; border-radius: 6px; }
+        .action-btn { background: transparent; border: none; color: rgba(255,255,255,0.7); cursor: pointer; padding: 6px 12px; border-radius: 6px; font-size: 0.85rem; transition: all 0.2s ease; }
+        .action-btn.edit:hover { color: #3498db; background: rgba(52,152,219,0.15); }
+        .action-btn.delete:hover { color: #e74c3c; background: rgba(231,76,60,0.15); }
+        /* Lock Modal */
+        #lock-modal { position: fixed; inset: 0; background: #050508; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .lock-box { background: #0e0e17; border: 1px solid rgba(255,255,255,0.12); padding: 40px; border-radius: 16px; text-align: center; max-width: 400px; width: 90%; }
+    </style>
+</head>
+<body>
+
+    <!-- AUTHENTICATION LOCK OVERLAY -->
+    <div id="lock-modal">
+        <div class="lock-box">
+            <i class="fas fa-lock" style="font-size: 2.5rem; color: var(--accent-primary); margin-bottom: 1rem;"></i>
+            <h2 style="font-size: 1.6rem; font-weight: 900; margin-bottom: 0.5rem;">STUDIO GALLERY MANAGER</h2>
+            <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 1.5rem;">Enter Admin Access Code to Manage Student Work</p>
+            <input type="password" id="pass-input" placeholder="Enter Access Password" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: #141420; color: #fff; margin-bottom: 1rem; text-align: center; font-size: 1.1rem;" autofocus>
+            <button class="btn-admin" id="login-btn" style="width: 100%;">UNLOCK DASHBOARD</button>
+            <p id="auth-err" style="color: #e74c3c; font-size: 0.8rem; margin-top: 1rem; display: none;">Invalid Password. Default: rodney2026</p>
+        </div>
+    </div>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <div class="admin-container" id="admin-content" style="display: none;">
+        
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 24px;">
+            <div>
+                <h1 style="font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; margin: 0;">GALLERY MANAGER</h1>
+                <p style="color: var(--accent-primary); font-weight: 800; font-size: 0.85rem; letter-spacing: 1.5px; margin-top: 4px;">STUDENT WORK DATABASE CONTROL PANEL</p>
+            </div>
+            <div>
+                <a href="students.html" class="btn-admin" style="background: rgba(255,255,255,0.1); text-decoration: none; display: inline-block;"><i class="fas fa-eye" style="margin-right: 8px;"></i> VIEW LIVE GALLERY</a>
+            </div>
+        </header>
+
+        <!-- ADD / EDIT ITEM FORM -->
+        <div class="admin-card">
+            <h3 style="font-size: 1.2rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-plus-circle" style="color: var(--accent-primary);"></i> <span id="form-title">ADD NEW STUDENT WORK</span>
+            </h3>
+            
+            <form id="gallery-form">
+                <input type="hidden" id="edit-id" value="">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Student Name</label>
+                        <input type="text" id="student-name" placeholder="e.g. Alison R Gaddy" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Project / Film Title</label>
+                        <input type="text" id="project-title" placeholder="e.g. Honey Creek Bridge Collapse" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Task / Assignment Description</label>
+                        <input type="text" id="assignment-task" placeholder="e.g. Rigid Body Shatter & Dynamics Simulation" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Course Class (Select or Type Any Custom Class)</label>
+                        <input type="text" id="course-class" list="class-list" placeholder="e.g. DPA 8070, VFX 101, or type custom class" required>
+                        <datalist id="class-list">
+                            <option value="DPA 8070 (Advanced VFX & Production)">
+                            <option value="DPA 6820 (Animation & Rigging)">
+                            <option value="DPA 8810 (Realtime UE5 & AR)">
+                            <option value="DPA 8000 (Technical Direction)">
+                            <option value="DPA 6000 (Cinematics)">
+                            <option value="DPA 6440 (3D Sculpting & Modeling)">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>Institution / University Taught</label>
+                        <input type="text" id="institution" list="institution-list" placeholder="e.g. Clemson University, SCAD, etc." value="Clemson University" required>
+                        <datalist id="institution-list">
+                            <option value="Clemson University">
+                            <option value="SCAD">
+                            <option value="Gnomon School of VFX">
+                            <option value="Vancouver Film School">
+                            <option value="Ringling College of Art and Design">
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>Year / Semester Created</label>
+                        <select id="semester-year" required>
+                            <option value="Spring 2026">Spring 2026</option>
+                            <option value="Fall 2025">Fall 2025</option>
+                            <option value="Spring 2025">Spring 2025</option>
+                            <option value="Fall 2024">Fall 2024</option>
+                            <option value="Spring 2024">Spring 2024</option>
+                            <option value="Fall 2023">Fall 2023</option>
+                            <option value="Spring 2023">Spring 2023</option>
+                            <option value="Fall 2022">Fall 2022</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Student Work Media (Image or Video URL / Upload File)</label>
+                        <input type="text" id="media-url" placeholder="Paste Image/Video URL or Upload File from Computer..." required>
+                        <input type="hidden" id="img-url" value="">
+                        <input type="hidden" id="video-url" value="">
+                        
+                        <div style="margin-top: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                            <label for="media-file-input" class="btn-admin" style="padding: 8px 18px; font-size: 0.8rem; background: var(--accent-primary); cursor: pointer;"><i class="fas fa-cloud-upload-alt" style="margin-right: 6px;"></i> UPLOAD MEDIA FROM COMPUTER</label>
+                            <input type="file" id="media-file-input" accept="image/*,video/*" style="display: none;">
+                            <span style="font-size: 0.78rem; color: rgba(255,255,255,0.7);"><i class="fas fa-magic" style="color: var(--accent-primary);"></i> Videos automatically generate a 16:9 thumbnail poster frame!</span>
+                        </div>
+                        <div id="media-preview-container" style="margin-top: 12px; display: none; align-items: center; gap: 12px;">
+                            <span style="font-size: 0.75rem; font-weight: 700; color: var(--accent-primary);">AUTOGENERATED THUMBNAIL:</span>
+                            <img id="auto-thumb-preview" src="" style="width: 120px; height: 68px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px; display: flex; gap: 12px;">
+                    <button type="submit" class="btn-admin" id="save-btn"><i class="fas fa-save" style="margin-right: 8px;"></i> SAVE TO GALLERY</button>
+                    <button type="button" class="btn-admin" id="cancel-btn" style="background: rgba(255,255,255,0.1); display: none;">CANCEL EDIT</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- EXISTING GALLERY ITEMS LIST -->
+        <div class="admin-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="font-size: 1.2rem; font-weight: 800; margin: 0;"><i class="fas fa-photo-video" style="color: var(--accent-primary); margin-right: 10px;"></i> ACTIVE GALLERY ITEMS</h3>
+                <button class="btn-admin" id="export-json-btn" style="background: rgba(255,255,255,0.1); font-size: 0.78rem; padding: 8px 16px;"><i class="fas fa-download" style="margin-right: 6px;"></i> EXPORT DATA</button>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>THUMB</th>
+                            <th>STUDENT</th>
+                            <th>PROJECT TITLE</th>
+                            <th>INSTITUTION</th>
+                            <th>CLASS</th>
+                            <th>SEMESTER / YEAR</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-table-body">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Password Protection
+        const lockModal = document.getElementById('lock-modal');
+        const adminContent = document.getElementById('admin-content');
+        const passInput = document.getElementById('pass-input');
+        const loginBtn = document.getElementById('login-btn');
+        function checkAuth() {
+            if (passInput.value === 'Jesus3728#') {
+                localStorage.setItem('admin_authed', 'true');
+                lockModal.style.display = 'none';
+                adminContent.style.display = 'block';
+                loadGalleryItems();
+            } else {
+                authErr.style.display = 'block';
+                authErr.textContent = 'Invalid Password. Please try again.';
+            }
+        }
+
+        loginBtn.addEventListener('click', checkAuth);
+        passInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') checkAuth(); });
+
+        if (localStorage.getItem('admin_authed') === 'true') {
+            lockModal.style.display = 'none';
+            adminContent.style.display = 'block';
+            window.addEventListener('DOMContentLoaded', loadGalleryItems);
+        }
+
+        // Default Initial Items Data
+        const defaultItems = [
+            { id: 1, student: "Alison R Gaddy", title: "Honey Creek Bridge Collapse", task: "Rigid Body Shatter & Dynamics", class: "DPA 8070", institution: "Clemson University", semester: "Spring 2026", img: "images/gallery/gallery-1.jpg", video: "https://player.vimeo.com/progressive_redirect/playback/1176621193/rendition/1080p/file.mp4?loc=external&signature=069162a556248c8adc80cc537f933793ab2159cb7ac1a25c89f1211eaa696356" },
+            { id: 2, student: "Abhijit Varanasi", title: "Procedural Facial Rigging", task: "Maya Facial Muscle Python Rigging", class: "DPA 6820", institution: "Clemson University", semester: "Fall 2025", img: "images/gallery/gallery-2.png", video: "https://player.vimeo.com/progressive_redirect/playback/982617433/rendition/540p/file.mp4?loc=external&signature=2bf9c3ae7ceaa28847225bafec18bba548c52bfb322a143d0d0021fac6ec95c1" },
+            { id: 3, student: "Griffin Poyck", title: "Procedural City Generation", task: "UE5 PCG & Houdini Engine", class: "DPA 8810", institution: "Clemson University", semester: "Spring 2025", img: "images/gallery/gallery-3.jpg", video: "https://player.vimeo.com/progressive_redirect/playback/951031458/rendition/540p/file.mp4?loc=external&signature=794b447b4b92af3a052f0fd357952b5659301e4dfd57e5367c1783e12a784dcb" },
+            { id: 4, student: "Eric DiNicolantonio", title: "Visual Effects & Scale Study", task: "Karma Pyro & Destruction", class: "DPA 8000", institution: "Clemson University", semester: "Fall 2024", img: "images/gallery/gallery-4.jpg", video: "https://player.vimeo.com/progressive_redirect/playback/1208113988/rendition/1080p/file.mp4?loc=external&signature=4e4a011b394b77728245c1a4e7c075283baae758a2c31c5a57b1f86d8aa8646d" },
+            { id: 5, student: "Jehoshaphat Chacko", title: "Star Caller Cinematics", task: "UE5 Sequencer & Lighting", class: "DPA 6000", institution: "Clemson University", semester: "Spring 2024", img: "images/gallery/gallery-5.png", video: "https://player.vimeo.com/progressive_redirect/playback/904402374/rendition/540p/file.mp4?loc=external&signature=d8445f034e9a8da8882d881c659b107770975cf0860ed4e8ac0a1eee98ffb9a7" },
+            { id: 6, student: "Karim Hudson", title: "Secondary Rigging", task: "Cloth & Flesh Physics Rigging", class: "DPA 6820", institution: "Clemson University", semester: "Fall 2024", img: "images/gallery/gallery-6.jpg", video: "https://player.vimeo.com/progressive_redirect/playback/796679236/rendition/540p/file.mp4?loc=external&signature=725348c6eab18ace7acc240cf0b1838adf3fb24b56f07a259b9661feb90b6e46" }
+        ];
+
+        function getStoredItems() {
+            const raw = localStorage.getItem('rodney_gallery_items');
+            return raw ? JSON.parse(raw) : defaultItems;
+        }
+
+        function saveStoredItems(items) {
+            localStorage.setItem('rodney_gallery_items', JSON.stringify(items));
+        }
+
+        function loadGalleryItems() {
+            const items = getStoredItems();
+            const tbody = document.getElementById('items-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            items.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><img src="${item.img}" class="thumb-preview" alt="${item.title}"></td>
+                    <td><strong>${item.student}</strong></td>
+                    <td>${item.title}</td>
+                    <td><span style="color: rgba(255,255,255,0.7); font-size: 0.85rem;"><i class="fas fa-university" style="margin-right: 4px; color: var(--accent-primary);"></i> ${item.institution || 'Clemson University'}</span></td>
+                    <td><span class="mini-tool-pill" style="background: rgba(231,76,60,0.15); color: var(--accent-primary); padding: 4px 8px; border-radius: 4px; font-weight: 700;">${(item.class || '').toUpperCase()}</span></td>
+                    <td><span style="color: rgba(255,255,255,0.8); font-size: 0.85rem;">${item.semester || 'Spring 2026'}</span></td>
+                    <td>
+                        <button class="action-btn edit" onclick="editItem(${index})"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="action-btn delete" onclick="deleteItem(${index})"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Unified Media Input Processor (Auto-Detects Image vs Video & Captures Frame)
+        function processMediaSource(src) {
+            const mediaUrlInput = document.getElementById('media-url');
+            const imgUrlInput = document.getElementById('img-url');
+            const videoUrlInput = document.getElementById('video-url');
+            const previewContainer = document.getElementById('media-preview-container');
+            const autoThumbImg = document.getElementById('auto-thumb-preview');
+
+            mediaUrlInput.value = src;
+
+            const isVideo = src.startsWith('data:video/') || /\.(mp4|webm|ogg|mov)(\?.*)?$/i.test(src) || src.includes('vimeo.com') || src.includes('youtube.com');
+
+            if (isVideo) {
+                videoUrlInput.value = src;
+
+                // Dynamically capture 16:9 frame thumbnail from video using Canvas
+                const video = document.createElement('video');
+                video.crossOrigin = 'anonymous';
+                video.src = src;
+                video.muted = true;
+                video.currentTime = 0.5;
+
+                video.onseeked = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 640;
+                    canvas.height = 360;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const thumbDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                    
+                    imgUrlInput.value = thumbDataUrl;
+                    autoThumbImg.src = thumbDataUrl;
+                    previewContainer.style.display = 'flex';
+                };
+
+                video.onerror = () => {
+                    // Fallback thumbnail if video frame cannot be extracted directly via cross-origin URL
+                    imgUrlInput.value = src;
+                    autoThumbImg.src = 'images/gallery/gallery-1.jpg';
+                    previewContainer.style.display = 'flex';
+                };
+            } else {
+                imgUrlInput.value = src;
+                videoUrlInput.value = '';
+                autoThumbImg.src = src;
+                previewContainer.style.display = 'flex';
+            }
+        }
+
+        // Handle Text Input Change
+        document.getElementById('media-url').addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if (val) processMediaSource(val);
+        });
+
+        // Unified Computer File Upload Handling
+        document.getElementById('media-file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (evt) => {
+                    processMediaSource(evt.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form Submit
+        document.getElementById('gallery-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const items = getStoredItems();
+            const editId = document.getElementById('edit-id').value;
+
+            const newItem = {
+                id: editId ? parseInt(editId) : Date.now(),
+                student: document.getElementById('student-name').value,
+                title: document.getElementById('project-title').value,
+                task: document.getElementById('assignment-task').value,
+                class: document.getElementById('course-class').value,
+                institution: document.getElementById('institution').value,
+                semester: document.getElementById('semester-year').value,
+                img: document.getElementById('img-url').value || document.getElementById('media-url').value,
+                video: document.getElementById('video-url').value
+            };
+
+            if (editId) {
+                const idx = items.findIndex(i => i.id == editId);
+                if (idx !== -1) items[idx] = newItem;
+            } else {
+                items.unshift(newItem);
+            }
+
+            saveStoredItems(items);
+            resetForm();
+            loadGalleryItems();
+            alert('Gallery Item Saved Successfully!');
+        });
+
+        window.editItem = function(index) {
+            const items = getStoredItems();
+            const item = items[index];
+            if (!item) return;
+
+            document.getElementById('edit-id').value = item.id;
+            document.getElementById('student-name').value = item.student;
+            document.getElementById('project-title').value = item.title;
+            document.getElementById('assignment-task').value = item.task || '';
+            document.getElementById('course-class').value = item.class;
+            document.getElementById('institution').value = item.institution || 'Clemson University';
+            if (item.semester) document.getElementById('semester-year').value = item.semester;
+            
+            const mediaVal = item.video || item.img;
+            processMediaSource(mediaVal);
+
+            document.getElementById('form-title').textContent = 'EDIT STUDENT WORK';
+            document.getElementById('save-btn').innerHTML = '<i class="fas fa-save" style="margin-right: 8px;"></i> UPDATE ITEM';
+            document.getElementById('cancel-btn').style.display = 'inline-block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        function resetForm() {
+            document.getElementById('gallery-form').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('img-url').value = '';
+            document.getElementById('video-url').value = '';
+            document.getElementById('media-preview-container').style.display = 'none';
+            document.getElementById('form-title').textContent = 'ADD NEW STUDENT WORK';
+            document.getElementById('save-btn').innerHTML = '<i class="fas fa-save" style="margin-right: 8px;"></i> SAVE TO GALLERY';
+            document.getElementById('cancel-btn').style.display = 'none';
+        }
+
+        window.deleteItem = function(index) {
+            if (confirm('Are you sure you want to delete this gallery item?')) {
+                const items = getStoredItems();
+                items.splice(index, 1);
+                saveStoredItems(items);
+                loadGalleryItems();
+            }
+        };
+
+        document.getElementById('cancel-btn').addEventListener('click', resetForm);
+
+        function resetForm() {
+            document.getElementById('gallery-form').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('form-title').textContent = 'ADD NEW STUDENT WORK';
+            document.getElementById('save-btn').innerHTML = '<i class="fas fa-save" style="margin-right: 8px;"></i> SAVE TO GALLERY';
+            document.getElementById('cancel-btn').style.display = 'none';
+        }
+
+        document.getElementById('export-json-btn').addEventListener('click', () => {
+            const items = getStoredItems();
+            const blob = new Blob([JSON.stringify(items, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gallery-data.json';
+            a.click();
+        });
+    </script>
+</body>
+</html>
