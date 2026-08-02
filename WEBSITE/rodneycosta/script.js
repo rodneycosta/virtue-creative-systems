@@ -420,6 +420,9 @@ function initWandaGallerySystem() {
 
 function initWandaSpatialCanvas() {
     console.log("DEBUG: initWandaSpatialCanvas executing...");
+    window.addEventListener('click', (e) => {
+        console.log("DEBUG GLOBAL CLICK - target:", e.target, "classList:", e.target.classList, "id:", e.target.id, "closest card:", e.target.closest('.student-gallery-card'));
+    });
     const viewport = document.getElementById('students-dynamic-viewport') || document.getElementById('wanda-spatial-viewport');
     const gallery = document.getElementById('students-hero-gallery') || document.getElementById('wanda-spatial-canvas');
     console.log("DEBUG: viewport:", viewport, "gallery:", gallery);
