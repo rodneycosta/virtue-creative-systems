@@ -419,12 +419,18 @@ function initWandaGallerySystem() {
 }
 
 function initWandaSpatialCanvas() {
+    console.log("DEBUG: initWandaSpatialCanvas executing...");
     const viewport = document.getElementById('students-dynamic-viewport') || document.getElementById('wanda-spatial-viewport');
     const gallery = document.getElementById('students-hero-gallery') || document.getElementById('wanda-spatial-canvas');
-    if (!viewport || !gallery) return;
+    console.log("DEBUG: viewport:", viewport, "gallery:", gallery);
+    if (!viewport || !gallery) {
+        console.log("DEBUG: Exiting because viewport or gallery is missing.");
+        return;
+    }
 
     // Load dynamic items from localStorage if available
     const storedItems = localStorage.getItem('rodney_gallery_items');
+    console.log("DEBUG: storedItems from localStorage:", storedItems);
     if (storedItems) {
         try {
             const items = JSON.parse(storedItems);
@@ -468,6 +474,8 @@ function initWandaSpatialCanvas() {
 
     const cardsArray = Array.from(gallery.querySelectorAll('.student-gallery-card'));
     const reelModal = document.getElementById('wanda-cinema-reel-modal');
+    console.log("DEBUG: cardsArray length:", cardsArray.length);
+    console.log("DEBUG: reelModal element:", reelModal);
     const reelCloseBtn = document.getElementById('wanda-reel-close-btn');
     const reelPrevBtn = document.getElementById('wanda-reel-prev');
     const reelNextBtn = document.getElementById('wanda-reel-next');
@@ -477,7 +485,10 @@ function initWandaSpatialCanvas() {
     const reelBadge = document.getElementById('wanda-reel-badge');
     const filmstripTrack = document.getElementById('wanda-filmstrip-track');
 
-    if (cardsArray.length === 0) return;
+    if (cardsArray.length === 0) {
+        console.log("DEBUG: Exiting because cardsArray is empty!");
+        return;
+    }
 
     let currentReelIndex = 0;
 
@@ -492,14 +503,19 @@ function initWandaSpatialCanvas() {
         card.style.opacity = '';
 
         // Click directly opens cinema modal
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+            console.log("DEBUG: Card clicked! Index:", idx, "card elements:", card);
             currentReelIndex = idx;
             populateWandaReel(currentReelIndex);
             if (reelModal) {
+                console.log("DEBUG: Setting reelModal to display:flex and active.");
                 reelModal.style.display = 'flex';
                 requestAnimationFrame(() => {
                     reelModal.classList.add('active');
+                    console.log("DEBUG: added active class to reelModal. classList:", reelModal.className);
                 });
+            } else {
+                console.log("DEBUG: Warning: reelModal element not found during click!");
             }
         });
 
