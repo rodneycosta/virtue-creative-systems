@@ -1,6 +1,6 @@
 name = "vfxm-license-worker"
 main = "src/index.js"
-compatibility_date = "2026-05-19"
+compatibility_date = "2026-05-21"
 workers_dev = true
 
 [[d1_databases]]
@@ -14,7 +14,7 @@ migrations_dir = "migrations"
 # bucket_name = "vfxm-releases"
 
 [vars]
-STORE_PROVIDER = "lemonsqueezy"
+STORE_PROVIDER = "polar"
 STORE_MODE = "test"
 VFXM_SITE_ORIGIN = "https://virtuecreativesystems.com"
 VFXM_CHECKOUT_SUCCESS_URL = "https://virtuecreativesystems.com/checkout/success/"
@@ -24,4 +24,4 @@ VFXM_RELEASE_CHANNEL = "stable"
 VFXM_DEFAULT_GRACE_DAYS = "14"
 VFXM_DOWNLOAD_URL_TTL_SECONDS = "900"
 VFXM_ENABLE_TRIAL = "false"
-VFXM_ALLOWED_ORIGINS = "https://virtuecreativesystems.com"
+VFXM_ALLOWED_ORIGINS = "https://virtuecreativesystems.com,https://www.virtuecreativesystems.com,http://localhost:8080,http://127.0.0.1:8080"

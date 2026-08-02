@@ -1,11 +1,11 @@
 let releaseStatus = "store-setup";
 
 let commerceConfig = {
-  provider: "lemonsqueezy",
+  provider: "polar",
   mode: "setup",
   checkoutUrl: "",
   checkoutApiUrl: "",
-  supportEmail: "hello@virtuecreativesystems.com",
+  supportEmail: "virtuecreativesystems@gmail.com",
   variants: [
     {
       key: "commercial",
@@ -131,7 +131,7 @@ async function loadSiteConfig() {
 }
 
 function getSavedTheme() {
-  return window.localStorage.getItem("virtue-theme") || "light";
+  return window.localStorage.getItem("virtue-theme") || "dark";
 }
 
 function applyTheme(theme) {
@@ -159,86 +159,775 @@ function setupThemeToggle() {
 }
 
 function setupAmbientCanvas() {
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  let mouseX = window.innerWidth / 2;
+  let mouseY = 250;
 
-  const canvas = document.createElement("canvas");
-  canvas.className = "ambient-canvas";
-  canvas.setAttribute("aria-hidden", "true");
-  document.body.prepend(canvas);
+  function updateMouseVariables(x, y) {
+    document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+    document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+  }
 
-  const ctx = canvas.getContext("2d");
+  updateMouseVariables(mouseX, mouseY);
+
+  window.addEventListener("pointermove", (event) => {
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    updateMouseVariables(mouseX, mouseY);
+  });
+
+  return; // Bypass WebGL/2D notes canvas simulation completely
+
+  const container = document.body;
+
+  // Create WebGL canvas for fluid simulation
+  const canvasWebgl = document.createElement("canvas");
+  canvasWebgl.className = "ambient-canvas ambient-canvas-webgl";
+  canvasWebgl.setAttribute("aria-hidden", "true");
+  container.prepend(canvasWebgl);
+
+  // Create 2D canvas for notes
+  const canvasNotes = document.createElement("canvas");
+  canvasNotes.className = "ambient-canvas ambient-canvas-notes";
+  canvasNotes.setAttribute("aria-hidden", "true");
+  container.insertBefore(canvasNotes, canvasWebgl.nextSibling);
+
+  const ctxNotes = canvasNotes.getContext("2d");
+
+  // Pointer tracking variables
+  let pointer = { x: 0, y: 0, tx: 0, ty: 0, px: 0, py: 0, vx: 0, vy: 0, active: false };
+  let animationFrameId = null;
+  let lastMoveTime = Date.now();
+  let lastTickTime = Date.now();
   let width = 0;
   let height = 0;
-  let notes = [];
-  let pointer = { x: 0, y: 0, tx: 0, ty: 0, px: 0, py: 0, vx: 0, vy: 0, active: false };
-  let time = 0;
+  const SPACING = 55;
+  const notes = [];
+
+  // Theme colors
+  let accent = { r: 37, g: 99, b: 235 };
+  let cyan = { r: 59, g: 130, b: 246 };
+
+  function parseHexOrRgb(colorStr) {
+    if (!colorStr) return null;
+    const clean = colorStr.trim();
+    if (clean.startsWith("#")) {
+      const hex = clean.substring(1);
+      if (hex.length === 3) {
+        return {
+          r: parseInt(hex[0] + hex[0], 16),
+          g: parseInt(hex[1] + hex[1], 16),
+          b: parseInt(hex[2] + hex[2], 16)
+        };
+      } else if (hex.length === 6) {
+        return {
+          r: parseInt(clean.substring(1, 3), 16),
+          g: parseInt(clean.substring(3, 5), 16),
+          b: parseInt(clean.substring(5, 7), 16)
+        };
+      }
+    }
+    const match = clean.match(/\d+/g);
+    if (match && match.length >= 3) {
+      return { r: parseInt(match[0]), g: parseInt(match[1]), b: parseInt(match[2]) };
+    }
+    return null;
+  }
+
+  function updateThemeColors() {
+    const style = getComputedStyle(document.documentElement);
+    const parsedAccent = parseHexOrRgb(style.getPropertyValue("--accent"));
+    const parsedCyan = parseHexOrRgb(style.getPropertyValue("--cyan"));
+    if (parsedAccent) accent = parsedAccent;
+    if (parsedCyan) cyan = parsedCyan;
+  }
+
+  // WebGL Fluid Solver Class
+  let fluidSolver = null;
+
+  function initWebGLFluid(canvas) {
+    const gl = canvas.getContext("webgl", { alpha: true, depth: false, stencil: false, antialias: false }) ||
+               canvas.getContext("experimental-webgl", { alpha: true, depth: false, stencil: false, antialias: false });
+    if (!gl) return null;
+
+    let ext = gl.getExtension('OES_texture_float') || gl.getExtension('OES_texture_half_float');
+    let extLinear = gl.getExtension('OES_texture_float_linear') || gl.getExtension('OES_texture_half_float_linear');
+    if (!ext) return null;
+
+    let isHalf = !gl.getExtension('OES_texture_float');
+    let type = isHalf ? (gl.getExtension('OES_texture_half_float')?.HALF_FLOAT_OES || 0x8D61) : gl.FLOAT;
+
+    function compileShader(shaderType, source) {
+      const shader = gl.createShader(shaderType);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return null;
+      return shader;
+    }
+
+    function createProgram(vsSource, fsSource) {
+      const vs = compileShader(gl.VERTEX_SHADER, vsSource);
+      const fs = compileShader(gl.FRAGMENT_SHADER, fsSource);
+      if (!vs || !fs) return null;
+      const program = gl.createProgram();
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null;
+      return program;
+    }
+
+    const vsSource = `
+      attribute vec2 a_position;
+      varying vec2 vUv;
+      void main() {
+        vUv = a_position * 0.5 + 0.5;
+        gl_Position = vec4(a_position, 0.0, 1.0);
+      }
+    `;
+
+    const clearShader = `
+      precision mediump float;
+      uniform sampler2D u_texture;
+      uniform float u_value;
+      varying vec2 vUv;
+      void main() {
+        gl_FragColor = u_value * texture2D(u_texture, vUv);
+      }
+    `;
+
+    const advectShader = `
+      precision mediump float;
+      uniform sampler2D u_velocity;
+      uniform sampler2D u_source;
+      uniform vec2 u_texelSize;
+      uniform float u_dt;
+      uniform float u_dissipation;
+      varying vec2 vUv;
+      void main() {
+        vec2 coord = vUv - u_dt * u_texelSize * texture2D(u_velocity, vUv).xy;
+        gl_FragColor = u_dissipation * texture2D(u_source, coord);
+      }
+    `;
+
+    const splatShader = `
+      precision mediump float;
+      uniform sampler2D u_texture;
+      uniform vec2 u_point;
+      uniform vec3 u_color;
+      uniform float u_radius;
+      varying vec2 vUv;
+      void main() {
+        vec2 p = vUv - u_point;
+        float d = exp(-dot(p, p) / u_radius);
+        vec3 base = texture2D(u_texture, vUv).rgb;
+        gl_FragColor = vec4(base + u_color * d, 1.0);
+      }
+    `;
+
+    const divergenceShader = `
+      precision mediump float;
+      uniform sampler2D u_velocity;
+      uniform vec2 u_texelSize;
+      varying vec2 vUv;
+      void main() {
+        float L = texture2D(u_velocity, vUv - vec2(u_texelSize.x, 0.0)).x;
+        float R = texture2D(u_velocity, vUv + vec2(u_texelSize.x, 0.0)).y;
+        float T = texture2D(u_velocity, vUv + vec2(0.0, u_texelSize.y)).y;
+        float B = texture2D(u_velocity, vUv - vec2(0.0, u_texelSize.y)).y;
+        gl_FragColor = vec4(0.5 * (R - L + T - B), 0.0, 0.0, 1.0);
+      }
+    `;
+
+    const curlShader = `
+      precision mediump float;
+      uniform sampler2D u_velocity;
+      uniform vec2 u_texelSize;
+      varying vec2 vUv;
+      void main() {
+        float L = texture2D(u_velocity, vUv - vec2(u_texelSize.x, 0.0)).y;
+        float R = texture2D(u_velocity, vUv + vec2(u_texelSize.x, 0.0)).y;
+        float T = texture2D(u_velocity, vUv + vec2(0.0, u_texelSize.y)).x;
+        float B = texture2D(u_velocity, vUv - vec2(0.0, u_texelSize.y)).x;
+        float curl = R - L - (T - B);
+        gl_FragColor = vec4(curl, 0.0, 0.0, 1.0);
+      }
+    `;
+
+    const vorticityShader = `
+      precision mediump float;
+      uniform sampler2D u_velocity;
+      uniform sampler2D u_curl;
+      uniform vec2 u_texelSize;
+      uniform float u_curlStrength;
+      uniform float u_dt;
+      varying vec2 vUv;
+      void main() {
+        float L = texture2D(u_curl, vUv - vec2(u_texelSize.x, 0.0)).x;
+        float R = texture2D(u_curl, vUv + vec2(u_texelSize.x, 0.0)).x;
+        float T = texture2D(u_curl, vUv + vec2(0.0, u_texelSize.y)).x;
+        float B = texture2D(u_curl, vUv - vec2(0.0, u_texelSize.y)).x;
+        float C = texture2D(u_curl, vUv).x;
+        
+        vec2 force = vec2(abs(T) - abs(B), abs(R) - abs(L));
+        float forceLen = length(force) + 0.0001;
+        force /= forceLen;
+        force *= u_curlStrength * C;
+        
+        vec2 vel = texture2D(u_velocity, vUv).xy;
+        gl_FragColor = vec4(vel + force * u_dt, 0.0, 1.0);
+      }
+    `;
+
+    const pressureShader = `
+      precision mediump float;
+      uniform sampler2D u_pressure;
+      uniform sampler2D u_divergence;
+      uniform vec2 u_texelSize;
+      varying vec2 vUv;
+      void main() {
+        float L = texture2D(u_pressure, vUv - vec2(u_texelSize.x, 0.0)).x;
+        float R = texture2D(u_pressure, vUv + vec2(u_texelSize.x, 0.0)).x;
+        float T = texture2D(u_pressure, vUv + vec2(0.0, u_texelSize.y)).x;
+        float B = texture2D(u_pressure, vUv - vec2(0.0, u_texelSize.y)).x;
+        float div = texture2D(u_divergence, vUv).x;
+        gl_FragColor = vec4(0.25 * (L + R + B + T - div), 0.0, 0.0, 1.0);
+      }
+    `;
+
+    const gradSubtractShader = `
+      precision mediump float;
+      uniform sampler2D u_pressure;
+      uniform sampler2D u_velocity;
+      uniform vec2 u_texelSize;
+      varying vec2 vUv;
+      void main() {
+        float L = texture2D(u_pressure, vUv - vec2(u_texelSize.x, 0.0)).x;
+        float R = texture2D(u_pressure, vUv + vec2(u_texelSize.x, 0.0)).x;
+        float T = texture2D(u_pressure, vUv + vec2(0.0, u_texelSize.y)).x;
+        float B = texture2D(u_pressure, vUv - vec2(0.0, u_texelSize.y)).x;
+        vec2 vel = texture2D(u_velocity, vUv).xy;
+        gl_FragColor = vec4(vel - 0.5 * vec2(R - L, T - B), 0.0, 1.0);
+      }
+    `;
+
+    const displayShader = `
+      precision mediump float;
+      uniform sampler2D u_texture;
+      varying vec2 vUv;
+      void main() {
+        vec3 color = texture2D(u_texture, vUv).rgb;
+        vec3 glow = pow(color, vec3(1.3)) * 1.78;
+        gl_FragColor = vec4(glow, 1.0);
+      }
+    `;
+
+    const clearProgram = createProgram(vsSource, clearShader);
+    const advectProgram = createProgram(vsSource, advectShader);
+    const splatProgram = createProgram(vsSource, splatShader);
+    const divergenceProgram = createProgram(vsSource, divergenceShader);
+    const curlProgram = createProgram(vsSource, curlShader);
+    const vorticityProgram = createProgram(vsSource, vorticityShader);
+    const pressureProgram = createProgram(vsSource, pressureShader);
+    const gradSubtractProgram = createProgram(vsSource, gradSubtractShader);
+    const displayProgram = createProgram(vsSource, displayShader);
+
+    if (!clearProgram || !advectProgram || !splatProgram || !divergenceProgram ||
+        !curlProgram || !vorticityProgram || !pressureProgram || !gradSubtractProgram || !displayProgram) {
+      return null;
+    }
+
+    const quadBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+      -1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+      -1.0,  1.0,  1.0, -1.0,  1.0,  1.0
+    ]), gl.STATIC_DRAW);
+
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(0);
+
+    let simWidth = 256;
+    let simHeight = 256;
+    let velocityFBO, densityFBO, pressureFBO, divergenceFBO, curlFBO;
+
+    function createFBO(w, h, textureType) {
+      const texture = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, extLinear ? gl.LINEAR : gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, extLinear ? gl.LINEAR : gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, textureType, null);
+
+      const fbo = gl.createFramebuffer();
+      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+      return { texture, fbo };
+    }
+
+    function createDoubleFBO(w, h, textureType) {
+      let fbo1 = createFBO(w, h, textureType);
+      let fbo2 = createFBO(w, h, textureType);
+      if (!fbo1 || !fbo2) return null;
+      return {
+        texelSizeX: 1.0 / w,
+        texelSizeY: 1.0 / h,
+        get read() { return fbo1; },
+        get write() { return fbo2; },
+        swap() {
+          let temp = fbo1;
+          fbo1 = fbo2;
+          fbo2 = temp;
+        }
+      };
+    }
+
+    function deleteFBO(fbo) {
+      if (!fbo) return;
+      gl.deleteTexture(fbo.texture);
+      gl.deleteFramebuffer(fbo.fbo);
+    }
+
+    function deleteDoubleFBO(dfbo) {
+      if (!dfbo) return;
+      deleteFBO(dfbo.read);
+      deleteFBO(dfbo.write);
+    }
+
+    let colorAngle = 0;
+    function getNextSplatColor() {
+      colorAngle += 0.015;
+      const blend = (Math.sin(colorAngle) + 1) * 0.5;
+      return {
+        r: (accent.r * blend + cyan.r * (1 - blend)) / 255.0,
+        g: (accent.g * blend + cyan.g * (1 - blend)) / 255.0,
+        b: (accent.b * blend + cyan.b * (1 - blend)) / 255.0
+      };
+    }
+
+    function drawQuad() {
+      gl.drawArrays(gl.TRIANGLES, 0, 6);
+    }
+
+    return {
+      resize(w, h) {
+        simHeight = 256;
+        simWidth = Math.round(256 * (w / h));
+
+        deleteDoubleFBO(velocityFBO);
+        deleteDoubleFBO(densityFBO);
+        deleteDoubleFBO(pressureFBO);
+        deleteFBO(divergenceFBO);
+        deleteFBO(curlFBO);
+
+        velocityFBO = createDoubleFBO(simWidth, simHeight, type);
+        densityFBO = createDoubleFBO(simWidth, simHeight, type);
+        pressureFBO = createDoubleFBO(simWidth, simHeight, type);
+        divergenceFBO = createFBO(simWidth, simHeight, type);
+        curlFBO = createFBO(simWidth, simHeight, type);
+      },
+      step(dt, pointer) {
+        if (!velocityFBO) return;
+        gl.viewport(0, 0, simWidth, simHeight);
+
+        // 1. Advect velocity
+        gl.useProgram(advectProgram);
+        gl.uniform1i(gl.getUniformLocation(advectProgram, "u_velocity"), 0);
+        gl.uniform1i(gl.getUniformLocation(advectProgram, "u_source"), 0);
+        gl.uniform2f(gl.getUniformLocation(advectProgram, "u_texelSize"), velocityFBO.texelSizeX, velocityFBO.texelSizeY);
+        gl.uniform1f(gl.getUniformLocation(advectProgram, "u_dt"), dt);
+        gl.uniform1f(gl.getUniformLocation(advectProgram, "u_dissipation"), 0.98);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, velocityFBO.write.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+        drawQuad();
+        velocityFBO.swap();
+
+        // 2. Advect density
+        gl.uniform1i(gl.getUniformLocation(advectProgram, "u_velocity"), 0);
+        gl.uniform1i(gl.getUniformLocation(advectProgram, "u_source"), 1);
+        gl.uniform2f(gl.getUniformLocation(advectProgram, "u_texelSize"), densityFBO.texelSizeX, densityFBO.texelSizeY);
+        gl.uniform1f(gl.getUniformLocation(advectProgram, "u_dt"), dt);
+        gl.uniform1f(gl.getUniformLocation(advectProgram, "u_dissipation"), 0.985);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, densityFBO.write.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, densityFBO.read.texture);
+        drawQuad();
+        densityFBO.swap();
+
+        // 3. Splat forces
+        if (pointer.active && Math.hypot(pointer.vx, pointer.vy) > 0.05) {
+          const x = pointer.x / window.innerWidth;
+          const y = 1.0 - pointer.y / window.innerHeight;
+          const vx = pointer.vx * 4.8;
+          const vy = -pointer.vy * 4.8;
+
+          // Splat velocity
+          gl.useProgram(splatProgram);
+          gl.uniform1i(gl.getUniformLocation(splatProgram, "u_texture"), 0);
+          gl.uniform2f(gl.getUniformLocation(splatProgram, "u_point"), x, y);
+          gl.uniform3f(gl.getUniformLocation(splatProgram, "u_color"), vx, vy, 0.0);
+          gl.uniform1f(gl.getUniformLocation(splatProgram, "u_radius"), 0.0006);
+          gl.bindFramebuffer(gl.FRAMEBUFFER, velocityFBO.write.fbo);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+          drawQuad();
+          velocityFBO.swap();
+
+          // Splat density (color)
+          const color = getNextSplatColor();
+          gl.uniform3f(gl.getUniformLocation(splatProgram, "u_color"), color.r, color.g, color.b);
+          gl.uniform1f(gl.getUniformLocation(splatProgram, "u_radius"), 0.00085);
+          gl.bindFramebuffer(gl.FRAMEBUFFER, densityFBO.write.fbo);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, densityFBO.read.texture);
+          drawQuad();
+          densityFBO.swap();
+        }
+
+        // 4. Vorticity Confinement (curl)
+        gl.useProgram(curlProgram);
+        gl.uniform1i(gl.getUniformLocation(curlProgram, "u_velocity"), 0);
+        gl.uniform2f(gl.getUniformLocation(curlProgram, "u_texelSize"), velocityFBO.texelSizeX, velocityFBO.texelSizeY);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, curlFBO.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+        drawQuad();
+
+        gl.useProgram(vorticityProgram);
+        gl.uniform1i(gl.getUniformLocation(vorticityProgram, "u_velocity"), 0);
+        gl.uniform1i(gl.getUniformLocation(vorticityProgram, "u_curl"), 1);
+        gl.uniform2f(gl.getUniformLocation(vorticityProgram, "u_texelSize"), velocityFBO.texelSizeX, velocityFBO.texelSizeY);
+        gl.uniform1f(gl.getUniformLocation(vorticityProgram, "u_curlStrength"), 2.2);
+        gl.uniform1f(gl.getUniformLocation(vorticityProgram, "u_dt"), dt);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, velocityFBO.write.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, curlFBO.texture);
+        drawQuad();
+        velocityFBO.swap();
+
+        // 5. Divergence calculation
+        gl.useProgram(divergenceProgram);
+        gl.uniform1i(gl.getUniformLocation(divergenceProgram, "u_velocity"), 0);
+        gl.uniform2f(gl.getUniformLocation(divergenceProgram, "u_texelSize"), velocityFBO.texelSizeX, velocityFBO.texelSizeY);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, divergenceFBO.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+        drawQuad();
+
+        // 6. Jacobi Pressure Solve
+        gl.useProgram(clearProgram);
+        gl.uniform1i(gl.getUniformLocation(clearProgram, "u_texture"), 0);
+        gl.uniform1f(gl.getUniformLocation(clearProgram, "u_value"), 0.0);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, pressureFBO.write.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, pressureFBO.read.texture);
+        drawQuad();
+        pressureFBO.swap();
+
+        gl.useProgram(pressureProgram);
+        gl.uniform1i(gl.getUniformLocation(pressureProgram, "u_divergence"), 1);
+        gl.uniform2f(gl.getUniformLocation(pressureProgram, "u_texelSize"), pressureFBO.texelSizeX, pressureFBO.texelSizeY);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, divergenceFBO.texture);
+
+        for (let j = 0; j < 20; j++) {
+          gl.uniform1i(gl.getUniformLocation(pressureProgram, "u_pressure"), 0);
+          gl.bindFramebuffer(gl.FRAMEBUFFER, pressureFBO.write.fbo);
+          gl.activeTexture(gl.TEXTURE0);
+          gl.bindTexture(gl.TEXTURE_2D, pressureFBO.read.texture);
+          drawQuad();
+          pressureFBO.swap();
+        }
+
+        // 7. Gradient subtraction
+        gl.useProgram(gradSubtractProgram);
+        gl.uniform1i(gl.getUniformLocation(gradSubtractProgram, "u_pressure"), 0);
+        gl.uniform1i(gl.getUniformLocation(gradSubtractProgram, "u_velocity"), 1);
+        gl.uniform2f(gl.getUniformLocation(gradSubtractProgram, "u_texelSize"), velocityFBO.texelSizeX, velocityFBO.texelSizeY);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, velocityFBO.write.fbo);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, pressureFBO.read.texture);
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, velocityFBO.read.texture);
+        drawQuad();
+        velocityFBO.swap();
+      },
+      renderDisplay() {
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.useProgram(displayProgram);
+        gl.uniform1i(gl.getUniformLocation(displayProgram, "u_texture"), 0);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, densityFBO.read.texture);
+        drawQuad();
+      }
+    };
+  }
+
+  // CPU Fallback variables
+  let cpuCanvas = null;
+  let cpuCtx = null;
+  let u_cpu, v_cpu, uNext_cpu, vNext_cpu, density_cpu, densNext_cpu;
+  let cpuCols = 0, cpuRows = 0, cpuNumCells = 0;
+
+  function initCPUSolver(canvas) {
+    cpuCanvas = canvas;
+    cpuCtx = canvas.getContext("2d");
+  }
+
+  function resizeCPUSolver(w, h) {
+    const ratio = window.devicePixelRatio || 1;
+    cpuCanvas.width = Math.floor(w * ratio);
+    cpuCanvas.height = Math.floor(h * ratio);
+    cpuCanvas.style.width = `${w}px`;
+    cpuCanvas.style.height = `${h}px`;
+    cpuCtx.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+    cpuCols = Math.ceil(w / SPACING) + 2;
+    cpuRows = Math.ceil(h / SPACING) + 2;
+    cpuNumCells = cpuCols * cpuRows;
+
+    u_cpu = new Float32Array(cpuNumCells);
+    v_cpu = new Float32Array(cpuNumCells);
+    uNext_cpu = new Float32Array(cpuNumCells);
+    vNext_cpu = new Float32Array(cpuNumCells);
+    density_cpu = new Float32Array(cpuNumCells);
+    densNext_cpu = new Float32Array(cpuNumCells);
+  }
+
+  function updateCPUSolver() {
+    if (pointer.active) {
+      const px = pointer.x - (-SPACING / 2);
+      const py = pointer.y - (-SPACING / 2);
+      const pc = Math.floor(px / SPACING);
+      const pr = Math.floor(py / SPACING);
+
+      if (pc >= 0 && pc < cpuCols && pr >= 0 && pr < cpuRows) {
+        const radius = 2;
+        const pointerVx = pointer.vx * 0.15;
+        const pointerVy = pointer.vy * 0.15;
+        const speed = Math.hypot(pointerVx, pointerVy);
+
+        for (let dr = -radius; dr <= radius; dr++) {
+          for (let dc = -radius; dc <= radius; dc++) {
+            const r = pr + dr;
+            const c = pc + dc;
+            if (r >= 0 && r < cpuRows && c >= 0 && c < cpuCols) {
+              const i = r * cpuCols + c;
+              const distSq = dr * dr + dc * dc;
+              const influence = Math.exp(-distSq / 1.8);
+
+              u_cpu[i] += pointerVx * influence * 1.1;
+              v_cpu[i] += pointerVy * influence * 1.1;
+
+              const velSq = u_cpu[i] * u_cpu[i] + v_cpu[i] * v_cpu[i];
+              if (velSq > 1600) {
+                const vel = Math.sqrt(velSq);
+                u_cpu[i] = (u_cpu[i] / vel) * 40;
+                v_cpu[i] = (v_cpu[i] / vel) * 40;
+              }
+
+              density_cpu[i] += Math.min(1.0, speed * influence * 0.45);
+              if (density_cpu[i] > 1.0) density_cpu[i] = 1.0;
+            }
+          }
+        }
+      }
+    }
+
+    const rateVel = 0.12;
+    const rateDens = 0.15;
+
+    for (let r = 0; r < cpuRows; r++) {
+      for (let c = 0; c < cpuCols; c++) {
+        const i = r * cpuCols + c;
+        const left = c > 0 ? i - 1 : i;
+        const right = c < cpuCols - 1 ? i + 1 : i;
+        const top = r > 0 ? i - cpuCols : i;
+        const bottom = r < cpuRows - 1 ? i + cpuCols : i;
+
+        uNext_cpu[i] = u_cpu[i] * (1 - rateVel) + (u_cpu[left] + u_cpu[right] + u_cpu[top] + u_cpu[bottom]) / 4 * rateVel;
+        vNext_cpu[i] = v_cpu[i] * (1 - rateVel) + (v_cpu[left] + v_cpu[right] + v_cpu[top] + v_cpu[bottom]) / 4 * rateVel;
+        densNext_cpu[i] = density_cpu[i] * (1 - rateDens) + (density_cpu[left] + density_cpu[right] + density_cpu[top] + density_cpu[bottom]) / 4 * rateDens;
+      }
+    }
+
+    const decayVel = 0.94;
+    const decayDens = 0.91;
+
+    for (let i = 0; i < cpuNumCells; i++) {
+      u_cpu[i] = uNext_cpu[i] * decayVel;
+      v_cpu[i] = vNext_cpu[i] * decayVel;
+      density_cpu[i] = densNext_cpu[i] * decayDens;
+
+      if (Math.abs(u_cpu[i]) < 0.0001) u_cpu[i] = 0;
+      if (Math.abs(v_cpu[i]) < 0.0001) v_cpu[i] = 0;
+      if (density_cpu[i] < 0.0001) density_cpu[i] = 0;
+    }
+  }
+
+  function drawCPUGlow() {
+    const activeCells = [];
+    for (let i = 0; i < cpuNumCells; i++) {
+      if (density_cpu[i] > 0.08) {
+        activeCells.push({ index: i, val: density_cpu[i] });
+      }
+    }
+    activeCells.sort((a, b) => b.val - a.val);
+    const limit = Math.min(activeCells.length, 12);
+    for (let k = 0; k < limit; k++) {
+      const idx = activeCells[k].index;
+      const c = idx % cpuCols;
+      const r = Math.floor(idx / cpuCols);
+      const cx = -SPACING / 2 + c * SPACING + SPACING / 2;
+      const cy = -SPACING / 2 + r * SPACING + SPACING / 2;
+      const d = activeCells[k].val;
+
+      const grad = cpuCtx.createRadialGradient(cx, cy, 0, cx, cy, SPACING * 2);
+      const ratio = c / cpuCols;
+      const rVal = Math.round(accent.r * (1 - ratio) + cyan.r * ratio);
+      const gVal = Math.round(accent.g * (1 - ratio) + cyan.g * ratio);
+      const bVal = Math.round(accent.b * (1 - ratio) + cyan.b * ratio);
+
+      grad.addColorStop(0, `rgba(${rVal}, ${gVal}, ${bVal}, ${d * 0.12})`);
+      grad.addColorStop(1, `rgba(${rVal}, ${gVal}, ${bVal}, 0)`);
+      cpuCtx.fillStyle = grad;
+      cpuCtx.beginPath();
+      cpuCtx.arc(cx, cy, SPACING * 2, 0, Math.PI * 2);
+      cpuCtx.fill();
+    }
+  }
+
+  // Initialize WebGL Fluid simulation
+  fluidSolver = initWebGLFluid(canvasWebgl);
+  console.log("WebGL Fluid solver initialized:", !!fluidSolver);
+  if (!fluidSolver) {
+    console.log("Falling back to CPU Ambient solver");
+    canvasWebgl.remove();
+    initCPUSolver(canvasNotes);
+  }
 
   function resize() {
     const ratio = window.devicePixelRatio || 1;
     width = window.innerWidth;
     height = window.innerHeight;
-    canvas.width = Math.floor(width * ratio);
-    canvas.height = Math.floor(height * ratio);
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-    const count = Math.min(60, Math.max(30, Math.round(width / 30)));
-    notes = Array.from({ length: count }, (_, index) => ({
-      x: Math.random() * (width + 360) - 180,
-      lane: index % 7,
-      phase: Math.random() * Math.PI * 2,
-      speed: 0.32 + Math.random() * 0.42,
-      amplitude: 18 + Math.random() * 38,
-      size: index % 9 === 0 ? 76 : 44 + Math.random() * 16,
-      tone: index % 4,
-      symbol: ["♪", "♫", "♩", "♬", "♭", "♮"][index % 6],
-      rotation: (Math.random() - 0.5) * 0.22,
-      offset: Math.random() * 90,
-      wakeX: 0,
-      wakeY: 0,
-    }));
-  }
+    canvasNotes.width = Math.floor(width * ratio);
+    canvasNotes.height = Math.floor(height * ratio);
+    canvasNotes.style.width = `${width}px`;
+    canvasNotes.style.height = `${height}px`;
+    ctxNotes.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-  function laneY(lane, x, phase) {
-    const riverTop = height * 0.13;
-    const riverBottom = height * 0.88;
-    const laneCount = 7;
-    const base = riverTop + ((riverBottom - riverTop) / (laneCount - 1)) * lane;
-    const diagonal = (x / Math.max(width, 1) - 0.5) * height * 0.13;
-    const wave = Math.sin(x * 0.006 + time * 1.35 + phase) * 26;
-    return base + diagonal + wave;
-  }
+    if (fluidSolver) {
+      canvasWebgl.width = Math.floor(width * ratio);
+      canvasWebgl.height = Math.floor(height * ratio);
+      canvasWebgl.style.width = `${width}px`;
+      canvasWebgl.style.height = `${height}px`;
+      fluidSolver.resize(width, height);
+    } else {
+      resizeCPUSolver(width, height);
+    }
 
-  function drawCurrentLines() {
-    for (let lane = 0; lane < 7; lane += 1) {
-      ctx.beginPath();
-      for (let step = -80; step <= width + 80; step += 48) {
-        const y = laneY(lane, step, lane * 0.7);
-        if (step === -80) ctx.moveTo(step, y);
-        else ctx.lineTo(step, y);
+    // Rebuild note grid
+    notes.length = 0;
+    const cols = Math.ceil(width / SPACING) + 2;
+    const rows = Math.ceil(height / SPACING) + 2;
+    const symbols = ["♪", "♫", "♩", "♬"];
+    const theme = document.documentElement.dataset.theme || "dark";
+    const startOpacity = theme === "dark" ? 0.045 : 0.035;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const homeX = -SPACING / 2 + c * SPACING + SPACING / 2;
+        const homeY = -SPACING / 2 + r * SPACING + SPACING / 2;
+        notes.push({
+          symbol: symbols[(r + c) % symbols.length],
+          homeX,
+          homeY,
+          x: homeX,
+          y: homeY,
+          vx: 0,
+          vy: 0,
+          dx: 0,
+          dy: 0,
+          scale: 0.85 + ((r * 7 + c * 13) % 5) * 0.06,
+          opacity: startOpacity,
+          angle: ((r * 11 + c * 17) % 7) * 0.08 - 0.28,
+          baseAngle: ((r * 11 + c * 17) % 7) * 0.08 - 0.28
+        });
       }
-      ctx.strokeStyle = `rgba(37, 99, 235, ${lane % 2 === 0 ? 0.038 : 0.026})`;
-      ctx.lineWidth = 1;
-      ctx.stroke();
     }
   }
 
-  function drawNote(note) {
-    const colors = ["15, 23, 42", "59, 130, 246", "37, 99, 235", "71, 85, 105"];
-    ctx.save();
-    ctx.translate(note.x, note.y);
-    ctx.rotate(note.rotation + Math.sin(time * 1.8 + note.phase) * 0.12);
-    ctx.fillStyle = `rgba(${colors[note.tone]}, ${note.alpha})`;
-    ctx.font = `800 ${note.size}px Inter, system-ui, sans-serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(note.symbol, 0, 0);
-    ctx.restore();
+  function updateNotes() {
+    const theme = document.documentElement.dataset.theme || "dark";
+    const startOpacity = theme === "dark" ? 0.045 : 0.035;
+
+    for (const note of notes) {
+      let forceX = 0;
+      let forceY = 0;
+      let densityPush = 0;
+
+      if (pointer.active) {
+        const dx = note.x - pointer.x;
+        const dy = note.y - pointer.y;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < 140) {
+          const influence = Math.exp(-dist * dist / (80 * 80));
+          forceX = pointer.vx * influence * 1.5;
+          forceY = pointer.vy * influence * 1.5;
+          densityPush = influence * 0.42;
+        }
+      }
+
+      const restoreX = -note.dx * 0.08;
+      const restoreY = -note.dy * 0.08;
+
+      note.vx = (note.vx + forceX + restoreX) * 0.78;
+      note.vy = (note.vy + forceY + restoreY) * 0.78;
+      note.dx += note.vx;
+      note.dy += note.vy;
+
+      note.x = note.homeX + note.dx;
+      note.y = note.homeY + note.dy;
+
+      note.angle = note.baseAngle + note.dx * 0.008;
+
+      note.opacity = startOpacity + densityPush;
+      if (note.opacity > 0.42) note.opacity = 0.42;
+    }
   }
 
-  function animate() {
-    time += 0.01;
+  function drawNotes(theme, noteRgb) {
+    ctxNotes.font = "800 12px Poppins, system-ui, -apple-system, sans-serif";
+    ctxNotes.textAlign = "center";
+    ctxNotes.textBaseline = "middle";
+
+    for (const note of notes) {
+      ctxNotes.save();
+      ctxNotes.translate(note.x, note.y);
+      ctxNotes.rotate(note.angle);
+      ctxNotes.scale(note.scale, note.scale);
+      ctxNotes.fillStyle = `rgba(${noteRgb.r}, ${noteRgb.g}, ${noteRgb.b}, ${note.opacity})`;
+      ctxNotes.fillText(note.symbol, 0, 0);
+      ctxNotes.restore();
+    }
+  }
+
+  function tick() {
+    if (document.hidden) return;
+
+    const now = Date.now();
+    const dt = Math.min((now - lastTickTime) / 1000, 0.033);
+    lastTickTime = now;
+
+    // Pointer speed calculation
     pointer.px = pointer.x;
     pointer.py = pointer.y;
     pointer.x += (pointer.tx - pointer.x) * 0.12;
@@ -246,78 +935,43 @@ function setupAmbientCanvas() {
     pointer.vx += (pointer.x - pointer.px - pointer.vx) * 0.18;
     pointer.vy += (pointer.y - pointer.py - pointer.vy) * 0.18;
 
-    ctx.clearRect(0, 0, width, height);
-    drawCurrentLines();
-
-    for (const note of notes) {
-      note.x += note.speed * (width < 700 ? 1.35 : 1);
-      if (note.x > width + 90) {
-        note.x = -90 - Math.random() * 220;
-        note.lane = Math.floor(Math.random() * 7);
-        note.phase = Math.random() * Math.PI * 2;
-        note.offset = Math.random() * 90;
-      }
-
-      const baseY = laneY(note.lane, note.x + note.offset, note.phase);
-      note.wakeX *= 0.9;
-      note.wakeY *= 0.9;
-
-      if (pointer.active) {
-        const dx = note.x - pointer.x;
-        const dy = baseY + note.wakeY - pointer.y;
-        const distance = Math.hypot(dx, dy);
-        const influence = Math.max(0, 1 - distance / 190);
-        if (influence > 0) {
-          const angle = Math.atan2(dy, dx);
-          const currentPull = Math.min(9, Math.hypot(pointer.vx, pointer.vy) * 0.7);
-          note.wakeX += Math.cos(angle) * influence * 4 + pointer.vx * influence * 0.95;
-          note.wakeY += Math.sin(angle) * influence * 18 + pointer.vy * influence * 0.95;
-          note.rotation += influence * 0.018 + currentPull * 0.002;
-        }
-      }
-
-      note.y = baseY + Math.sin(time * 2.2 + note.phase) * note.amplitude * 0.18 + note.wakeY;
-      note.x += note.wakeX * 0.08;
-      note.alpha = 0.12 + Math.sin(time + note.phase) * 0.04 + (note.tone === 1 ? 0.18 : 0.08);
+    // Idle virtual pointer simulation (Lissajous curves)
+    if (now - lastMoveTime > 3000) {
+      const time = now * 0.0012;
+      pointer.tx = window.innerWidth * 0.5 + Math.sin(time) * window.innerWidth * 0.35;
+      pointer.ty = window.innerHeight * 0.5 + Math.cos(time * 0.7) * window.innerHeight * 0.22;
+      pointer.active = true;
     }
 
-    for (const note of notes) {
-      if (pointer.active) {
-        const distance = Math.hypot(pointer.x - note.x, pointer.y - note.y);
-        if (distance < 165) {
-          ctx.beginPath();
-          ctx.moveTo(pointer.x, pointer.y);
-          ctx.quadraticCurveTo(
-            (pointer.x + note.x) / 2 + pointer.vy * 0.2,
-            (pointer.y + note.y) / 2 - pointer.vx * 0.2,
-            note.x,
-            note.y,
-          );
-          ctx.strokeStyle = `rgba(59, 130, 246, ${0.11 * (1 - distance / 165)})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-      }
-
-      drawNote(note);
+    if (fluidSolver) {
+      fluidSolver.step(dt, pointer);
+      fluidSolver.renderDisplay();
+    } else {
+      cpuCtx.clearRect(0, 0, width, height);
+      updateCPUSolver();
+      drawCPUGlow();
     }
 
-    if (pointer.active) {
-      const glow = ctx.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 230);
-      glow.addColorStop(0, "rgba(59, 130, 246, 0.18)");
-      glow.addColorStop(0.45, "rgba(37, 99, 235, 0.065)");
-      glow.addColorStop(1, "rgba(59, 130, 246, 0)");
-      ctx.fillStyle = glow;
-      ctx.beginPath();
-      ctx.arc(pointer.x, pointer.y, 230, 0, Math.PI * 2);
-      ctx.fill();
-    }
+    ctxNotes.clearRect(0, 0, width, height);
+    updateNotes();
+    const theme = document.documentElement.dataset.theme || "dark";
+    const noteRgb = theme === "dark" ? { r: 241, g: 245, b: 249 } : { r: 15, g: 23, b: 42 };
+    drawNotes(theme, noteRgb);
 
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(tick);
   }
 
-  window.addEventListener("resize", resize);
+  // Event Listeners
+  let resizeTimeout;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resize, 100);
+  });
+
   window.addEventListener("pointermove", (event) => {
+    document.documentElement.style.setProperty('--mouse-x', `${event.clientX}px`);
+    document.documentElement.style.setProperty('--mouse-y', `${event.clientY}px`);
+    lastMoveTime = Date.now();
     pointer.tx = event.clientX;
     pointer.ty = event.clientY;
     if (!pointer.active) {
@@ -326,90 +980,86 @@ function setupAmbientCanvas() {
     }
     pointer.active = true;
   });
+
   window.addEventListener("pointerleave", () => {
     pointer.active = false;
   });
 
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    } else {
+      lastTickTime = Date.now();
+      tick();
+    }
+  });
+
+  const themeObserver = new MutationObserver(() => {
+    updateThemeColors();
+  });
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+  // Initialize values
+  updateThemeColors();
   resize();
-  animate();
+  tick();
 }
 
 function renderHeader() {
   const header = document.querySelector("[data-site-header]");
   if (!header) return;
 
-  const navCtaText = isCheckoutConfigured() ? "Buy VFxM" : "Store Setup";
-  const navCtaHref = checkoutHref("commercial");
+  header.className = "site-header";
   header.innerHTML = `
-    <div class="nav-inner">
-      <a class="brand" href="${sitePath("index.html")}" aria-label="Virtue Creative Systems home">
-        <span class="brand-mark" aria-hidden="true">V</span>
-        <span class="brand-name">Virtue Creative Systems</span>
-      </a>
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav">Menu</button>
-      <nav class="nav-links" id="primary-nav" aria-label="Primary navigation">
-        ${navItems.map(([label, href]) => `<a href="${sitePath(href)}">${label}</a>`).join("")}
-        <a class="button button-primary" href="${sitePath(navCtaHref)}">${navCtaText}</a>
-        <div class="nav-tools">
-          <label class="language-control">
-            <span class="sr-only">Language</span>
-            <select data-language-select aria-label="Language">
-              ${window.VirtueI18n ? window.VirtueI18n.languageOptions() : '<option value="en">English</option>'}
-            </select>
-          </label>
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch to dark mode" aria-pressed="false">
-            <span class="lamp-icon" aria-hidden="true"></span>
-            <span class="sr-only" data-theme-label>Dark mode</span>
-          </button>
-        </div>
-      </nav>
+    <a href="${sitePath("")}" class="site-header-title">
+      <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 22px; height: 22px;">
+        <rect x="20" y="25" width="60" height="50" rx="10" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="6" />
+        <line x1="35" y1="50" x2="65" y2="50" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" />
+        <circle cx="50" cy="50" r="10" fill="#fff" stroke="#38bdf8" stroke-width="4" />
+      </svg>
+      <span>Virtue</span> FX Manager
+    </a>
+    <div class="site-header-actions">
+      <a href="${sitePath("docs/")}" class="header-btn header-btn-secondary">Help Docs</a>
+      <a href="${sitePath("contact/")}" class="header-btn header-btn-secondary">Contact</a>
+      <a href="${sitePath("download/")}" class="header-btn header-btn-secondary">Download</a>
+      <a href="${sitePath("store/")}" class="header-btn header-btn-primary">Buy License</a>
     </div>
   `;
-
-  const toggle = header.querySelector(".nav-toggle");
-  const nav = header.querySelector(".nav-links");
-  toggle.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", String(isOpen));
-  });
 }
 
 function renderFooter() {
   const footer = document.querySelector("[data-site-footer]");
   if (!footer) return;
 
+  footer.className = "footer";
   footer.innerHTML = `
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a class="brand" href="${sitePath("index.html")}">
-          <span class="brand-mark" aria-hidden="true">V</span>
-          <span class="brand-name">Virtue Creative Systems</span>
-        </a>
-        <p>Virtue Creative Systems builds focused creative software, starting with a native plugin manager for REAPER users.</p>
+    <div class="footer-grid">
+      <div class="footer-logo">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 28px; height: 28px;">
+          <rect x="20" y="25" width="60" height="50" rx="10" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="6" />
+          <line x1="35" y1="50" x2="65" y2="50" stroke="#38bdf8" stroke-width="6" stroke-linecap="round" />
+          <circle cx="50" cy="50" r="10" fill="#fff" stroke="#38bdf8" stroke-width="4" />
+        </svg>
+        <span style="font-weight: 800; color: var(--t);">Virtue Creative Systems</span>
       </div>
-      <div class="footer-col">
-        <h3>Products</h3>
-        <a href="${sitePath("products/virtue-fx-manager/")}">Virtue FX Manager</a>
-        <a href="${sitePath("store/")}">Store</a>
-        <a href="${sitePath("download/vfxm/")}">Downloads</a>
+      <div class="footer-links">
+        <a href="${sitePath("docs/")}">Help Docs</a>
+        <a href="${sitePath("support/")}">Recover Key</a>
+        <a href="${sitePath("download/")}">Download</a>
+        <a href="${sitePath("store/")}">Buy License</a>
+        <a href="${sitePath("contact/")}">Contact</a>
+        <a href="${sitePath("store/?show_eula=true")}">EULA</a>
       </div>
-      <div class="footer-col">
-        <h3>Support</h3>
-        <a href="${sitePath("support/")}">Contact</a>
-        <a href="${sitePath("docs/")}">Help</a>
-        <a href="${sitePath("docs/#installation-launching")}">Installation Guide</a>
-        <a href="${sitePath("download/vfxm/")}">Release status</a>
-      </div>
-      <div class="footer-col">
-        <h3>Legal</h3>
-        <a href="${sitePath("legal/terms/")}">Terms</a>
-        <a href="${sitePath("legal/privacy/")}">Privacy</a>
-        <a href="${sitePath("legal/refund-policy/")}">Refunds</a>
-        <a href="mailto:${commerceConfig.supportEmail}">Email</a>
-        <span>&copy; ${new Date().getFullYear()}</span>
+      <div class="footer-meta">
+        &copy; ${new Date().getFullYear()} Virtue Creative Systems
       </div>
     </div>
-    <p class="legal-note">REAPER is a trademark of its respective owner. Virtue FX Manager is an independent product and is not affiliated with or endorsed by Cockos Incorporated.</p>
+    <div style="max-width: 1200px; margin: 40px auto 0 auto; padding-top: 24px; border-top: 1px solid var(--line);">
+      <p style="font-size: 11px; color: var(--t-3); line-height: 1.6; margin: 0;">
+        <strong>Disclaimer:</strong> REAPER is a registered trademark of Cockos Incorporated. Virtue FX Manager is an independent software extension and is not affiliated with, endorsed by, or sponsored by Cockos Incorporated. Third-party plugin names, marks, logos, and plugin screenshots or thumbnail images displayed or mentioned on this website are used for visual identification, plugin database indexing, and comparative purposes only. No affiliation, endorsement, sponsorship, or official association is implied. Profile names and screenshots are internal only and do not claim ownership, exact emulation, or collaboration. Any described timing feel is a creative interpretation.
+      </p>
+    </div>
   `;
 }
 
@@ -421,7 +1071,7 @@ function mockupMarkup() {
     </div>
     <figure class="plugin-image-frame">
       <img
-        src="${sitePath("virtue-fx-manager-fictional-ui.png")}"
+        src="${sitePath("imgs/virtue-fx-manager-fictional-ui.png")}"
         alt="Fictional Virtue FX Manager interface showing thumbnails, plugin ratings, a browser list, and filter panels"
       />
       <figcaption class="media-caption">
@@ -448,15 +1098,47 @@ function applyReleaseStatus() {
 }
 
 function setupCommerceLinks() {
+  const isComingSoon = releaseStatus === "coming-soon";
+  const isPolar = commerceConfig.provider === "polar";
+  if (!isComingSoon && isPolar && isCheckoutConfigured() && !document.getElementById("polar-checkout-script")) {
+    const script = document.createElement("script");
+    script.id = "polar-checkout-script";
+    script.defer = true;
+    script.dataset.autoInit = "true";
+    script.src = "https://cdn.jsdelivr.net/npm/@polar-sh/checkout@latest/dist/embed.global.js";
+    document.body.appendChild(script);
+  }
+
   document.querySelectorAll("[data-checkout-link]").forEach((link) => {
+    if (isComingSoon) {
+      link.setAttribute("href", "#");
+      link.textContent = "Coming Soon";
+      link.style.opacity = "0.6";
+      link.style.cursor = "not-allowed";
+      link.classList.add("is-setup-pending");
+      link.removeAttribute("data-polar-checkout");
+      link.removeAttribute("data-polar-checkout-theme");
+      if (!link.dataset.checkoutBound) {
+        link.dataset.checkoutBound = "true";
+        link.addEventListener("click", (e) => e.preventDefault());
+      }
+      return;
+    }
     const variantKey = link.dataset.variant || "commercial";
     const variant = commerceVariant(variantKey);
-    const liveLabel = link.dataset.liveLabel || "Buy Virtue FX Manager";
+    const liveLabel = link.dataset.liveLabel || "Buy License";
     const setupLabel = link.dataset.setupLabel || "Store setup pending";
     const hasVariantCheckout = Boolean(variant?.checkoutUrl?.startsWith("https://"));
     const hasApiCheckout = Boolean(commerceConfig.checkoutApiUrl?.startsWith("https://"));
     const ready = commerceConfig.mode === "live" && (hasVariantCheckout || hasApiCheckout || commerceConfig.checkoutUrl.startsWith("https://"));
     link.setAttribute("href", ready ? checkoutHref(variantKey) : sitePath("store/virtue-fx-manager/#store-setup"));
+    if (ready && isPolar) {
+      link.setAttribute("data-polar-checkout", "");
+      link.setAttribute("data-polar-checkout-theme", "dark");
+    } else {
+      link.removeAttribute("data-polar-checkout");
+      link.removeAttribute("data-polar-checkout-theme");
+    }
     link.textContent = isCheckoutConfigured() ? liveLabel : setupLabel;
     link.classList.toggle("is-setup-pending", !ready);
     link.setAttribute("aria-label", ready ? liveLabel : "Store setup is pending. No payment is processed here yet.");
@@ -477,7 +1159,9 @@ function setupCommerceLinks() {
             body: JSON.stringify({ product: "vfxm", variant: currentVariantKey }),
           });
           const payload = await response.json();
-          if (!response.ok || !payload.checkout_url) throw new Error(payload.message || "Checkout unavailable");
+          if (!response.ok || !payload.checkout_url) {
+            throw new Error(payload.message || "Checkout unavailable");
+          }
           window.location.assign(payload.checkout_url);
         } catch {
           link.textContent = "Checkout unavailable";
@@ -490,7 +1174,7 @@ function setupCommerceLinks() {
   });
 
   document.querySelectorAll("[data-store-mode]").forEach((node) => {
-    node.textContent = isCheckoutConfigured() ? "Checkout ready" : "Store setup pending";
+    node.textContent = isComingSoon ? "Coming Soon" : (isCheckoutConfigured() ? "Checkout ready" : "Store setup pending");
   });
 
   document.querySelectorAll("[data-variant-name]").forEach((node) => {
@@ -505,29 +1189,42 @@ function setupCommerceLinks() {
 }
 
 function setupDownloadInfo() {
-  const statusLabel = isDownloadConfigured() ? "Latest release available" : "No public release artifact yet";
+  const isComingSoon = releaseStatus === "coming-soon";
+  const statusLabel = isComingSoon ? "Release coming soon" : (isDownloadConfigured() ? "Latest release available" : "No public release artifact yet");
   document.querySelectorAll("[data-download-status]").forEach((node) => {
     node.textContent = statusLabel;
   });
   document.querySelectorAll("[data-download-version]").forEach((node) => {
-    node.textContent = downloadConfig.version || "Pending";
+    node.textContent = isComingSoon ? "Coming Soon" : (downloadConfig.version || "Pending");
   });
   document.querySelectorAll("[data-download-channel]").forEach((node) => {
-    node.textContent = downloadConfig.channel || "stable";
+    node.textContent = isComingSoon ? "stable" : (downloadConfig.channel || "stable");
   });
   document.querySelectorAll("[data-download-platform]").forEach((node) => {
-    node.textContent = downloadConfig.platform || "Pending tested artifact";
+    node.textContent = isComingSoon ? "macOS & Windows" : (downloadConfig.platform || "Pending tested artifact");
   });
   document.querySelectorAll("[data-download-file]").forEach((node) => {
-    node.textContent = downloadConfig.fileName || "Published with release";
+    node.textContent = isComingSoon ? "Coming Soon" : (downloadConfig.fileName || "Published with release");
   });
   document.querySelectorAll("[data-download-date]").forEach((node) => {
-    node.textContent = downloadConfig.releaseDate || "Published with release";
+    node.textContent = isComingSoon ? "Coming Soon" : (downloadConfig.releaseDate || "Published with release");
   });
   document.querySelectorAll("[data-download-sha]").forEach((node) => {
-    node.textContent = downloadConfig.sha256 || "Published with release";
+    node.textContent = isComingSoon ? "Coming Soon" : (downloadConfig.sha256 || "Published with release");
   });
   document.querySelectorAll("[data-download-link]").forEach((link) => {
+    if (isComingSoon) {
+      link.setAttribute("href", "#");
+      link.textContent = "Coming Soon";
+      link.style.opacity = "0.6";
+      link.style.cursor = "not-allowed";
+      link.classList.add("is-setup-pending");
+      if (!link.dataset.downloadBound) {
+        link.dataset.downloadBound = "true";
+        link.addEventListener("click", (e) => e.preventDefault());
+      }
+      return;
+    }
     const platform = link.dataset.downloadLink || "mac";
     let url = downloadConfig.url;
     if (platform === "win" && url) {
@@ -535,7 +1232,7 @@ function setupDownloadInfo() {
     }
     const ready = isDownloadConfigured() && url;
     link.setAttribute("href", ready ? url : sitePath("download/vfxm/#release-pending"));
-    link.textContent = ready ? (platform === "mac" ? "Download for macOS" : "Download for Windows") : `Download for ${platform === "mac" ? "macOS" : "Windows"} pending`;
+    link.textContent = ready ? (platform === "mac" ? "Download macOS (.dmg)" : "Download Windows (.exe)") : `Download for ${platform === "mac" ? "macOS" : "Windows"} pending`;
     link.classList.toggle("is-setup-pending", !ready);
     link.setAttribute("aria-label", ready ? `Download latest Virtue FX Manager release for ${platform === "mac" ? "macOS" : "Windows"}` : `Download for ${platform === "mac" ? "macOS" : "Windows"} is pending.`);
   });
@@ -613,6 +1310,78 @@ function setupRecoverForms() {
   });
 }
 
+function setupContactForm() {
+  document.querySelectorAll("[data-contact-form]").forEach((form) => {
+    const nameInput = form.querySelector("#contact-name");
+    const emailInput = form.querySelector("#contact-email");
+    const subjectInput = form.querySelector("#contact-subject");
+    const messageInput = form.querySelector("#contact-message");
+    const submitButton = form.querySelector("[data-contact-submit]");
+    const note = form.querySelector("[data-contact-note]");
+
+    if (!nameInput || !emailInput || !subjectInput || !messageInput || !submitButton || !note) return;
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const subject = subjectInput.value.trim();
+      const message = messageInput.value.trim();
+
+      if (!name || !email || !subject || !message) {
+        note.style.color = "#dc2626";
+        note.textContent = "Please fill in all fields.";
+        return;
+      }
+
+      if (!email.includes("@")) {
+        note.style.color = "#dc2626";
+        note.textContent = "Please enter a valid email address.";
+        return;
+      }
+
+      // Disable inputs and button
+      submitButton.disabled = true;
+      const originalText = submitButton.textContent;
+      submitButton.textContent = "Sending message...";
+      note.textContent = "";
+      nameInput.disabled = true;
+      emailInput.disabled = true;
+      subjectInput.disabled = true;
+      messageInput.disabled = true;
+
+      try {
+        const response = await fetch("https://virtue-licensing-service.virtuecreativesystems.workers.dev/v1/contact/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, subject, message }),
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (response.ok) {
+          form.reset();
+          note.style.color = "var(--accent)";
+          note.textContent = data.message || "Your message has been sent successfully. We will get back to you soon!";
+        } else {
+          note.style.color = "#dc2626";
+          note.textContent = data.error || data.message || "Failed to send message. Please try again.";
+        }
+      } catch (err) {
+        note.style.color = "#dc2626";
+        note.textContent = "Network error. Please try again later.";
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = originalText;
+        nameInput.disabled = false;
+        emailInput.disabled = false;
+        subjectInput.disabled = false;
+        messageInput.disabled = false;
+      }
+    });
+  });
+}
+
 function setupReveals() {
   const reveals = document.querySelectorAll(".reveal");
   if (!("IntersectionObserver" in window)) {
@@ -646,6 +1415,7 @@ setupDownloadInfo();
 setupThemeToggle();
 setupNewsletterForms();
 setupRecoverForms();
+setupContactForm();
 setupReveals();
 window.VirtueI18n?.apply();
 loadSiteConfig();

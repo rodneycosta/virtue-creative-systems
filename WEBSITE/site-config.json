@@ -1,18 +1,18 @@
 {
   "releaseStatus": "available",
   "commerce": {
-    "provider": "lemonsqueezy",
+    "provider": "polar",
     "mode": "live",
-    "checkoutUrl": "https://virtuecreativesystems.lemonsqueezy.com/checkout/buy/4e73c2f6-ec90-495e-939e-c15de6599089",
-    "checkoutApiUrl": "",
-    "supportEmail": "hello@virtuecreativesystems.com",
+    "checkoutUrl": "",
+    "checkoutApiUrl": "https://virtue-licensing-service.virtuecreativesystems.workers.dev/v1/checkout/create",
+    "supportEmail": "virtuecreativesystems@gmail.com",
     "variants": [
       {
         "key": "commercial",
         "name": "Commercial License",
         "price": "$29",
         "seats": "2 activations included",
-        "checkoutUrl": "https://virtuecreativesystems.lemonsqueezy.com/checkout/buy/4e73c2f6-ec90-495e-939e-c15de6599089"
+        "checkoutUrl": "https://buy.polar.sh/polar_cl_R8BMXvN2z3phPfKgNjMDO7MTg2iQClUVVc7Wc3MuoXQ"
       },
       {
         "key": "nfr",
@@ -25,12 +25,12 @@
   },
   "download": {
     "status": "available",
-    "url": "https://www.virtuecreativesystems.com/downloads/vfxm-mac.pkg",
+    "url": "https://www.virtuecreativesystems.com/downloads/vfxm-mac.dmg",
     "version": "1.0.0",
     "channel": "stable",
     "platform": "macOS & Windows",
-    "fileName": "vfxm-mac.pkg",
-    "releaseDate": "2026-06-03",
-    "sha256": "96e674bc4dc0e800b426491252e856f7d3ed504bd9cd62772f2edced2886f814"
+    "fileName": "vfxm-mac.dmg",
+    "releaseDate": "2026-07-15",
+    "sha256": "6df5614a6d6f3cee8d5321cc9b0dc3ce2375c680706c1753d3fa058587da3d6f"
   }
 }

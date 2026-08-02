@@ -2783,54 +2783,65 @@ html.lenis {
 .students-dynamic-viewport {
     position: relative;
     width: 100%;
-    height: 78vh;
-    overflow: hidden;
-    background: #040406;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    height: auto !important;
+    overflow: visible !important;
+    background: transparent;
+    border-radius: 0px;
+    border: none;
     box-shadow: none !important;
-    cursor: grab;
-}
-
-.students-dynamic-viewport:active {
-    cursor: grabbing;
+    cursor: default;
 }
 
 .students-hero-gallery {
-    position: absolute;
-    inset: -200px;
-    width: calc(100% + 400px);
-    height: calc(100% + 400px);
-    transform-style: preserve-3d;
-    will-change: transform;
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 30px;
+    padding: 20px 0;
+    transform: none !important;
 }
 
-.student-gallery-card {
-    position: absolute;
+.student-gallery-card,
+.students-hero-gallery .gallery-item {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 100% !important;
+    height: 230px !important;
     border-radius: 12px;
     overflow: hidden;
     background: #09090f;
     border: 1px solid rgba(255, 255, 255, 0.12);
     cursor: pointer;
-    filter: none !important;
     opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
 }
 
 .student-gallery-card:hover {
-    z-index: 100 !important;
-    transform: scale(1.12) translateZ(40px) !important;
+    z-index: 10 !important;
+    transform: scale(1.05) translateY(-5px) !important;
     border-color: var(--accent-primary);
-    box-shadow: 0 35px 80px rgba(0, 0, 0, 0.95), 0 0 40px rgba(231, 76, 60, 0.35);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(231, 76, 60, 0.2);
 }
 
 .student-gallery-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: none !important;
+    filter: grayscale(40%) contrast(1.02) brightness(0.95);
+    opacity: 0.95 !important;
+    transition: filter 0.4s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+.student-gallery-card:hover img {
+    filter: grayscale(0%) contrast(1) brightness(1) !important;
     opacity: 1 !important;
-    transition: transform 0.6s ease;
+    transform: scale(1.03);
 }
 
 .gallery-card-video {
@@ -3457,6 +3468,9 @@ html.lenis {
     height: 100%;
     object-fit: cover;
     display: block;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .student-gallery-card .gallery-card-video {

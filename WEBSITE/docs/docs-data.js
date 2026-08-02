@@ -18,13 +18,99 @@ const docData = {
           id: "installation-launching",
           title: "0. Installation & Launching (App Usability Guide)",
           content: `<div>
-              <p>Before organizing your plugins, you must install and activate Virtue FX Manager:</p>
-              <ul>
-                <li><strong>Download & Install:</strong> Run the downloaded installer for your OS (macOS .dmg or Windows .exe). It automatically places the native C++ plugin into your REAPER UserPlugins folder.</li>
-                <li><strong>Launch in REAPER:</strong> Open REAPER, go to the Actions List (press <kbd>?</kbd>), search for <em>"Virtue FX Manager"</em>, and run the action to open the main window.</li>
-                <li><strong>Activation & Deactivation Safeguards:</strong> Click the gear icon inside the app to enter your Lemon Squeezy License Key and activate the full version. To prevent accidental license removal, a warning confirmation popup protects the deactivation button.</li>
-                <li><strong>macOS Focus Event Routing:</strong> The manager features full first-click focus-override routing on macOS, meaning buttons, list items, and tabs react immediately to mouse clicks even if the manager's window is not currently in focus.</li>
-              </ul>
+              <p>Before organizing your plugins, you must install and activate Virtue FX Manager on your system. Choose the installation guide below corresponding to your operating system:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS Installation
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows Installation
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Step-by-Step Installation on macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager for macOS is distributed as a signed and notarized installer package (<code>.pkg</code>) wrapped inside a disk image (<code>.dmg</code>). Follow these steps to complete installation:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 1: Open the DMG image</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Double-click the downloaded <code>VirtueFXManager.dmg</code> file. Inside the volume window, you will see the <strong>"VirtueFXManager.pkg"</strong> installer and the <strong>"Uninstall Virtue"</strong> utility.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Step 1: Open DMG Volume" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 2: Run the installer package</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>CRITICAL: Close REAPER completely before running the install.</strong> Double-click the <code>VirtueFXManager.pkg</code> icon to launch the setup wizard. Click <strong>"Continue"</strong> on the welcome screen.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Step 2: Run macOS Package Installer" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 3: Confirm and Install</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Click the <strong>"Install"</strong> button to perform a standard installation on your primary drive (Macintosh HD). This copies the native C++ extension <code>reaper_virtue.dylib</code> directly into REAPER's UserPlugins path.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Step 3: Confirm Installation Destination" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 4: Clean Install Option (Optional)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">If you need to discard old configuration databases and backup custom thumbnails to your Desktop, click the <strong>"Customize"</strong> button and select <strong>"Clean Install (Backup & Purge)"</strong> before proceeding.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Step 4: Click Customize" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Step 4: Select Clean Install" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 5: Finish and Launch</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Once the files are copied, click <strong>"Close"</strong>. Open REAPER, go to the Actions List (press <kbd>?</kbd>), search for <em>"Virtue FX Manager"</em>, and run it to open the window. The native extension is now active!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Step 5: Installation Complete" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen & Installation Guide
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Because Virtue FX Manager is a new application, Windows Defender SmartScreen may display a warning when launching the <code>vfxm-win.exe</code> installer. Follow these steps to bypass the protection and complete installation:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 1: Run the installer</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Double-click the downloaded <code>vfxm-win.exe</code> file. If the Windows Defender SmartScreen window appears, click the <strong>"More info"</strong> link under the warning text.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Step 1: Click More Info" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 2: Run anyway</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Click the <strong>"Run anyway"</strong> button that appears at the bottom-right corner of the warning window to start the Inno Setup wizard.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Step 2: Click Run Anyway" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 3: Select REAPER Path</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">The installer will attempt to auto-detect your REAPER resource directory at <code>%APPDATA%\\REAPER</code>. If you are using a portable installation, manually browse to your custom path.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Step 3: Confirm Path" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Step 4: Complete Installation</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Click "Next", then "Install". The native extension <code>reaper_virtue.dll</code> will be copied into your <code>UserPlugins</code> folder.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Step 4: Click Install" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>`
         },
         {
@@ -200,14 +286,15 @@ const docData = {
         },
         {
           id: "favorites-organization",
-          title: "6. Favorites Tabs & Custom Lists",
+          title: "6. Favorites Tabs, Active FX & Track Monitoring",
           content: `<div>
-              <p>Store your go-to mixing chains and instrument configurations into dedicated custom groups:</p>
+              <p>Store your go-to mixing chains, monitor active track plugins, and organize custom groups:</p>
               <ul>
-                <li><strong>Creating Tabs:</strong> Right-click the Favorites tab headers to create a new tab. You can rename tabs by double-clicking them, or drag tabs horizontally to reorder their position.</li>
-                <li><strong>Adding Favorites:</strong> Select a plugin in the browser and click the "Favorite Selected" button, or right-click the plugin and add it to your active tab.</li>
-                <li><strong>Focused Plug-in Capture:</strong> Focus any floating plugin window in REAPER and click "Favorite Selected". Virtue FX Manager will automatically match the active plug-in and prompt you to save either a clean/fresh plug-in entry or capture the current knob settings as an FX Preset snapshot.</li>
-                <li><strong>FX Presets & Chains:</strong> Save complete tracks as FX chains in REAPER, and pin them inside Virtue tabs for instant, single-click complex recall.</li>
+                <li><strong>Creating Favorites Tabs:</strong> Right-click the Favorites tab headers to create a new tab. You can rename tabs by double-clicking them, or drag tabs horizontally to reorder their position.</li>
+                <li><strong>Active FX Tab (Track & Monitor):</strong> Switch to the <strong>Active FX</strong> view to inspect all plugins loaded on the currently selected REAPER track in real time. Easily reorder, bypass, remove, or open floating plugin windows.</li>
+                <li><strong>Monitor FX Section:</strong> Dedicated sub-tab in Active FX for managing master monitoring plugins (room correction, loudness meters, headphone compensation) without cluttering track chains.</li>
+                <li><strong>Focused Plug-in Capture:</strong> Focus any floating plugin window in REAPER and click "Favorite Selected". Virtue FX Manager will automatically match the active plug-in and prompt you to save either a clean plug-in entry or capture the current knob settings as an FX Preset snapshot.</li>
+                <li><strong>FX Presets & Chains:</strong> Save complete tracks as FX chains in REAPER, and pin them inside Virtue tabs for instant, single-click recall.</li>
                 <li><strong>Custom Notes:</strong> Select a plugin and type notes, routing suggestions, or track tips directly in the Notes panel. These persist across all sessions.</li>
               </ul>
             </div>`
@@ -216,7 +303,7 @@ const docData = {
           id: "keyboard-shortcuts",
           title: "7. Keyboard Shortcuts Cheat Sheet",
           content: `<div>
-              <p>Operate the manager completely from your computer keyboard for maximum efficiency:</p>
+              <p>Operate Virtue FX Manager completely from your keyboard for lightning-fast workflows:</p>
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem">
                 <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
                   <code style="color: var(--accent); font-weight: bold">Arrows (Up / Down)</code>
@@ -224,15 +311,19 @@ const docData = {
                 </div>
                 <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
                   <code style="color: var(--accent); font-weight: bold">Enter / Return</code>
-                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Insert the selected plugin onto active track.</p>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Insert the selected plugin onto the active track.</p>
+                </div>
+                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
+                  <code style="color: var(--accent); font-weight: bold">Tab / Shift + Tab</code>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Switch focus between Library, Active FX, and Settings tabs.</p>
+                </div>
+                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
+                  <code style="color: var(--accent); font-weight: bold">/ (Slash) or F</code>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Instantly jump focus to the plugin search filter bar.</p>
                 </div>
                 <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
                   <code style="color: var(--accent); font-weight: bold">Esc (Escape)</code>
                   <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Close settings panel, popups, or main window.</p>
-                </div>
-                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
-                  <code style="color: var(--accent); font-weight: bold">F</code>
-                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Focus selection back onto the browser list.</p>
                 </div>
                 <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
                   <code style="color: var(--accent); font-weight: bold">Shift + Click</code>
@@ -297,7 +388,21 @@ const docData = {
               </div>
             </div>`
         }
-      ]
+      ,
+        {
+          id: "active-fx-monitoring",
+          title: "10. Active FX & Track Monitoring (Visualize & Control)",
+          content: `<div>
+              <p>Virtue FX Manager features an <strong>Active FX</strong> tab to visualize and manage all plugins instantiated in your current project context:</p>
+              <ul>
+                <li><strong>Track FX:</strong> View all plugins loaded on the currently selected track.</li>
+                <li><strong>Item Take FX:</strong> View all plugins loaded on the active take of the selected media item.</li>
+                <li><strong>Master FX:</strong> View all plugins loaded on the master track.</li>
+                <li><strong>Monitoring FX:</strong> View all plugins loaded in the monitoring chain.</li>
+                <li><strong>Interactive Control:</strong> Bypass plugins directly via checkbox toggles or select a plugin to view notes and details.</li>
+              </ul>
+            </div>`
+        }]
     },
     zh: {
       title: "Virtue FX Manager 维基与使用文档",
@@ -313,6 +418,105 @@ const docData = {
         shortcuts: "键盘快捷键"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. 安装与启动 (使用指南)",
+          content: `<div>
+              <p>在整理插件之前，您必须先在系统上安装并激活 Virtue FX Manager。请选择下方与您的操作系统相对应的安装指南：</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS 安装
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows 安装
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    macOS 逐步安装指南
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    适用于 macOS 的 Virtue FX Manager 作为一个经过签名和公证的安装包 (<code>.pkg</code>) 分发，该安装包包含在磁盘映像 (<code>.dmg</code>) 中。请按照以下步骤完成安装：
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 1 步：打开 DMG 映像</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">双击下载的 <code>VirtueFXManager.dmg</code> 文件。在挂载的宗卷窗口内，您将看到 <strong>"VirtueFXManager.pkg"</strong> 安装程序和 <strong>"Uninstall Virtue"</strong> 卸载工具。</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="第 1 步：打开 DMG 映像" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 2 步：运行安装包</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>重要提示：运行安装程序之前，请彻底关闭 REAPER。</strong> 双击 <code>VirtueFXManager.pkg</code> 图标启动安装向导。在欢迎界面点击<strong>“继续”</strong>。</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="第 2 步：运行 macOS 安装包" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 3 步：确认并安装</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">点击<strong>“安装”</strong>按钮，在您的系统主驱动器 (Macintosh HD) 上执行标准安装。这会将原生 C++ 扩展插件 <code>reaper_virtue.dylib</code> 直接复制到 REAPER 的 UserPlugins 路径中。</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="第 3 步：确认目标安装盘" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 4 步：干净安装选项（可选）</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">如果您需要清除旧的配置数据库并将自定义缩略图备份到桌面上，请在继续之前点击<strong>“自定”</strong>按钮，并勾选<strong>“干净安装 (备份与清理)”</strong>。</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="第 4 步：点击自定按钮" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="第 4 步：选择干净安装" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 5 步：完成并启动</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">文件复制完成后，点击<strong>“关闭”</strong>。打开 REAPER，进入 Actions List（按 <kbd>?</kbd>），搜索 <em>"Virtue FX Manager"</em>，然后运行该动作来打开窗口。原生扩展现在已处于活动状态！</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="第 5 步：安装完成" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen 及安装指南
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    由于 Virtue FX Manager 是一个新应用，在启动 <code>vfxm-win.exe</code> 安装程序时，Windows Defender SmartScreen 可能会显示安全警告。请按照以下步骤绕过保护并完成安装：
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 1 步：运行安装程序</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">双击下载的 <code>vfxm-win.exe</code> 文件。如果弹出 Windows Defender SmartScreen 窗口，请点击警告文本下方的<strong>“更多信息”</strong>链接。</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="第 1 步：点击更多信息" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 2 步：仍要运行</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">点击警告窗口右下角出现的<strong>“仍要运行”</strong>按钮，以启动 Inno Setup 安装向导。</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="第 2 步：仍要运行" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 3 步：选择 REAPER 路径</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">安装程序将尝试自动检测您在 <code>%APPDATA%\\REAPER</code> 路径下的 REAPER 资源目录。如果您使用的是便携式（绿色版）安装，请手动浏览选择您的自定义路径。</p>
+                       <img src="../imgs/windows_install_info.png" alt="第 3 步：确认安装路径" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">第 4 步：完成安装</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">点击“下一步”，然后点击“安装”。原生扩展插件 <code>reaper_virtue.dll</code> 将被复制到您的 <code>UserPlugins</code> 文件夹中。</p>
+                       <img src="../imgs/windows_install_ready.png" alt="第 4 步：点击安装" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. 快速入门与扫描设置",
@@ -529,6 +733,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. macOS 权限问题排查",
+          content: `<div>
+              <p>Apple macOS 具有严格的安全策略。当 Virtue FX Manager 首次尝试截取缩略图时，系统会弹出权限请求。</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">如何允许屏幕录制权限</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">打开 Mac 的 <strong>系统设置</strong>，前往 <strong>隐私与安全性</strong>。</li>
+                  <li style="margin-bottom: 0.5rem">点击 <strong>屏幕与系统音频录制</strong>。</li>
+                  <li style="margin-bottom: 0.5rem">在列表中找到 <strong>REAPER.app</strong> 并将开关开启。</li>
+                  <li><strong>重要：</strong>您必须完全 <strong>退出并重启 REAPER</strong> 才能使权限生效。</li>
+                </ol>
+              </div>
+              <p>重启后，缩略图捕获快捷键 (<code>C</code>) 将立即生效。</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. 自动缩略图扫描与稳定性",
+          content: `<div>
+              <p>自动扫描器通过在后台临时轨道上加载并捕获插件界面，自动构建您的视觉库。</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">扫描选项</h4>
+              <ul>
+                <li><strong>全库扫描：</strong>从设置菜单启动批量构建。选择扫描所有插件或仅针对缺失缩略图的插件。</li>
+                <li><strong>所选扫描：</strong>选择插件，右键选择 <strong>自动捕获所选缩略图</strong>。</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">防崩溃设计</h4>
+              <p>如果 REAPER 崩溃，只需重新启动它，扫描器将自动检测中断并提示从停止的位置恢复。系统会自动将导致崩溃的插件列入黑名单以防止重复崩溃。</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. 活动 FX 与轨道监控 (可视化与控制)",
+          content: `<div>
+              <p>Virtue FX Manager 具有<strong>活动 FX</strong> 标签页，可可视化和管理当前项目上下文中的所有插件：</p>
+              <ul>
+                <li><strong>轨道 FX：</strong> 查看当前选定轨道上加载的所有插件。</li>
+                <li><strong>媒体项 Take FX：</strong> 查看选定媒体项活动 take 上加载的所有插件。</li>
+                <li><strong>母带 FX：</strong> 查看母带轨道上加载的所有插件。</li>
+                <li><strong>监听 FX：</strong> 查看监听链中加载的所有插件。</li>
+                <li><strong>交互式控制：</strong> 直接通过复选框旁路/启用插件，或选择插件以查看说明和详细信息。</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -546,6 +795,105 @@ const docData = {
         shortcuts: "Atalhos do Teclado"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. Instalação & Inicialização (Guia do Usuário)",
+          content: `<div>
+              <p>Antes de organizar seus plugins, você deve instalar e ativar o Virtue FX Manager em seu sistema. Escolha o guia de instalação abaixo correspondente ao seu sistema operacional:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    Instalação no macOS
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Instalação no Windows
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Instalação Passo a Passo no macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    O Virtue FX Manager para macOS é distribuído como um pacote de instalação assinado e notarizado (<code>.pkg</code>) contido em uma imagem de disco (<code>.dmg</code>). Siga estas etapas para concluir a instalação:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 1: Abra a imagem DMG</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Dê um duplo clique no arquivo <code>VirtueFXManager.dmg</code> baixado. Dentro da janela do volume, você verá o instalador <strong>"VirtueFXManager.pkg"</strong> e o utilitário <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Passo 1: Abrir Volume DMG" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 2: Execute o pacote de instalação</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>CRÍTICO: Feche o REAPER completamente antes de executar a instalação.</strong> Dê um duplo clique no ícone <code>VirtueFXManager.pkg</code> para iniciar o assistente de configuração. Clique em <strong>"Continuar"</strong> na tela de boas-vindas.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Passo 2: Executar Instalador do macOS" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 3: Confirme e Instale</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Clique no botão <strong>"Instalar"</strong> para realizar uma instalação padrão em sua unidade principal (Macintosh HD). Isso copiará a extensão nativa C++ <code>reaper_virtue.dylib</code> diretamente para o caminho UserPlugins del REAPER.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Passo 3: Confirmar Destino da Instalação" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 4: Opção de Instalação Limpa (Opcional)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Se você precisar descartar bancos de dados de configuração antigos e fazer backup das miniaturas personalizadas na sua Área de Trabalho, clique no botão <strong>"Personalizar"</strong> e selecione <strong>"Clean Install (Backup & Purge)"</strong> antes de prosseguir.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Passo 4: Personalizar Instalação" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Passo 4: Selecionar Clean Install" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 5: Concluir e Iniciar</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Assim que os arquivos forem copiados, clique em <strong>"Fechar"</strong>. Abra o REAPER, vá para a Actions List (pressione <kbd>?</kbd>), procure por <em>"Virtue FX Manager"</em> e execute-o para abrir a janela. A extensão nativa agora está ativa!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Passo 5: Instalação Concluída" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen e Guia de Instalação
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Por ser um aplicativo novo, o Windows Defender SmartScreen pode exibir um aviso ao iniciar o instalador <code>vfxm-win.exe</code>. Siga estas etapas para ignorar a proteção e concluir a instalação:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 1: Execute o instalador</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Dê um duplo clique no arquivo <code>vfxm-win.exe</code> baixado. Se a janela do Windows Defender SmartScreen aparecer, clique no link <strong>"Mais informações"</strong> abaixo do texto de aviso.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Passo 1: Clicar em Mais Informações" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 2: Executar assim mesmo</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Clique no botão <strong>"Executar assim mesmo"</strong> que aparece no canto inferior direito da janela de aviso para iniciar o assistente do Inno Setup.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Passo 2: Clicar em Executar assim mesmo" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 3: Selecione o Caminho do REAPER</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">O instalador tentará detectar automaticamente o diretório de recursos do REAPER em <code>%APPDATA%\\REAPER</code>. Se você estiver usando uma instalação portátil, navegue manualmente até o seu caminho personalizado.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Passo 3: Confirmar Caminho" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 4: Concluir a Instalação</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Clique em "Avançar" e depois em "Instalar". A extensão nativa <code>reaper_virtue.dll</code> será copiada para a sua pasta <code>UserPlugins</code>.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Passo 4: Clicar em Instalar" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. Introdução e Configuração de Escaneamento",
@@ -764,6 +1112,23 @@ const docData = {
             </div>`
         },
         {
+          id: "troubleshooting-mac-permissions",
+          title: "8. Resolução de Problemas de Permissões no macOS",
+          content: `<div>
+              <p>O macOS possui políticas de segurança rígidas. Quando o Virtue FX Manager tenta capturar uma miniatura pela primeira vez, o macOS solicitará permissão de gravação de tela.</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">Como habilitar a gravação de tela</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Abra os <strong>Ajustes do Sistema</strong> do seu Mac e vá em <strong>Privacidade e Segurança</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Clique em <strong>Gravação de Tela e Áudio do Sistema</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Encontre o <strong>REAPER.app</strong> na lista e ligue o switch.</li>
+                  <li><strong>CRÍTICO:</strong> Você deve completamente <strong>Fechar e Reiniciar o REAPER</strong> para que a permissão tenha efeito.</li>
+                </ol>
+              </div>
+              <p>Depois de reiniciar o REAPER, o atalho de captura (<code>C</code>) funcionará instantaneamente.</p>
+            </div>`
+        },
+        {
           id: "scanner-stability",
           title: "9. Escaneador Automático de Miniaturas e Estabilidade",
           content: `<div>
@@ -788,6 +1153,20 @@ const docData = {
                 <p style="margin: 0; font-size: 0.9rem">Para garantir uma execução tranquila, recomendamos fortemente seguir as instruções de configuração (como isolar caminhos sabidamente instáveis ou gerenciar unidades externas desconectadas). Devido à natureza imprevisível do carregamento de softwares de terceiros, o recurso de escaneamento automatizado é utilizado inteiramente a critério e responsabilidade do usuário. O VFxM não se responsabiliza por perda de dados ou interrupções do sistema resultantes de instabilidades de plug-ins de terceiros durante o processo de escaneamento.</p>
               </div>
             </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. FX Ativos & Monitoramento de Trilha (Visualizar & Controlar)",
+          content: `<div>
+              <p>O Virtue FX Manager possui uma aba de <strong>FX Ativos</strong> para visualizar e gerenciar todos os plugins carregados no contexto do seu projeto atual:</p>
+              <ul>
+                <li><strong>FX da Trilha:</strong> Veja todos os plugins carregados na trilha selecionada no momento.</li>
+                <li><strong>FX do Item/Take:</strong> Veja todos os plugins carregados no take ativo do item de mídia selecionado.</li>
+                <li><strong>FX Master:</strong> Veja todos os plugins carregados na trilha master.</li>
+                <li><strong>FX de Monitoramento:</strong> Veja todos os plugins carregados na cadeia de monitoramento.</li>
+                <li><strong>Controle Interativo:</strong> Desative/ative (bypass) plugins diretamente via caixas de seleção ou selecione um plugin para ver notas e detalhes.</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -805,6 +1184,105 @@ const docData = {
         shortcuts: "Atajos de Teclado"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. Instalación y Lanzamiento (Guía de Usabilidad)",
+          content: `<div>
+              <p>Antes de organizar sus plugins, debe instalar y activar Virtue FX Manager en su sistema. Elija la guía de instalación a continuación correspondiente a su sistema operativo:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    Instalación en macOS
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Instalación en Windows
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Instalación Paso a Paso en macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager para macOS se distribuye como un paquete de instalación firmado y notarizado (<code>.pkg</code>) dentro de una imagen de disco (<code>.dmg</code>). Siga estos pasos para completar la instalación:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 1: Abra la imagen DMG</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Haga doble clic en el archivo <code>VirtueFXManager.dmg</code> descargado. Dentro de la ventana del volumen, verá el instalador <strong>"VirtueFXManager.pkg"</strong> y la utilidad de desinstalación <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Paso 1: Abrir la imagen DMG" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 2: Ejecute el paquete de instalación</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>CRÍTICO: Cierre REAPER por completo antes de ejecutar la instalación.</strong> Haga doble clic en el icono <code>VirtueFXManager.pkg</code> para iniciar el asistente de configuración. Haga clic en <strong>"Continuar"</strong> en la pantalla de bienvenida.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Paso 2: Ejecutar el asistente de instalación" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 3: Confirme e Instale</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Haga clic en el botón <strong>"Instalar"</strong> para realizar una instalación estándar en su unidad principal (Macintosh HD). Esto copiará la extensión nativa C++ <code>reaper_virtue.dylib</code> directamente en la ruta UserPlugins de REAPER.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Paso 3: Confirmar destino" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 4: Opción de Instalación Limpia (Opcional)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Si necesita descartar bases de datos de configuración antiguas y hacer una copia de seguridad de las miniaturas personalizadas en su Escritorio, haga clic en el botón <strong>"Personalizar"</strong> y seleccione <strong>"Instalación limpia (Copia de seguridad y purga)"</strong> antes de continuar.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Paso 4: Personalizar" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Paso 4: Seleccionar instalación limpia" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 5: Terminar y arrancar</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Una vez copiados los archivos, haga clic en <strong>"Cerrar"</strong>. Abra REAPER, vaya a la Actions List (presione <kbd>?</kbd>), busque <em>"Virtue FX Manager"</em> y ejecútelo para abrir la ventana. ¡La extensión nativa ahora está activa!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Paso 5: Instalación terminada" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen y Guía de Instalación
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Al ser una aplicación nueva, es posible que Windows Defender SmartScreen muestre una advertencia al iniciar el instalador <code>vfxm-win.exe</code>. Siga estos pasos para omitir la protección y completar la instalación:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 1: Ejecute el instalador</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Haga doble clic en el archivo <code>vfxm-win.exe</code> descargado. Si aparece la ventana de Windows Defender SmartScreen, haga clic en el enlace <strong>"Más información"</strong> debajo del texto de advertencia.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Paso 1: Más información" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 2: Ejecutar de todos modos</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Haga clic en el botón <strong>"Ejecutar de todos modos"</strong> que aparece en la esquina inferior derecha de la ventana de advertencia para iniciar el asistente de Inno Setup.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Paso 2: Ejecutar de todos modos" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 3: Seleccione la Ruta de REAPER</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">El instalador intentará detectar automáticamente su directorio de recursos de REAPER en <code>%APPDATA%\\REAPER</code>. Si está utilizando una instalación portátil, busque manualmente su ruta personalizada.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Paso 3: Confirmar ruta" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Paso 4: Completar la instalación</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Haga clic en "Siguiente" y luego en "Instalar". La extensión nativa <code>reaper_virtue.dll</code> se copiará en su carpeta <code>UserPlugins</code>.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Paso 4: Instalar" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. Introducción y Configuración del Escaneo",
@@ -1023,6 +1501,23 @@ const docData = {
             </div>`
         },
         {
+          id: "troubleshooting-mac-permissions",
+          title: "8. Solución de Problemas de Permisos en macOS",
+          content: `<div>
+              <p>El sistema macOS de Apple tiene políticas de seguridad estrictas. Cuando Virtue FX Manager intenta capturar una miniatura por primera vez, macOS solicitará permisos.</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">Cómo permitir la Grabación de Pantalla</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Abre los <strong>Ajustes del Sistema</strong> de tu Mac y ve a <strong>Privacidad y Seguridad</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Haz clic en <strong>Grabación de Pantalla y Audio del Sistema</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Busca <strong>REAPER.app</strong> en la lista y activa el interruptor.</li>
+                  <li><strong>CRÍTICO:</strong> Debes <strong>Cerrar y Reiniciar REAPER</strong> por complet para que el permiso surta efecto.</li>
+                </ol>
+              </div>
+              <p>Una vez que REAPER se haya reiniciado, el acceso directo de captura (<code>C</code>) funcionará instantáneamente.</p>
+            </div>`
+        },
+        {
           id: "scanner-stability",
           title: "9. Escáner de Miniaturas Automático y Estabilidad",
           content: `<div>
@@ -1047,6 +1542,20 @@ const docData = {
                 <p style="margin: 0; font-size: 0.9rem">Para garantizar la implementación más fluida, recomendamos encarecidamente seguir las instrucciones de configuración (como aislar rutas inestables conocidas o administrar unidades externas desconectadas). Debido a la naturaleza impredecible del alojamiento de software de terceros, la función de escaneo automatizado se realiza bajo la propia discreción y responsabilidad del usuario. VFxM no es responsable de la pérdida de datos o las interrupciones del sistema resultantes de las inestabilidades de los complementos de terceros durante el proceso de escaneo.</p>
               </div>
             </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. FX Activos y Monitoreo de Pista (Visualizar y Controlar)",
+          content: `<div>
+              <p>Virtue FX Manager cuenta con una pestaña de <strong>FX Activos</strong> para visualizar y administrar todos los plugins cargados en el contexto de su proyecto actual:</p>
+              <ul>
+                <li><strong>FX de Pista:</strong> Vea todos los plugins cargados en la pista seleccionada actualmente.</li>
+                <li><strong>FX de Item/Take:</strong> Vea todos los plugins cargados en el take activo del elemento de medio seleccionado.</li>
+                <li><strong>FX Master:</strong> Vea todos los plugins cargados en la pista master.</li>
+                <li><strong>FX de Monitoreo:</strong> Vea todos los plugins cargados en la cadena de monitoreo.</li>
+                <li><strong>Control Interactivo:</strong> Desactive/active (bypass) plugins directamente a través de casillas de verificación o seleccione un plugin para ver notas y detalles.</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -1064,6 +1573,105 @@ const docData = {
         shortcuts: "Tastaturkurzbefehle"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. Installation & Start (Anleitung)",
+          content: `<div>
+              <p>Bevor Sie Ihre Plugins organisieren, müssen Sie den Virtue FX Manager auf Ihrem System installieren und aktivieren. Wählen Sie unten die für Ihr Betriebssystem passende Installationsanleitung aus:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS Installation
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows Installation
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Schritt-für-Schritt-Installation unter macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager für macOS wird als signiertes und notarisiertes Installationspaket (<code>.pkg</code>) innerhalb eines Disk-Images (<code>.dmg</code>) bereitgestellt. Befolgen Sie diese Schritte, um die Installation abzuschließen:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 1: Öffnen Sie das DMG-Image</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Doppelklicken Sie auf die heruntergeladene Datei <code>VirtueFXManager.dmg</code>. Im Volume-Fenster sehen Sie das Installationsprogramm <strong>"VirtueFXManager.pkg"</strong> und das Deinstallationsprogramm <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Schritt 1: DMG öffnen" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 2: Führen Sie das Installationspaket aus</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>WICHTIG: Schließen Sie REAPER vollständig, bevor Sie die Installation starten.</strong> Doppelklicken Sie auf das Symbol <code>VirtueFXManager.pkg</code>, um den Installationsassistenten zu starten. Klicken Sie auf dem Begrüßungsbildschirm auf <strong>"Fortfahren"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Schritt 2: Paket-Installation starten" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 3: Bestätigen und Installieren</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Klicken Sie auf die Schaltfläche <strong>"Installieren"</strong>, um eine Standardinstallation auf Ihrem Hauptlaufwerk (Macintosh HD) durchzuführen. Dadurch wird die native C++-Erweiterung <code>reaper_virtue.dylib</code> direkt in das UserPlugins-Verzeichnis von REAPER kopiert.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Schritt 3: Speicherort bestätigen" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 4: Saubere Installation (Optional)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Wenn Sie alte Konfigurationsdatenbanken verwerfen und ein Backup Ihrer benutzerdefinierten Thumbnails auf dem Schreibtisch erstellen möchten, klicken Sie auf <strong>"Anpassen"</strong> und wählen Sie vor dem Fortfahren <strong>"Clean Install (Backup & Purge)"</strong>.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Schritt 4: Anpassen klicken" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Schritt 4: Clean Install wählen" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 5: Fertigstellen und Starten</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Sobald die Dateien kopiert sind, klicken Sie auf <strong>"Schließen"</strong>. Öffnen Sie REAPER, rufen Sie die Aktionsliste auf (Taste <kbd>?</kbd>), suchen Sie nach <em>"Virtue FX Manager"</em> und führen Sie die Aktion aus, um das Fenster zu öffnen. Die native Erweiterung ist nun aktiv!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Schritt 5: Installation abgeschlossen" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen & Installationsanleitung
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Da Virtue FX Manager eine neue Anwendung ist, zeigt Windows Defender SmartScreen möglicherweise eine Warnung an, wenn Sie das Installationsprogramm <code>vfxm-win.exe</code> starten. Befolgen Sie diese Schritte, um den Schutz zu umgehen und die Installation abzuschließen:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 1: Starten Sie das Installationsprogramm</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Doppelklicken Sie auf die heruntergeladene Datei <code>vfxm-win.exe</code>. Wenn das Windows Defender SmartScreen-Fenster angezeigt wird, klicken Sie auf den Link <strong>"Weitere Informationen"</strong> unter dem Warntext.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Schritt 1: Weitere Informationen" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 2: Trotzdem ausführen</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Klicken Sie auf die Schaltfläche <strong>"Trotzdem ausführen"</strong> unten rechts im Warnfenster, um den Inno Setup-Assistenten zu starten.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Schritt 2: Trotzdem ausführen" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 3: Wählen Sie das REAPER-Verzeichnis aus</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Das Installationsprogramm versucht, Ihr REAPER-Verzeichnis unter <code>%APPDATA%\\REAPER</code> automatisch zu erkennen. Wenn Sie eine portable Installation verwenden, wählen Sie den Pfad manuell aus.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Schritt 3: Pfad bestätigen" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Schritt 4: Installation abschließen</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Klicken Sie auf "Weiter" und dann auf "Installieren". Die native Erweiterung <code>reaper_virtue.dll</code> wird in Ihr <code>UserPlugins</code>-Verzeichnis kopiert.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Schritt 4: Installieren klicken" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. Erste Schritte & Scan-Konfiguration",
@@ -1280,6 +1888,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. macOS Berechtigungsprobleme beheben",
+          content: `<div>
+              <p>Apples macOS hat strenge Sicherheitsrichtlinien bezüglich Bildschirmaufnahmen. Wenn der Manager zum ersten Mal versucht, ein Miniaturbild aufzunehmen, fordert macOS Berechtigungen an.</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">So erlauben Sie die Bildschirmaufnahme</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Öffnen Sie die <strong>Systemeinstellungen</strong> des Macs und gehen Sie zu <strong>Datenschutz & Sicherheit</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Klicken Sie auf <strong>Bildschirm- & Systemaudioaufnahme</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Suchen Sie <strong>REAPER.app</strong> und aktivieren Sie den Schalter.</li>
+                  <li><strong>WICHTIG:</strong> Sie müssen <strong>REAPER vollständig neu starten</strong>, damit die Berechtigung wirksam wird.</li>
+                </ol>
+              </div>
+              <p>Sobald REAPER neu gestartet wurde, funktioniert das Tastaturkürzel (<code>C</code>) sofort.</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Automatischer Thumbnail-Scanner & Stabilität",
+          content: `<div>
+              <p>Der automatische Thumbnail-Scanner baut Ihre visuelle Bibliothek auf, indem er Plugins nacheinander auf einer temporären Spur lädt und Screenshots erfasst.</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Optionen</h4>
+              <ul>
+                <li><strong>Komplett-Scan:</strong> Starten Sie die Bibliothekserstellung über das Einstellungsmenü.</li>
+                <li><strong>Gezielter Scan:</strong> Wählen Sie Plugins aus, klicken Sie rechts und wählen Sie <strong>Ausgewählte Thumbnails automatisch erfassen</strong>.</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Absturzsicherheit</h4>
+              <p>Wenn REAPER während eines Scans abstürzt, starten Sie es einfach neu. Der Scanner setzt den Scan automatisch an der Stelle fort, an der er gestoppt wurde, und blockiert das Plugin, das den Absturz verursacht hat.</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. Aktive FX & Spurüberwachung (Visualisieren & Steuern)",
+          content: `<div>
+              <p>Virtue FX Manager verfügt über eine Registerkarte <strong>Aktive FX</strong>, mit der Sie alle in Ihrem aktuellen Projektkontext instanziierten Plugins visualisieren und verwalten können:</p>
+              <ul>
+                <li><strong>Spur FX:</strong> Zeigen Sie alle Plugins an, die auf der aktuell ausgewählten Spur geladen sind.</li>
+                <li><strong>Item Take FX:</strong> Zeigen Sie alle Plugins an, die auf dem aktiven Take des ausgewählten Medien-Items geladen sind.</li>
+                <li><strong>Master FX:</strong> Zeigen Sie alle Plugins an, die auf der Masterspur geladen sind.</li>
+                <li><strong>Monitoring FX:</strong> Zeigen Sie alle Plugins an, die in der Monitoring-Kette geladen sind.</li>
+                <li><strong>Interaktive Steuerung:</strong> Umgehen Sie Plugins direkt über Kontrollkästchen oder wählen Sie ein Plugin aus, um Notizen und Details anzuzeigen.</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -1297,6 +1950,105 @@ const docData = {
         shortcuts: "Raccourcis clavier"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. Installation & Lancement (Guide d'Utilisation)",
+          content: `<div>
+              <p>Avant d'organiser vos plugins, vous devez installer et activer Virtue FX Manager sur votre système. Choisissez le guide d'installation ci-dessous correspondant à votre système d'exploitation :</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    Installation sur macOS
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Installation sur Windows
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Installation pas à pas sur macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager pour macOS est distribué sous la forme d'un package d'installation signé et notarié (<code>.pkg</code>) contenu dans une image disque (<code>.dmg</code>). Suivez ces étapes pour terminer l'installation :
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 1 : Ouvrez l'image DMG</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Double-cliquez sur le fichier <code>VirtueFXManager.dmg</code> téléchargé. Dans la fenêtre du volume, vous verrez l'installateur <strong>"VirtueFXManager.pkg"</strong> et l'utilitaire <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Étape 1: Ouvrir le volume DMG" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 2 : Lancez le package d'installation</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>CRITIQUE : Fermez complètement REAPER avant de lancer l'installation.</strong> Double-cliquez sur l'icône <code>VirtueFXManager.pkg</code> pour lancer l'assistant de configuration. Cliquez sur <strong>"Continuer"</strong> sur l'écran d'accueil.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Étape 2: Lancer l'installateur macOS" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 3 : Confirmez et installez</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Cliquez sur le bouton <strong>"Installer"</strong> pour effectuer une installation standard sur votre disque principal (Macintosh HD). Cela copiera l'extension native C++ <code>reaper_virtue.dylib</code> directement dans le dossier UserPlugins de REAPER.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Étape 3: Confirmer le dossier de destination" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 4 : Option d'installation propre (Facultatif)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Si vous devez supprimer les anciennes bases de données de configuration et sauvegarder vos vignettes personnalisées sur votre Bureau, cliquez sur le bouton <strong>"Personnaliser"</strong> et sélectionnez <strong>"Clean Install (Backup & Purge)"</strong> avant de continuer.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Étape 4: Cliquer sur Personnaliser" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Étape 4: Sélectionner l'installation propre" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 5 : Terminer et lancer</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Une fois les fichiers copiés, cliquez sur <strong>"Fermer"</strong>. Ouvrez REAPER, allez dans la Actions List (touche <kbd>?</kbd>), recherchez <em>"Virtue FX Manager"</em> et lancez-le pour ouvrir la fenêtre. L'extension native est maintenant active !</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Étape 5: Installation terminée" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen & Guide d'installation
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager étant une nouvelle application, Windows Defender SmartScreen peut afficher un avertissement lors du lancement de l'installateur <code>vfxm-win.exe</code>. Suivez ces étapes pour contourner la protection et terminer l'installation :
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 1 : Lancez l'installateur</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Double-cliquez sur le fichier <code>vfxm-win.exe</code> téléchargé. Si la fenêtre Windows Defender SmartScreen apparaît, cliquez sur le lien <strong>"Informations complémentaires"</strong> sous le texte d'avertissement.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Étape 1: Cliquer sur Informations complémentaires" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 2 : Exécuter quand même</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Cliquez sur le bouton <strong>"Exécuter quand même"</strong> qui apparaît dans le coin inférieur droit de la fenêtre d'avertissement pour démarrer l'assistant Inno Setup.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Étape 2: Cliquer sur Exécuter quand même" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 3 : Sélectionnez le chemin de REAPER</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">L'installateur tentera de détecter automatiquement votre dossier de ressources REAPER dans <code>%APPDATA%\\REAPER</code>. Si vous utilisez une installation portable, parcourez manuellement votre chemin personnalisé.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Étape 3: Confirmer le dossier" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Étape 4 : Terminer l'installation</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Cliquez sur "Suivant", puis sur "Installer". L'extension native <code>reaper_virtue.dll</code> sera copiée dans votre dossier <code>UserPlugins</code>.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Étape 4: Cliquer sur Installer" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. Prise en main et configuration de l'analyse",
@@ -1513,6 +2265,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. Résolution des Problèmes de Permissions sur macOS",
+          content: `<div>
+              <p>Le système macOS d'Apple a des politiques de sécurité strictes. Lorsque Virtue FX Manager tente de capturer une vignette pour la première fois, macOS demandera une autorisation.</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">Comment autoriser l'enregistrement d'écran</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Ouvrez les <strong>Réglages Système</strong> de votre Mac et accédez à <strong>Confidentialité et sécurité</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Cliquez sur <strong>Enregistrement de l'écran et de l'audio du système</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Recherchez <strong>REAPER.app</strong> et activez le commutateur.</li>
+                  <li><strong>CRITIQUE :</strong> Vous devez complètement <strong>Quitter et Redémarrer REAPER</strong>.</li>
+                </ol>
+              </div>
+              <p>Une fois REAPER redémarré, le raccourci de capture de vignettes (<code>C</code>) fonctionnera instantanément.</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Scanner de Vignettes Automatique & Stabilité",
+          content: `<div>
+              <p>Le scanner de vignettes automatique génère votre bibliothèque visuelle. Il charge séquentiellement les plug-ins sur une piste temporaire pour capturer l'interface.</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Options</h4>
+              <ul>
+                <li><strong>Scan Complet :</strong> Lancez la génération de la bibliothèque depuis les paramètres.</li>
+                <li><strong>Scan Ciblé :</strong> Sélectionnez un ou plusieurs plug-ins, clic droit et choisissez <strong>Capturer automatiquement les vignettes sélectionnées</strong>.</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Résilience aux Plantages</h4>
+              <p>Si REAPER plante pendant un scan, redémarrez-le simplement. Le scanner reprendra là où il s'est arrêté, en mettant automatiquement le plug-in instable sur liste noire.</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. FX Actifs & Surveillance des Pistes (Visualiser & Contrôler)",
+          content: `<div>
+              <p>Virtue FX Manager dispose d'un onglet <strong>FX Actifs</strong> pour visualiser et gérer tous les plugins instanciés dans le contexte de votre projet actuel :</p>
+              <ul>
+                <li><strong>FX de Piste:</strong> Affichez tous les plugins chargés sur la piste actuellement sélectionnée.</li>
+                <li><strong>FX d'Item Take:</strong> Affichez tous les plugins chargés sur le take actif de l'élément média sélectionné.</li>
+                <li><strong>FX Master:</strong> Affichez tous les plugins chargés sur la piste master.</li>
+                <li><strong>FX de Monitoring:</strong> Affichez tous les plugins chargés dans la chaîne de monitoring.</li>
+                <li><strong>Contrôle Interactif:</strong> Contournez les plugins directement via des cases à cocher ou sélectionnez un plugin pour afficher les notes et les détails.</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -1530,6 +2327,105 @@ const docData = {
         shortcuts: "कीबोर्ड शॉर्टकट्स"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. इंस्टॉलेशन और लॉन्चिंग (ऐप उपयोग गाइड)",
+          content: `<div>
+              <p>अपने प्लगइन्स को व्यवस्थित करने से पहले, आपको अपने सिस्टम पर Virtue FX Manager को इंस्टॉल और सक्रिय करना होगा। अपने ऑपरेटिंग सिस्टम के अनुसार नीचे दिए गए इंस्टॉलेशन गाइड को चुनें:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS इंस्टॉलेशन
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows इंस्टॉलेशन
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    macOS पर स्टेप-बाय-स्टेप इंस्टॉलेशन
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    macOS के लिए Virtue FX Manager को एक हस्ताक्षरित और नोटरीकृत इंस्टॉलर पैकेज (<code>.pkg</code>) के रूप में वितरित किया जाता है जो एक डिस्क इमेज (<code>.dmg</code>) के अंदर होता है। इंस्टॉलेशन पूरा करने के लिए इन स्टेप्स का पालन करें:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 1: DMG इमेज खोलें</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">डाउनलोड की गई <code>VirtueFXManager.dmg</code> फ़ाइल पर डबल-क्लिक करें। वॉल्यूम विंडो के अंदर, आपको <strong>"VirtueFXManager.pkg"</strong> इंस्टॉलर और <strong>"Uninstall Virtue"</strong> उपयोगिता दिखाई देगी।</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="स्टेप 1: DMG इमेज खोलें" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 2: इंस्टॉलर पैकेज चलाएं</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>महत्वपूर्ण: इंस्टॉलेशन शुरू करने से पहले REAPER को पूरी तरह से बंद कर दें।</strong> सेटअप विज़ार्ड शुरू करने के लिए <code>VirtueFXManager.pkg</code> आइकन पर डबल-क्लिक करें। स्वागत स्क्रीन पर <strong>"Continue"</strong> पर क्लिक करें。</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="स्टेप 2: इंस्टॉलर चलाएं" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 3: पुष्टि करें और इंस्टॉल करें</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">अपनी मुख्य ड्राइव (Macintosh HD) पर मानक इंस्टॉलेशन करने के लिए <strong>"Install"</strong> बटन पर क्लिक करें। यह मूल C++ एक्सटेंशन <code>reaper_virtue.dylib</code> को सीधे REAPER के UserPlugins पथ में कॉपी करता है।</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="स्टेप 3: इंस्टॉलेशन की पुष्टि करें" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 4: क्लीन इंस्टॉल विकल्प (वैकल्पिक)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">यदि आपको पुराने कॉन्फ़िगरेशन डेटाबेस को हटाने और अपने डेस्कटॉप पर कस्टम थंबनेल का बैकअप लेने की आवश्यकता है, तो आगे बढ़ने से पहले <strong>"Customize"</strong> बटन पर क्लिक करें और <strong>"Clean Install (Backup & Purge)"</strong> चुनें।</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="स्टेप 4: अनुकूलित करें" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="स्टेप 4: क्लीन इंस्टॉल चुनें" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 5: समाप्त करें और लॉन्च करें</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">फ़ाइलें कॉपी हो जाने के बाद, <strong>"Close"</strong> पर क्लिक करें। REAPER खोलें, Actions List पर जाएं (दबाएं <kbd>?</kbd>), <em>"Virtue FX Manager"</em> खोजें, और विंडो खोलने के लिए इसे चलाएं। मूल एक्सटेंशन अब सक्रिय है!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="स्टेप 5: इंस्टॉलेशन पूर्ण" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen और इंस्टॉलेशन गाइड
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    चूंकि Virtue FX Manager एक नया एप्लिकेशन है, इसलिए <code>vfxm-win.exe</code> इंस्टॉलर लॉन्च करते समय Windows Defender SmartScreen एक चेतावनी प्रदर्शित कर सकता है। सुरक्षा को बायपास करने और इंस्टॉलेशन पूरा करने के लिए इन स्टेप्स का पालन करें:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 1: इंस्टॉलर चलाएं</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">डाउनलोड की गई <code>vfxm-win.exe</code> फ़ाइल पर डबल-क्लिक करें। यदि Windows Defender SmartScreen विंडो दिखाई देती है, तो चेतावनी पाठ के नीचे <strong>"More info"</strong> लिंक पर क्लिक करें।</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="स्टेप 1: अधिक जानकारी" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 2: वैसे भी चलाएं (Run anyway)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Inno Setup विज़ार्ड शुरू करने के लिए चेतावनी विंडो के निचले-दाएँ कोने में दिखाई देने वाले <strong>"Run anyway"</strong> बटन पर क्लिक करें।</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="स्टेप 2: वैसे भी चलाएं" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 3: REAPER पथ का चयन करें</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">इंस्टॉलर <code>%APPDATA%\\REAPER</code> पर आपकी REAPER संसाधन निर्देशिका का स्वचालित रूप से पता लगाने का प्रयास करेगा। यदि आप एक पोर्टेबल संस्करण का उपयोग कर रहे हैं, तो मैन्युअल रूप से अपने कस्टम पथ का चयन करें।</p>
+                       <img src="../imgs/windows_install_info.png" alt="स्टेप 3: पथ का चयन करें" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">स्टेप 4: इंस्टॉलेशन पूरा करें</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">"Next" पर क्लिक करें, फिर "Install" पर। मूल एक्सटेंशन <code>reaper_virtue.dll</code> आपकी <code>UserPlugins</code> फ़ोल्डर में कॉपी हो जाएगा।</p>
+                       <img src="../imgs/windows_install_ready.png" alt="स्टेप 4: स्थापित करें" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. शुरुआत और स्कैन सेटअप",
@@ -1746,6 +2642,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. macOS अनुमतियों का समस्या निवारण",
+          content: `<div>
+              <p>Apple macOS में स्क्रीन रिकॉर्डिंग के संबंध में सख्त नीतियां हैं। जब Virtue FX Manager पहली बार थंबनेल कैप्चर करने का प्रयास करता है, तो macOS अनुमति मांगेगा।</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">स्क्रीन रिकॉर्डिंग की अनुमति कैसे दें</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">अपने Mac की <strong>सिस्टम सेटिंग्स</strong> खोलें और <strong>गोपनीयता और सुरक्षा</strong> पर जाएं।</li>
+                  <li style="margin-bottom: 0.5rem"><strong>स्क्रीन & सिस्टम ऑडियो रिकॉर्डिंग</strong> पर क्लिक करें।</li>
+                  <li style="margin-bottom: 0.5rem">सूची में <strong>REAPER.app</strong> ढूंढें और स्विच चालू करें।</li>
+                  <li><strong>महत्वपूर्ण:</strong> अनुमति प्रभावी होने के लिए आपको <strong>REAPER को बंद करके पुनरारंभ करना होगा</strong>।</li>
+                </ol>
+              </div>
+              <p>उचित अनुमतियों के साथ REAPER को पुनरारंभ करने के बाद, थंबनेल कैप्चर शॉर्टकट (<code>C</code>) तुरंत काम करेगा।</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. ऑटो थंबनेल स्कैनर और स्थिरता",
+          content: `<div>
+              <p>ऑто स्कैनर एक अस्थायी ट्रैक पर प्लगइन्स लोड करके और उनके स्क्रीनशॉट कैप्चर करके आपकी दृश्य लाइब्रेरी बनाता है।</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">स्कैन विकल्प</h4>
+              <ul>
+                <li><strong>पूर्ण स्कैन:</strong> सेटिंग्स मेनू से लाइब्रेरी निर्माण शुरू करें।</li>
+                <li><strong>लक्षित स्कैन:</strong> राइट-क्लिक करें और <strong>चयनित थंबनेल को ऑटो-कैप्चर करें</strong> चुनें।</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">क्रैश सुरक्षा</h4>
+              <p>यदि स्कैन के दौरान REAPER क्रैश हो जाता है, तो बस इसे फिर से खोलें। स्कैनर स्वचालित रूप से उसी स्थान से शुरू होगा और क्रैश करने वाले प्लгइन को ब्लॉकलिस्ट कर देगा।</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. सक्रिय FX और ट्रैक मॉनिटरिंग (विज़ुअलाइज़ और नियंत्रण)",
+          content: `<div>
+              <p>Virtue FX Manager में आपके वर्तमान प्रोजेक्ट संदर्भ में लोड किए गए सभी प्लगइन्स को देखने और प्रबंधित करने के लिए एक <strong>सक्रिय FX</strong> टैब है:</p>
+              <ul>
+                <li><strong>ट्रैक FX:</strong> वर्तमान में चयनित ट्रैक पर लोड किए गए सभी प्लगइन्स देखें।</li>
+                <li><strong>आइटम टेक FX:</strong> चयनित मीडिया आइटम के सक्रिय टेक पर लोड किए गए सभी प्लगइन्स देखें।</li>
+                <li><strong>मास्टर FX:</strong> मास्टर ट्रैक पर लोड किए गए सभी प्लगइन्स देखें।</li>
+                <li><strong>मॉनिटरिंग FX:</strong> मॉनिटरिंग चेन में लोड किए गए सभी प्लगइन्स देखें।</li>
+                <li><strong>इंटरैक्टिव नियंत्रण:</strong> चेकबॉक्स के माध्यम से प्लगइन्स को सीधे बायपास करें या नोट्स और विवरण देखने के लिए प्लगइन का चयन करें।</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -1763,6 +2704,105 @@ const docData = {
         shortcuts: "اختصارات لوحة المفاتيح"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. التثبيت والتشغيل (دليل الاستخدام)",
+          content: `<div>
+              <p>قبل تنظيم ملحقاتك، يجب عليك تثبيت Virtue FX Manager وتفعيله على نظامك. اختر دليل التثبيت أدناه المتوافق مع نظام التشغيل لديك:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    تثبيت على macOS
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    تثبيت على Windows
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    خطوة بخطوة التثبيت على macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    يتم توزيع Virtue FX Manager لنظام التشغيل macOS كحزمة تثبيت موقعة وموثقة (<code>.pkg</code>) داخل صورة قرص (<code>.dmg</code>). اتبع هذه الخطوات لإكمال التثبيت:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 1: افتح صورة DMG</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">انقر نقرًا مزدوجًا فوق ملف <code>VirtueFXManager.dmg</code> الذي تم تنزيله. داخل نافذة المجلد، سترى برنامج التثبيت <strong>"VirtueFXManager.pkg"</strong> وأداة إلغاء التثبيت <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="الخطوة 1: افتح صورة DMG" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 2: قم بتشغيل حزمة التثبيت</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>هام جداً: أغلق برنامج REAPER تمامًا قبل بدء التثبيت.</strong> انقر نقرًا مزدوجًا فوق الرمز <code>VirtueFXManager.pkg</code> لبدء معالج الإعداد. انقر فوق <strong>"متابعة"</strong> في شاشة الترحيب.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="الخطوة 2: تشغيل حزمة التثبيت" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 3: التأكيد والتثبيت</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">انقر فوق الزر <strong>"تثبيت"</strong> لإجراء تثبيت قياسي على القرص الرئيسي (Macintosh HD). سيؤدي هذا إلى نسخ الامتداد الأصلي C++ <code>reaper_virtue.dylib</code> مباشرةً إلى مسار UserPlugins في REAPER.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="الخطوة 3: التأكيد والتثبيت" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 4: خيار التثبيت النظيف (اختياري)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">إذا كنت بحاجة إلى التخلص من قواعد بيانات التكوين القديمة ونسخ الصور المصغرة المخصصة احتياطيًا إلى سطح المكتب لديك، فانقر فوق الزر <strong>"تخصيص"</strong> وحدد <strong>"تثبيت نظيف (نسخ احتياطي وتطهير)"</strong> قبل المتابعة.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="الخطوة 4: تخصيص التثبيت" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="الخطوة 4: تحديد التثبيت النظيف" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 5: إنهاء وتشغيل</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">بمجرد نسخ الملفات، انقر فوق <strong>"إغلاق"</strong>. افتح REAPER، وانتقل إلى Actions List (اضغط على <kbd>?</kbd>)، وابحث عن <em>"Virtue FX Manager"</em>، وقم بتشغيله لفتح النافذة. الامتداد الأصلي نشط الآن!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="الخطوة 5: إنهاء وتشغيل" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    دليل التثبيت و Windows SmartScreen
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    نظرًا لأن Virtue FX Manager تطبيق جديد، فقد يعرض Windows Defender SmartScreen تحذيرًا عند تشغيل برنامج التثبيت <code>vfxm-win.exe</code>. اتبع هذه الخطوات لتجاوز الحماية وإكمال التثبيت:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 1: قم بتشغيل برنامج التثبيت</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">انقر نقرًا مزدوجًا فوق ملف <code>vfxm-win.exe</code> الذي تم تنزيله. إذا ظهرت نافذة Windows Defender SmartScreen، فانقر فوق الارتباط <strong>"مزيد من المعلومات"</strong> أسفل نص التحذير.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="الخطوة 1: مزيد من المعلومات" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 2: تشغيل على أي حال</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">انقر فوق الزر <strong>"تشغيل على أي حال"</strong> الذي يظهر في الزاوية اليمنى السفلية من نافذة التحذير لبدء معالج تثبيت Inno Setup.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="الخطوة 2: تشغيل على أي حال" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 3: حدد مسار REAPER</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">سيحاول برنامج التثبيت الكشف التلقائي عن دليل موارد REAPER لديك في <code>%APPDATA%\\REAPER</code>. إذا كنت تستخدم إصداراً محمولاً، فتصفح يدوياً للوصول إلى مسارك المخصص.</p>
+                       <img src="../imgs/windows_install_info.png" alt="الخطوة 3: حدد مسار تثبيت REAPER" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">الخطوة 4: إكمال التثبيت</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">انقر فوق "التالي"، ثم "تثبيت". سيتم نسخ الامتداد الأصلي <code>reaper_virtue.dll</code> إلى مجلد <code>UserPlugins</code> الخاص بك.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="الخطوة 4: إكمال التثبيت" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. البدء وإعداد الفحص",
@@ -1979,6 +3019,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. استكشاف أخطاء أذونات macOS وإصلاحها",
+          content: `<div>
+              <p>يفرض نظام macOS سياسات أمان صارمة. عندما يحاول Virtue FX Manager التقاط صورة مصغرة لأول مرة، فمن المحتمل أن يمنعه النظام ويعرض مطالبة تطلب الإذن.</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">كيفية السماح بتسجيل الشاشة</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">افتح <strong>إعدادات النظام</strong> لجهاز الماك وانتقل إلى <strong>الخصوصية والأمان</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">انقر فوق <strong>تسجيل الشاشة وصوت النظام</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">ابحث عن <strong>REAPER.app</strong> في القائمة وقم بتشغيل المفتاح.</li>
+                  <li><strong>هام جداً:</strong> يجب عليك <strong>إغلاق وإعادة تشغيل REAPER</strong> بالكامل حتى يدخل الإذن حيز التنفيذ.</li>
+                </ol>
+              </div>
+              <p>بمجرد إعادة تشغيل REAPER بالأذونات المناسبة، سيعمل اختصار التقاط الصور المصغرة (<code>C</code>) على الفور.</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. الماسح الضوئي التلقائي للصور واستقرار النظام",
+          content: `<div>
+              <p>يقوم ماسح الصور المصغرة التلقائي بإنشاء مكتبتك المرئية عن طريق تحميل المكونات الإضافية بالتتابع على مسار مؤقت والتقاط صور لها.</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">خيارات الفحص</h4>
+              <ul>
+                <li><strong>فحص المكتبة الكامل:</strong> ابدأ إنشاء مكتبة مجمعة من لوحة الإعدادات.</li>
+                <li><strong>فحص محدد:</strong> حدد المكونات واضغط زر الماوس الأيمن واختر <strong>الالتقاط التلقائي للصور المصغرة المحددة</strong>.</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">مقاومة الأعطال</h4>
+              <p>إذا تعطل REAPER أثناء الفحص، فما عليك سوى إعادة تشغيله. سيكتشف الماسح الضوئي الانقطاع تلقائيًا ويستأنف العمل من حيث توقف مع وضع الملف المسبب للعطل في القائمة السوداء.</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. مؤثرات FX النشطة ومراقبة المسار (معاينة وتحكم)",
+          content: `<div>
+              <p>يتميز Virtue FX Manager بعلامة تبويب <strong>مؤثرات FX النشطة</strong> لمعاينة وإدارة جميع المكونات الإضافية (Plugins) المستخدمة في مشروعك الحالي:</p>
+              <ul>
+                <li><strong>مؤثرات المسار (Track FX):</strong> عرض جميع المكونات الإضافية المحملة على المسار المحدد حاليًا.</li>
+                <li><strong>مؤثرات الجزء (Item Take FX):</strong> عرض جميع المكونات الإضافية المحملة على الجزء النشط من عنصر الوسائط المحدد.</li>
+                <li><strong>المؤثرات الرئيسية (Master FX):</strong> عرض جميع المكونات الإضافية المحملة على مسار الماستر الرئيسي.</li>
+                <li><strong>مؤثرات المراقبة (Monitoring FX):</strong> عرض جميع المكونات الإضافية المحملة في سلسلة المراقبة.</li>
+                <li><strong>التحكم التفاعلي:</strong> تجاوز (Bypass) المكونات الإضافية مباشرة عبر خانات الاختيار، أو حدد مكونًا إضافيًا لعرض الملاحظات والتفاصيل.</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -1996,6 +3081,105 @@ const docData = {
         shortcuts: "কীবোর্ড শর্টকাট"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. ইনস্টলেশন এবং লঞ্চিং (অ্যাপ ব্যবহার গাইড)",
+          content: `<div>
+              <p>আপনার প্লাগইনগুলি সংগঠিত করার আগে, আপনাকে অবশ্যই আপনার সিস্টেমে Virtue FX Manager ইনস্টল এবং সক্রিয় করতে হবে। আপনার অপারেটিং সিস্টেমের সাথে সম্পর্কিত ইনস্টলেশন গাইডটি নিচে থেকে বেছে নিন:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS ইনস্টলেশন
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows ইনস্টলেশন
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    macOS-এ ধাপে ধাপে ইনস্টলেশন
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    macOS-এর জন্য Virtue FX Manager একটি সাইন করা এবং নোটারাইজড ইনস্টলার প্যাকেজ (<code>.pkg</code>) হিসেবে একটি ডিস্ক ইমেজ (<code>.dmg</code>) ফাইলের ভেতরে বিতরণ করা হয়। ইনস্টলেশন সম্পন্ন করতে এই পদক্ষেপগুলো অনুসরণ করুন:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ১: DMG ইমেজটি ওপেন করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">ডাউনলোড করা <code>VirtueFXManager.dmg</code> ফাইলে ডাবল-ক্লিক করুন। ভলিউম উইন্ডোর ভেতরে আপনি <strong>"VirtueFXManager.pkg"</strong> ইনস্টলার এবং <strong>"Uninstall Virtue"</strong> ইউটিলিটি দেখতে পাবেন।</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="ধাপ ১: DMG ইমেজটি ওপেন করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ২: ইনস্টলার প্যাকেজটি রান করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>গুরুত্বপূর্ণ: ইনস্টলেশন শুরু করার আগে REAPER সম্পূর্ণ বন্ধ করুন।</strong> সেটআপ উইজার্ড চালু করতে <code>VirtueFXManager.pkg</code> আইকনে ডাবল-ক্লিক করুন। স্বাগত স্ক্রিনে <strong>"Continue"</strong> বাটনে ক্লিক করুন।</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="ধাপ ২: ইনস্টলার প্যাকেজটি রান করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ৩: নিশ্চিত করুন এবং ইনস্টল করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">আপনার প্রধান ড্রাইভে (Macintosh HD) একটি স্ট্যান্ডার্ড ইনস্টলেশন করতে <strong>"Install"</strong> বাটনে ক্লিক করুন। এটি নেটিভ C++ এক্সটেনশন <code>reaper_virtue.dylib</code> সরাসরি REAPER-এর UserPlugins পাথে কপি করবে।</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="ধাপ ৩: নিশ্চিত করুন এবং ইনস্টল করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ৪: ক্লিন ইনস্টল অপশন (ঐচ্ছিক)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">যদি আপনার পুরোনো কনফিগারেশন ডাটাবেস ফেলে দিতে হয় এবং আপনার ডেস্কটপে কাস্টম থাম্বনেইল ব্যাকআপ করতে হয়, তবে এগিয়ে যাওয়ার আগে <strong>"Customize"</strong> বাটনে ক্লিক করুন এবং <strong>"Clean Install (Backup & Purge)"</strong> নির্বাচন করুন।</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="ধাপ ৪: কাস্টমাইজ করুন" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="ধাপ ৪: ক্লিন ইনস্টল নির্বাচন করুন" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ৫: শেষ করুন এবং চালু করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">ফাইলগুলো কপি হয়ে গেলে, <strong>"Close"</strong> বাটনে ক্লিক করুন। REAPER খুলুন, Actions List-এ যান (প্রেস করুন <kbd>?</kbd>), <em>"Virtue FX Manager"</em> অনুসন্ধান করুন এবং উইন্ডোটি খোলার জন্য এটি রান করুন। নেটিভ এক্সটেনশনটি এখন সক্রিয়!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="ধাপ ৫: শেষ করুন এবং চালু করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen এবং ইনস্টলেশন নির্দেশিকা
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    যেহেতু Virtue FX Manager একটি নতুন অ্যাপ্লিকেশন, তাই <code>vfxm-win.exe</code> ইনস্টলার চালু করার সময় Windows Defender SmartScreen একটি সতর্কতা প্রদর্শন করতে পারে। সুরক্ষা বাইপাস করে ইনস্টলেশন সম্পন্ন করতে এই পদক্ষেপগুলো অনুসরণ করুন:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ১: ইনস্টলার রান করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">ডাউনলোড করা <code>vfxm-win.exe</code> ফাইলে ডাবল-ক্লিক করুন। যদি Windows Defender SmartScreen উইন্ডোটি উপস্থিত হয়, তবে সতর্কবার্তার নিচে <strong>"More info"</strong> লিঙ্কে ক্লিক করুন।</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="ধাপ ১: ইনস্টলার রান করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ২: যেকোনো উপায়ে রান করুন (Run anyway)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Inno Setup উইজার্ড শুরু করতে সতর্কবার্তা উইন্ডোর নিচে ডান কোণায় প্রদর্শিত <strong>"Run anyway"</strong> বাটনে ক্লিক করুন।</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="ধাপ ২: যেকোনো উপায়ে রান করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ৩: REAPER পাথ নির্বাচন করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">ইনস্টলারটি আপনার REAPER রিসোর্স ডিরেক্টরি <code>%APPDATA%\\REAPER</code>-এ স্বয়ংক্রিয়ভাবে সনাক্ত করার চেষ্টা করবে। আপনি যদি একটি পোর্টেবল ইনস্টলেশন ব্যবহার করেন, তবে ম্যানুয়ালি আপনার নিজস্ব কাস্টম পাথে ব্রাউজ করুন।</p>
+                       <img src="../imgs/windows_install_info.png" alt="ধাপ ৩: REAPER পাথ নির্বাচন করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">ধাপ ৪: ইনস্টলেশন সম্পন্ন করুন</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">"Next" এবং তারপর "Install" ক্লিক করুন। নেティブ এক্সটেনশন <code>reaper_virtue.dll</code> আপনার <code>UserPlugins</code> ফোল্ডারে কপি করা হবে।</p>
+                       <img src="../imgs/windows_install_ready.png" alt="ধাপ ৪: ইনস্টলেশন সম্পন্ন করুন" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "১. শুরুতে কীভাবে ব্যবহার করবেন ও স্ক্যান সেটআপ",
@@ -2212,6 +3396,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. macOS অনুমতির সমস্যা সমাধান",
+          content: `<div>
+              <p>Apple-এর macOS-এ স্ক্রিন ক্যাপচার করার কঠোর নিরাপত্তা নীতি রয়েছে। Virtue FX Manager যখন প্রথমবার থাম্বনেইল ক্যাপচার করার চেষ্টা করে, তখন macOS অনুমতি চেয়ে প্রম্পট দেখাবে।</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">কীভাবে স্ক্রিন রেকর্ডিংয়ের অনুমতি দেবেন</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">System Settings খুলুন এবং Privacy & Security-এ যান।</li>
+                  <li style="margin-bottom: 0.5rem"><strong>স্ক্রিন এবং سیستم অডিও রেকর্ডিং</strong>-এ ক্লিক করুন।</li>
+                  <li style="margin-bottom: 0.5rem">তালিকায় <strong>REAPER.app</strong> খুঁজুন এবং স্যুইচটি চালু করুন।</li>
+                  <li><strong>গুরুত্বপূর্ণ:</strong> অনুমতি কার্যকর হওয়ার জন্য আপনাকে অবশ্যই <strong>REAPER সম্পূর্ণ বন্ধ করে পুনরায় চালু করতে হবে</strong>।</li>
+                </ol>
+              </div>
+              <p>পুনরায় চালু করার পরে থাম্বনেইল ক্যাপচার শর্টকাট (<code>C</code>) কোনো অতিরিক্ত প্রম্পট ছাড়াই কাজ করবে।</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. অটো থাম্বনেইল স্ক্যানার এবং স্থিতিশীলতা",
+          content: `<div>
+              <p>অটো স্ক্যানারটি অস্থায়ী ট্র্যাকে প্লাগইনগুলি লোড করে এবং স্ক্রিনশট ক্যাপচার করে লাইব্রেরি তৈরি করে।</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">স্ক্যান বিকল্প</h4>
+              <ul>
+                <li><strong>সম্পূর্ণ স্ক্যান:</strong> সেটিংস মেনু থেকে একসাথে লাইব্রেরি তৈরি শুরু করুন।</li>
+                <li><strong>নির্দিষ্ট স্ক্যান:</strong> রাইট-ক্লিক করুন এবং <strong>নির্বাচিত থাম্বনেইল অটো-ক্যাপচার করুন</strong> নির্বাচন করুন।</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">ক্র্যাশ স্থিতিস্থাপকতা</h4>
+              <p>যদি স্ক্যান করার সময় REAPER ক্র্যাশ হয়, তবে এটি আবার খুলুন। স্ক্যানারটি যেখানে বন্ধ হয়েছিল সেখান থেকে পুনরায় শুরু করার জন্য প্রম্পট করবে এবং সমস্যাযুক্ত فایلটি এড়িয়ে যাবে।</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. সক্রিয় FX এবং ট্র্যাক মনিটরিং (ভিজ্যুয়ালাইজ এবং নিয়ন্ত্রণ)",
+          content: `<div>
+              <p>Virtue FX Manager-এ আপনার বর্তমান প্রজেক্টের সমস্ত প্লাগইন দেখতে এবং পরিচালনা করার জন্য একটি <strong>সক্রিয় FX</strong> ট্যাব রয়েছে:</p>
+              <ul>
+                <li><strong>ট্র্যাক FX:</strong> বর্তমানে নির্বাচিত ট্র্যাকে লোড করা সমস্ত প্লাগইন দেখুন।</li>
+                <li><strong>আইটেম টেক FX:</strong> নির্বাচিত মিডিয়া আইটেমের সক্রিয় টেকে লোড করা সমস্ত প্লাগইন দেখুন।</li>
+                <li><strong>মাস্টার FX:</strong> মাস্টার ট্র্যাকে লোড করা সমস্ত প্লাগইন দেখুন।</li>
+                <li><strong>মনিটরিং FX:</strong> মনিটরিং চেইনে লোڈ করা সমস্ত প্লাগইন দেখুন।</li>
+                <li><strong>ইন্টারেক্টিভ কন্ট্রোল:</strong> চেকবক্সের মাধ্যমে সরাসরি প্লাগইন বাইপাস করুন বা নোট এবং বিবরণ দেখতে প্লাগইন নির্বাচন করুন।</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -2229,6 +3458,105 @@ const docData = {
         shortcuts: "Горячие клавиши"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. Установка и запуск (Руководство пользователя)",
+          content: `<div>
+              <p>Перед тем как приступить к организации ваших плагинов, необходимо установить и активировать Virtue FX Manager. Выберите руководство по установке ниже, соответствующее вашей операционной системе:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    Установка на macOS
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Установка на Windows
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Пошаговая установка на macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager для macOS распространяется в виде подписанного и нотариально заверенного инсталляционного пакета (<code>.pkg</code>), находящегося на образе диска (<code>.dmg</code>). Выполните следующие шаги для завершения установки:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 1: Откройте DMG-образ</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Дважды щелкните по загруженному файлу <code>VirtueFXManager.dmg</code>. В открывшемся окне диска вы увидите установщик <strong>"VirtueFXManager.pkg"</strong> и утилиту деинсталляции <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Шаг 1: Открытие образа DMG" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 2: Запустите установочный пакет</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>ВАЖНО: Полностью закройте REAPER перед запуском установки.</strong> Дважды щелкните по иконке <code>VirtueFXManager.pkg</code> для запуска мастера настройки. Нажмите кнопку <strong>"Продолжить"</strong> на приветственном экране.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Шаг 2: Запуск установщика" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 3: Подтвердите и установите</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Нажмите кнопку <strong>"Установить"</strong>, чтобы выполнить стандартную установку на ваш основной диск (Macintosh HD). Это скопирует нативное C++ расширение <code>reaper_virtue.dylib</code> непосредственно в папку UserPlugins программы REAPER.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Шаг 3: Выбор места установки" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 4: Чистая установка (Опционально)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Если вам необходимо удалить старые конфигурационные базы данных и сделать резервную копию пользовательских миниатюр на Рабочий стол, нажмите кнопку <strong>"Настроить"</strong> и выберите пункт <strong>"Чистая установка (Резервное копирование и очистка)"</strong> перед продолжением.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Шаг 4: Настройка параметров установки" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Шаг 4: Выбор чистой установки" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 5: Завершение и запуск</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">После копирования файлов нажмите <strong>"Закрыть"</strong>. Откройте REAPER, перейдите в список действий Actions List (нажав <kbd>?</kbd>), найдите <em>"Virtue FX Manager"</em> и запустите его для открытия окна. Нативное расширение теперь активно!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Шаг 5: Установка успешно завершена" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen и руководство по установке
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Поскольку Virtue FX Manager является новым приложением, фильтр Windows Defender SmartScreen может показать предупреждение при запуске установщика <code>vfxm-win.exe</code>. Выполните следующие шаги, чтобы обойти защиту и завершить установку:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 1: Запустите установщик</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Дважды щелкните по загруженному файлу <code>vfxm-win.exe</code>. Если появится окно Windows Defender SmartScreen, нажмите на ссылку <strong>"Подробнее"</strong> под текстом предупреждения.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Шаг 1: Подробнее" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 2: Выполнить в любом случае</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Нажмите кнопку <strong>"Выполнить в любом случае"</strong>, которая появится в правом нижнем углу окна предупреждения, чтобы запустить мастер установки Inno Setup.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Шаг 2: Выполнить в любом случае" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 3: Выберите путь к ресурсам REAPER</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Установщик попытается автоматически определить каталог ресурсов REAPER по пути <code>%APPDATA%\\REAPER</code>. Если вы используете портативную версию программы, укажите путь к ней вручную.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Шаг 3: Выбор пути к ресурсам" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Шаг 4: Завершите установку</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Нажмите "Далее", затем "Установить". Нативное расширение <code>reaper_virtue.dll</code> будет скопировано в вашу папку <code>UserPlugins</code>.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Шаг 4: Установить" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. Начало работы и настройка сканирования",
@@ -2445,6 +3773,51 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. Устранение проблем с разрешениями в macOS",
+          content: `<div>
+              <p>В macOS действуют строгие политики безопасности. При первой попытке создать снимок macOS запросит разрешение.</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">Как разрешить запись экрана</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Откройте <strong>Системные настройки</strong> вашего Mac и перейдите в <strong>Конфиденциальность и безопасность</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Нажмите на <strong>Запись экрана и системного аудио</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Найдите <strong>REAPER.app</strong> в списке и включите переключатель.</li>
+                  <li><strong>КРИТИЧЕСКИ ВАЖНО:</strong> Вы должны полностью <strong>перезапустить REAPER</strong>.</li>
+                </ol>
+              </div>
+              <p>После перезапуска REAPER сочетание клавиш для создания снимка (<code>C</code>) заработает мгновенно.</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Автоматический сканер снимков и стабильность",
+          content: `<div>
+              <p>Автоматический сканер снимков создает визуальную сетку вашей библиотеки, загружая плагины на временный трек и делая скриншоты.</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Варианты сканирования</h4>
+              <ul>
+                <li><strong>Полное сканирование:</strong> Запустите массовое сканирование из меню настроек.</li>
+                <li><strong>Выборочное сканирование:</strong> Выберите плагины, нажмите правой кнопкой мыши и выберите <strong>Автоматически захватить выбранные снимки</strong>.</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">Защита от сбоев</h4>
+              <p>Если REAPER вылетает во время сканирования, просто запустите его снова. Сканер автоматически продолжит с места остановки и занесет проблемный плагин в черный список.</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. Активные FX и мониторинг трека (визуализация и управление)",
+          content: `<div>
+              <p>Virtue FX Manager предлагает вкладку <strong>Активные FX</strong> для визуализации и управления всеми плагинами, загруженными в текущем проекте:</p>
+              <ul>
+                <li><strong>FX трека:</strong> просмотр всех плагинов, загруженных на выбранном треке.</li>
+                <li><strong>FX тейка:</strong> просмотр всех плагинов, загруженных на активном тейке выбранного медиа-элемента.</li>
+                <li><strong>Мастер-FX:</strong> просмотр всех плагинов, загруженных на мастер-треке.</li>
+                <li><strong>Мониторинг FX:</strong> просмотр всех плагинов, загруженных в цепи мониторинга.</li>
+                <li><strong>Интерактивное управление:</strong> обход (bypass) плагинов с помощью флажков или выбор плагина для просмотра заметок и деталей.</li>
+              </ul>
+            </div>`
         }
       ]
     },
@@ -2462,6 +3835,105 @@ const docData = {
         shortcuts: "کیبورڈ شارٹ کٹس"
       },
       sections: [
+        {
+          id: "installation-launching",
+          title: "0. انسٹالیشن اور لانچنگ (یوزر گائیڈ)",
+          content: `<div>
+              <p>اپنے پلگ انز کو منظم کرنے سے پہلے، آپ کو اپنے سسٹم پر Virtue FX Manager کو انسٹال اور فعال کرنا ہوگا۔ اپنے آپریٹنگ سسٹم کے مطابق نیچے دی گئی انسٹالیشن گائیڈ کا انتخاب کریں:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS انسٹالیشن
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows انسٹالیشن
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    macOS پر مرحلہ وار انسٹالیشن گائیڈ
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    macOS کے لیے Virtue FX Manager کو ایک دستخط شدہ اور نوٹریائزڈ انسٹالر پیکیج (<code>.pkg</code>) کے طور پر تقسیم کیا جاتا ہے جو ایک ڈسک امیج (<code>.dmg</code>) کے اندر ہوتا ہے۔ انسٹالیشن مکمل کرنے کے لیے درج ذیل مراحل پر عمل کریں:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 1: DMG امیج کھولیں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">ڈاؤن لوڈ کی گئی <code>VirtueFXManager.dmg</code> فائل پر ڈبل کلک کریں۔ والیوم ونڈو کے اندر، آپ کو <strong>"VirtueFXManager.pkg"</strong> انسٹالر اور <strong>"Uninstall Virtue"</strong> افادیت نظر آئے گی۔</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="مرحلہ 1: DMG امیج کھولیں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 2: انسٹالر پیکیج چلائیں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>اہم: انسٹالیشن چلانے سے پہلے REAPER کو مکمل طور پر بند کر دیں۔</strong> سیٹ اپ وزرڈ شروع کرنے کے لیے <code>VirtueFXManager.pkg</code> آئیکن پر ڈبل کلک کریں۔ خوش آمدید اسکرین پر <strong>"Continue"</strong> پر کلک کریں۔</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="مرحلہ 2: انسٹالر پیکیج چلائیں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 3: تصدیق اور انسٹال کریں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">اپنی مرکزی ڈرائیو (Macintosh HD) پر معیاری انسٹالیشن کرنے کے لیے <strong>"Install"</strong> بٹن पर کلک کریں۔ یہ مقامی C++ ایکسٹینشن <code>reaper_virtue.dylib</code> کو براہ راست REAPER کے UserPlugins کے راستے میں کاپی کر دے گا۔</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="مرحلہ 3: تصدیق اور انسٹال کریں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 4: کلین انسٹال کا اختیار (اختیاری)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">اگر آپ کو پرانی کنفیگریشن ڈیٹا بیس کو ختم کرنے اور اپنے ڈیسک ٹاپ پر اپنی مرضی کے تھمب نیلز کا بیک اب لینے کی ضرورت ہے، تو آگے بڑھنے سے پہلے <strong>"Customize"</strong> بٹن پر کلک کریں اور <strong>"Clean Install (Backup & Purge)"</strong> منتخب کریں۔</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="مرحلہ 4: اپنی مرضی کے مطابق بنائیں" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="مرحلہ 4: صاف انسٹال کریں" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 5: ختم کریں اور لانچ کریں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">فائلیں کاپی ہونے کے بعد، <strong>"Close"</strong> پر کلک کریں۔ REAPER کھولیں، Actions List پر جائیں (دبائیں <kbd>?</kbd>)، <em>"Virtue FX Manager"</em> تلاش کریں، اور ونڈو کھولنے کے لیے اسے چلائیں۔ مقامی ایکسٹینشن اب فعال ہے!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="مرحلہ 5: ختم کریں اور لانچ کریں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen اور انسٹالیشن گائیڈ
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    چونکہ Virtue FX Manager ایک نیا ایپلیکیشن ہے، اس لیے <code>vfxm-win.exe</code> انسٹالر لانچ کرتے وقت Windows Defender SmartScreen انتباہ ظاہر کر سکتا ہے۔ تحفظ کو بائی پاس کرنے اور انسٹالیشن مکمل کرنے کے لیے درج ذیل مراحل پر عمل کریں:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 1: انسٹالر چلائیں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">ڈاؤن لوڈ کی گئی <code>vfxm-win.exe</code> فائل پر ڈبل کلک کریں۔ اگر Windows Defender SmartScreen ونڈو ظاہر ہوتی ہے، تو انتباہی متن کے نیچے <strong>"More info"</strong> لنک پر کلک کریں۔</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="مرحلہ 1: انسٹالر چلائیں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 2: بہر حال چلائیں (Run anyway)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Inno Setup وزرڈ شروع کرنے کے لیے انتباہی ونڈو کے نیچے دائیں کونے میں ظاہر ہونے والے <strong>"Run anyway"</strong> بٹن پر کلک کریں۔</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="مرحلہ 2: بہر حال چلائیں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 3: REAPER کا راستہ منتخب کریں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">انسٹالر <code>%APPDATA%\\REAPER</code> پر آپ کی REAPER وسائل کی ڈائریکٹری کا خودکار طور پر پتہ لگانے کی کوشش کرے گا۔ اگر آپ پورٹیبل انسٹالیشن استعمال کر رہے ہیں، تو دستی طور پر اپنے حسب ضرورت راستے پر جائیں۔</p>
+                       <img src="../imgs/windows_install_info.png" alt="مرحلہ 3: REAPER کا راستہ منتخب کریں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">مرحلہ 4: انسٹالیشن مکمل کریں</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">"Next" پر کلک کریں، ثم "Install"۔ مقامی ایکسٹینشن <code>reaper_virtue.dll</code> آپ کے <code>UserPlugins</code> فولڈر میں کاپی ہو جائے گی۔</p>
+                       <img src="../imgs/windows_install_ready.png" alt="مرحلہ 4: انسٹالیشن مکمل کریں" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
         {
           id: "getting-started",
           title: "1. شروعات اور اسکین سیٹ اپ",
@@ -2678,9 +4150,308 @@ const docData = {
                 </div>
               </div>
             </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. سسٹم کی اجازتوں کے مسائل کا حل (macOS)",
+          content: `<div>
+              <p>ایپل کے macOS میں اسکرین کیپچر کرنے کی سخت سیکیورٹی پالیسیاں ہیں۔ پہلی بار تھمб نیل کیپچر کرنے پر macOS اجازت مانگے گا۔</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">اسکرین ریکارڈنگ کی اجازت کیسے دیں</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">سسٹم سیٹنگز کھولیں اور پرائیویسی اور سیکیورٹی پر جائیں۔</li>
+                  <li style="margin-bottom: 0.5rem"><strong>اسکرین اور سسٹم آڈیو ریکارڈنگ</strong> پر کلک کریں۔</li>
+                  <li style="margin-bottom: 0.5rem">فہرست میں <strong>REAPER.app</strong> تلاش کریں اور سوئچ آن کریں۔</li>
+                  <li><strong>انتہائی اہم:</strong> اجازت کے لاگو ہونے کے لیے <strong>REAPER کو دوبارہ شروع (Restart)</strong> کرنا ہوگا۔</li>
+                </ol>
+              </div>
+              <p>اجازت ملنے کے بعد، تھمب نیل کیپچر شارٹ کٹ (<code>C</code>) بغیر کسی اضافی پرامپٹ کے کام کرے گا۔</p>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. آٹو تھمب نیل اسکینر اور استحکام",
+          content: `<div>
+              <p>آٹو اسکینر عارضی ٹریک پر پلگ انز لوڈ کر کے اور ان کے اسکرین شاٹ کیپچر کر کے بصری لائبریری بناتا ہے۔</p>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">اسکین کے اختیارات</h4>
+              <ul>
+                <li><strong>مکمل اسکین:</strong> سیٹنگز مینیو سے لائبریری کی تعمیر شروع کریں۔</li>
+                <li><strong>مخصوص اسکین:</strong> رائٹ کلک کریں اور <strong>منتخب کردہ تھمب نیلز کو آٹو کیپچر کریں</strong> منتخب کریں۔</li>
+              </ul>
+              <h4 style="margin: 1rem 0 0.5rem 0; color: var(--accent)">کریش لچک</h4>
+              <p>اگر اسکین کے دوران REAPER کریش ہوجائے، تو اسے دوبارہ کھولیں۔ اسکینر خود بخود رکی ہوئی جگہ سے پیشرفت بحال کرے گا اور کریش کی وجہ بننے والے پلگ ان کو بلاک لسٹ کر دے گا۔</p>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. فعال FX اور ٹریک کی نگرانی (معائنہ اور کنٹرول)",
+          content: `<div>
+              <p>Virtue FX Manager میں آپ کے موجودہ پروجیکٹ میں لوڈ کردہ تمام پلگ انز کو دیکھنے اور ان کا انتظام کرنے کے لیے ఒక <strong>فعال FX</strong> ٹیب ہے:</p>
+              <ul>
+                <li><strong>ٹریک FX:</strong> فی الحال منتخب کردہ ٹریک پر لوڈ کردہ تمام پلگ انز دیکھیں۔</li>
+                <li><strong>آئٹم ٹیک FX:</strong> منتخب میڈیا آئٹم کے فعال ٹیک پر لوڈ کردہ تمام پلگ انز دیکھیں۔</li>
+                <li><strong>ماسٹر FX:</strong> ماسٹر ٹریک پر لوڈ کردہ تمام پلگ انز دیکھیں۔</li>
+                <li><strong>مانیٹرنگ FX:</strong> مانیٹرنگ چین میں لوڈ کردہ تمام پلگ انز دیکھیں۔</li>
+                <li><strong>انٹرایکٹو کنٹرول:</strong> چیک باکس کے ذریعے پلگ انز کو بائی پاس کریں یا نوٹس اور تفصیلات دیکھنے کے لیے پلگ ان منتخب کریں۔</li>
+              </ul>
+            </div>`
+        }
+      ]
+    },
+    it: {
+      title: "Wiki e Documentazione di Virtue FX Manager",
+      subtitle: "Scopri come organizzare, filtrare e caricare all'istante la tua libreria di plugin all'interno di REAPER.",
+      langSelectLabel: "Seleziona Lingua",
+      tableOfContents: "Indice dei Contenuti",
+      searchPlaceholder: "Cerca nell'aiuto...",
+      breadcrumbsHome: "Aiuto",
+      categories: {
+        setup: "Installazione & Configurazione",
+        workflows: "Flussi di Lavoro Principali",
+        organization: "Organizzazione Libreria",
+        shortcuts: "Scorciatoie da Tastiera"
+      },
+      sections: [
+        {
+          id: "installation-launching",
+          title: "0. Installazione e Avvio (Guida all'Usabilità dell'App)",
+          content: `<div>
+              <p>Prima di organizzare i tuoi plugin, devi installare e attivare Virtue FX Manager sul tuo sistema. Scegli la guida all'installazione qui sotto corrispondente al tuo sistema operativo:</p>
+
+              <div class="os-tab-container">
+                <div class="os-tabs">
+                  <button class="os-tab-btn active" data-os="mac">
+                    macOS Installation
+                  </button>
+                  <button class="os-tab-btn" data-os="windows">
+                    Windows Installation
+                  </button>
+                </div>
+
+                <!-- macOS Tab Content -->
+                <div class="os-tab-content active" data-os="mac">
+                  <h4>
+                    Installazione Passo-Passo su macOS
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Virtue FX Manager per macOS è distribuito come pacchetto di installazione firmato e notarizzato (<code>.pkg</code>) racchiuso in un'immagine disco (<code>.dmg</code>). Segui questi passaggi per completare l'installazione:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 1: Apri l'immagine DMG</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Fai doppio clic sul file <code>VirtueFXManager.dmg</code> scaricato. All'interno della finestra del volume vedrai l'installer <strong>"VirtueFXManager.pkg"</strong> e l'applicazione <strong>"Uninstall Virtue"</strong>.</p>
+                       <img src="../imgs/Mac_Installer_01.png" alt="Passo 1: Apri volume DMG" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 2: Esegui il pacchetto di installazione</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);"><strong>FONDAMENTALE: Chiudi completamente REAPER prima di eseguire l'installazione.</strong> Fai doppio clic sull'icona <code>VirtueFXManager.pkg</code> per avviare l'installazione guidata. Fai clic su <strong>"Continua"</strong> nella schermata iniziale.</p>
+                       <img src="../imgs/Mac_Installer_02.png" alt="Passo 2: Avvia pacchetto d'installazione" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 3: Conferma e Installa</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Fai clic sul pulsante <strong>"Installa"</strong> per eseguire un'installazione standard sulla tua unità principale (Macintosh HD). Questo copierà l'estensione nativa C++ <code>reaper_virtue.dylib</code> direttamente nel percorso UserPlugins di REAPER.</p>
+                       <img src="../imgs/Mac_Installer_03.png" alt="Passo 3: Seleziona destinazione d'installazione" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 4: Installazione Pulita Personalizzata (Opzionale)</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Se hai di bisogno di eliminare i vecchi database di configurazione ed eseguire il backup delle miniature personalizzate sul Desktop, fai clic sul pulsante <strong>"Personalizza"</strong> e seleziona <strong>"Installazione Pulita (Backup & Purge)"</strong> prima di procedere.</p>
+                       <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem;">
+                         <img src="../imgs/Mac_Installer_Custom_01.png" alt="Passo 4: Clicca personalizza" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                         <img src="../imgs/Mac_Installer_Custom_02.png" alt="Passo 4: Seleziona installazione pulita" style="max-width: 100%; width: 300px; border: 1px solid var(--line); border-radius: 8px;" />
+                       </div>
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 5: Termina l'installazione e avvia</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Una volta copiati i file, fai clic su <strong>"Chiudi"</strong>. Apri REAPER, vai alla Lista delle Azioni (premi <kbd>?</kbd>), cerca <em>"Virtue FX Manager"</em> ed eseguilo per aprire la finestra. L'estensione nativa è ora attiva!</p>
+                       <img src="../imgs/Mac_Installer_04.png" alt="Passo 5: Installazione completata" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Windows Tab Content -->
+                <div class="os-tab-content" data-os="windows">
+                  <h4>
+                    Windows SmartScreen & Guida all'Installazione
+                  </h4>
+                  <p style="margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                    Poiché Virtue FX Manager è un'applicazione recente, Windows Defender SmartScreen potrebbe mostrare un avviso all'avvio dell'installer <code>vfxm-win.exe</code>. Segui questi passaggi per ignorare la protezione e completare l'installazione:
+                  </p>
+
+                  <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1rem;">
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 1: Esegui l'installer</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Fai doppio clic sul file <code>vfxm-win.exe</code> scaricato. Se appare la finestra di Windows Defender SmartScreen, fai clic sul link <strong>"Ulteriori informazioni"</strong> sotto il testo di avviso.</p>
+                       <img src="../imgs/windows_protection_more_info.png" alt="Passo 1: Clicca su ulteriori informazioni" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 2: Esegui comunque</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Fai clic sul pulsante <strong>"Esegui comunque"</strong> che appare nell'angolo in basso a destra della finestra di avviso per avviare l'installazione guidata di Inno Setup.</p>
+                       <img src="../imgs/windows_protection_run_anyway.png" alt="Passo 2: Clicca esegui comunque" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div style="border-bottom: 1px solid var(--line); padding-bottom: 1.5rem;">
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 3: Seleziona il percorso di installazione di REAPER</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">L'installer cercherà di rilevare automaticamente la tua cartella REAPER in <code>%APPDATA%\\REAPER</code>. Se utilizzi un'installazione portatile, seleziona manualmente il percorso principale dell'applicazione.</p>
+                       <img src="../imgs/windows_install_info.png" alt="Passo 3: Conferma il percorso" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+
+                    <div>
+                       <h5 style="margin: 0 0 0.5rem 0; font-size: 1rem; color: var(--ink);">Passo 4: Completa l'installazione</h5>
+                       <p style="margin: 0 0 1rem 0; font-size: 0.9rem; color: var(--muted);">Fai clic su "Avanti", quindi su "Installa". L'estensione <code>reaper_virtue.dll</code> verra copiata nel percorso <code>UserPlugins</code>.</p>
+                       <img src="../imgs/windows_install_ready.png" alt="Passo 4: Clicca installa" style="display: block; max-width: 100%; width: 500px; border: 1px solid var(--line); border-radius: 8px; margin-top: 1rem;" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>`
+        },
+        {
+          id: "getting-started",
+          title: "1. Introduzione e Configurazione della Scansione",
+          content: `<div>
+              <p>Al primo avvio, Virtue FX Manager ti guiderà attraverso la configurazione iniziale per indicizzare la tua libreria di plugin:</p>
+              <ul>
+                <li><strong>Scansione Iniziale:</strong> L'applicazione eseguirà una scansione rapida dei percorsi dei tuoi plugin registrati in REAPER per compilare un database locale.</li>
+                <li><strong>Rilevamento Formati:</strong> Vengono indicizzati automaticamente i formati VST, VST3, AU, CLAP e gli script JSFX nativi.</li>
+                <li><strong>Isolamento della Libreria:</strong> Puoi configurare filtri nelle impostazioni per nascondere formati duplicati (ad esempio nascondere le versioni AU se è disponibile la versione VST3).</li>
+              </ul>
+            </div>`
+        },
+        {
+          id: "visual-thumbnails",
+          title: "2. Sistema di Miniature Visive e Utilità Fotocamera",
+          content: `<div>
+              <p>Rendi la tua libreria di plugin immediatamente riconoscibile visivamente:</p>
+              <ul>
+                <li><strong>Cattura Miniature:</strong> Premi il tasto scorciatoia <code>C</code> mentre un plugin è aperto per catturare un screenshot del suo pannello di controllo.</li>
+                <li><strong>Ritaglio Fotocamera:</strong> Utilizza l'utilità fotocamera integrata per ritagliare l'immagine del plugin, regolando le dimensioni per adattarla perfettamente alla griglia.</li>
+                <li><strong>Gestione File:</strong> Le immagini catturate vengono salvate come file PNG compatti nella cartella delle miniature dell'applicazione.</li>
+              </ul>
+            </div>`
+        },
+        {
+          id: "track-insertion",
+          title: "3. Inserimento nei Tracciati (Drag & Drop, Doppio Clic)",
+          content: `<div>
+              <p>Carica i plugin nelle tue sessioni di REAPER all'istante:</p>
+              <ul>
+                <li><strong>Doppio Clic:</strong> Fai doppio clic su una miniatura di plugin nella griglia per caricarlo immediatamente sulla traccia selezionata.</li>
+                <li><strong>Trascina e Rilascia (Drag & Drop):</strong> Trascina un plugin da Virtue FX Manager direttamente nell'area dei tracciati di REAPER o sul mixer per posizionarlo esattamente dove desideri.</li>
+                <li><strong>Inserimento Multiplo:</strong> Seleziona più plugin tenendo premuto Shift o Ctrl e inseriscili contemporaneamente per creare catene di segnale complesse in un colpo solo.</li>
+              </ul>
+            </div>`
+        },
+        {
+          id: "status-circles",
+          title: "4. Cerchi di Stato dei Plugin (Elencati vs Non Elencati)",
+          content: `<div>
+              <p>Mantieni pulita la tua libreria senza eliminare file fisici:</p>
+              <ul>
+                <li><strong>Plugin Elencati (Listed):</strong> Plugin attivi e visibili nella tua griglia principale pronti per essere utilizzati.</li>
+                <li><strong>Plugin Non Elencati (Unlisted):</strong> Nascondi i plugin che non usi mai (strumenti predefiniti del sistema, utility di test, ecc.) contrassegnandoli come non elencati. Rimangono sul disco ma scompaiono dalla tua griglia principale.</li>
+                <li><strong>Filtro di Stato:</strong> Usa i cerchi colorati di stato per alternare rapidamente la visualizzazione dei soli elencati, non elencati o dell'intera libreria.</li>
+              </ul>
+            </div>`
+        },
+        {
+          id: "color-codes",
+          title: "5. Valutazione e Codici Colore delle Categorie",
+          content: `<div>
+              <p>Classifica i tuoi plugin e colorali per categoria per trovarli a colpo d'occhio:</p>
+              <ul>
+                <li><strong>Sistema a Stelle:</strong> Valuta i tuoi plugin da 1 a 5 stelle per far risaltare i tuoi strumenti preferiti nelle ricerche.</li>
+                <li><strong>Categorie Colorate:</strong> Assegna i plugin a categorie specifiche (EQ, Dinamica, Riverbero, ecc.). L'interfaccia evidenzierà il bordo della miniatura con il colore associato alla categoria.</li>
+              </ul>
+              <div class="color-list-demo-placeholder"></div>
+            </div>`
+        },
+        {
+          id: "favorites-organization",
+          title: "6. Schede dei Preferiti e Liste Personalizzate",
+          content: `<div>
+              <p>Memorizza le tue catene di mixaggio e configurazioni di strumenti preferite:</p>
+              <ul>
+                <li><strong>Creazione Schede:</strong> Fai clic con il tasto destro sulle schede dei Preferiti per creare un nuovo gruppo. Trascinale per riordinarle.</li>
+                <li><strong>Aggiungere ai Preferiti:</strong> Fai clic su "Aggiungi a Preferiti" nel pannello dei dettagli o trascina il plugin direttamente nella scheda desiderata.</li>
+                <li><strong>Note Personalizzate:</strong> Scrivi annotazioni, promemoria o suggerimenti di mixaggio nel pannello delle note per ogni singolo plugin.</li>
+              </ul>
+            </div>`
+        },
+        {
+          id: "keyboard-shortcuts",
+          title: "7. Guida Rapida alle Scorciatoie da Tastiera",
+          content: `<div>
+              <p>Controlla l'applicazione interamente da tastiera per la massima velocità:</p>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem">
+                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
+                  <code style="color: var(--accent); font-weight: bold">Frecce (Su / Giù)</code>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Naviga tra i plugin della lista.</p>
+                </div>
+                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
+                  <code style="color: var(--accent); font-weight: bold">Invio / Return</code>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Inserisci il plugin selezionato sulla traccia attiva.</p>
+                </div>
+                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
+                  <code style="color: var(--accent); font-weight: bold">Esc (Escape)</code>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Chiudi impostazioni, pop-up o la finestra principale.</p>
+                </div>
+                <div style="padding: 1rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface)">
+                  <code style="color: var(--accent); font-weight: bold">F</code>
+                  <p style="margin: 0.25rem 0 0 0; font-size: 0.85rem">Riporta il focus della tastiera sulla lista dei plugin.</p>
+                </div>
+              </div>
+            </div>`
+        },
+        {
+          id: "troubleshooting-mac-permissions",
+          title: "8. Risoluzione dei Problemi di Autorizzazione su macOS",
+          content: `<div>
+              <p>Le policy di sicurezza di macOS richiedono un'autorizzazione esplicita per la registrazione dello schermo affinché Virtue FX Manager possa catturare le miniature:</p>
+              <div style="padding: 1.2rem; border-radius: 8px; border: 1px solid var(--line); background-color: var(--surface); margin: 1rem 0">
+                <h4 style="margin: 0 0 0.5rem 0; color: var(--accent)">Come abilitare la registrazione dello schermo</h4>
+                <ol style="margin: 0; padding-left: 1.2rem">
+                  <li style="margin-bottom: 0.5rem">Apri le <strong>Impostazioni di Sistema</strong> del Mac e vai su <strong>Privacy e Sicurezza</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Fai clic su <strong>Registrazione dello Schermo</strong>.</li>
+                  <li style="margin-bottom: 0.5rem">Trova <strong>REAPER.app</strong> nell'elenco e attiva l'interruttore.</li>
+                  <li><strong>FONDAMENTALE:</strong> Devi <strong>Riavviare completamente REAPER</strong> affinché le modifiche abbiano effetto.</li>
+                </ol>
+              </div>
+            </div>`
+        },
+        {
+          id: "scanner-stability",
+          title: "9. Scansione Automatica delle Miniature e Stabilità",
+          content: `<div>
+              <p>L'utilità di scansione automatica crea automaticamente miniature per l'intera libreria caricando temporaneamente i plugin uno dopo l'altro e scattando una foto della loro interfaccia:</p>
+              <ul>
+                <li><strong>Resilienza ai Crash:</strong> Se un plugin instabile causa il crash di REAPER durante la scansione, riapri semplicemente REAPER. La scansione riprenderà automaticamente escludendo e inserendo in blacklist il plugin problematico per evitare loop di crash.</li>
+                <li><strong>Gestione Blacklist:</strong> Puoi visualizzare e gestire l'elenco dei plugin bloccati direttamente nel pannello delle Impostazioni in qualsiasi momento.</li>
+              </ul>
+            </div>`
+        },
+        {
+          id: "active-fx-monitoring",
+          title: "10. Monitoraggio Traccia ed FX Attivi (Visualizza e Controlla)",
+          content: `<div>
+              <p>Virtue FX Manager include una scheda <strong>FX Attivi</strong> per visualizzare e gestire in tempo reale i plugin istanziati nel tuo progetto attuale:</p>
+              <ul>
+                <li><strong>FX Traccia:</strong> Visualizza tutti i plugin attivi sulla traccia selezionata.</li>
+                <li><strong>FX Item/Take:</strong> Visualizza i plugin presenti sul take attivo dell'oggetto multimediale selezionato.</li>
+                <li><strong>FX Master:</strong> Tieni traccia dei plugin caricati sulla traccia Master.</li>
+                <li><strong>FX di Monitoraggio:</strong> Controlla i plugin nella catena di monitoraggio (Monitoring FX).</li>
+                <li><strong>Controllo Interattivo:</strong> Attiva o disattiva il bypass dei plugin tramite caselle di controllo rapide e seleziona i singoli plugin per modificarne note o visualizzarne i dettagli.</li>
+              </ul>
+            </div>`
         }
       ]
     }
+
   }
 
 window.VirtueDocsData = docData;

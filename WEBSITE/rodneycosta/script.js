@@ -421,7 +421,52 @@ function initWandaGallerySystem() {
 function initWandaSpatialCanvas() {
     const viewport = document.getElementById('students-dynamic-viewport') || document.getElementById('wanda-spatial-viewport');
     const gallery = document.getElementById('students-hero-gallery') || document.getElementById('wanda-spatial-canvas');
-    const cards = document.querySelectorAll('.student-gallery-card, .wanda-spatial-tile');
+    if (!viewport || !gallery) return;
+
+    // Load dynamic items from localStorage if available
+    const storedItems = localStorage.getItem('rodney_gallery_items');
+    if (storedItems) {
+        try {
+            const items = JSON.parse(storedItems);
+            if (items && items.length > 0) {
+                gallery.innerHTML = '';
+                items.forEach((item) => {
+                    const card = document.createElement('div');
+                    card.className = 'gallery-item size-md student-gallery-card';
+                    card.setAttribute('data-filter', (item.class || 'general').toLowerCase().replace(/\s+/g, '-'));
+                    card.setAttribute('data-title', item.title || '');
+                    card.setAttribute('data-student', item.student || '');
+                    card.setAttribute('data-course', `${item.class || ''} (${item.semester || ''})`);
+                    card.setAttribute('data-img', item.img || '');
+                    if (item.video) {
+                        card.setAttribute('data-video', item.video);
+                    }
+
+                    let videoHtml = '';
+                    if (item.video) {
+                        videoHtml = `<video src="${item.video}" loop muted playsinline preload="none" class="gallery-card-video"></video>`;
+                    }
+
+                    card.innerHTML = `
+                        <img src="${item.img}" alt="${item.title} - ${item.student}">
+                        ${videoHtml}
+                        <div class="video-fullscreen-icon" title="Maximize Video Cinema Reel"><i class="fas fa-expand"></i></div>
+                        <div class="gallery-item-caption">
+                            <span class="cap-student"><i class="fas fa-user-graduate"></i> ${item.student}</span>
+                            <h4 class="cap-title">${item.title}</h4>
+                            <p class="cap-task">Assignment: ${item.task || ''}</p>
+                            <span class="cap-meta">${item.class || ''} • ${item.semester || ''} • ${item.institution || 'Clemson University'}</span>
+                        </div>
+                    `;
+                    gallery.appendChild(card);
+                });
+            }
+        } catch (e) {
+            console.error("Error loading gallery items from localStorage", e);
+        }
+    }
+
+    const cardsArray = Array.from(gallery.querySelectorAll('.student-gallery-card'));
     const reelModal = document.getElementById('wanda-cinema-reel-modal');
     const reelCloseBtn = document.getElementById('wanda-reel-close-btn');
     const reelPrevBtn = document.getElementById('wanda-reel-prev');
@@ -432,139 +477,44 @@ function initWandaSpatialCanvas() {
     const reelBadge = document.getElementById('wanda-reel-badge');
     const filmstripTrack = document.getElementById('wanda-filmstrip-track');
 
-    if (!viewport || !gallery || cards.length === 0) return;
+    if (cardsArray.length === 0) return;
 
-    // Infinite Seamless Side-Roll Physics Engine
-    let panX = 0;
-    let targetPanX = 0;
-    let isDragging = false;
-    let dragStartX = 0;
-    let velocityX = 0;
-    let lastMouseX = 0;
+    let currentReelIndex = 0;
 
-    const cardSpacing = 380; // horizontal spacing
-    const totalWidth = cards.length * cardSpacing;
+    // Reset card inline styles to let them flow in standard CSS Grid
+    cardsArray.forEach((card, idx) => {
+        card.style.position = '';
+        card.style.width = '';
+        card.style.height = '';
+        card.style.left = '';
+        card.style.top = '';
+        card.style.transform = '';
+        card.style.opacity = '';
 
-    cards.forEach((card, index) => {
-        card.style.position = 'absolute';
-        card.style.width = '340px';
-        card.style.height = '210px';
-        card.style.top = `${12 + (index % 3) * 26}%`;
-    });
-
-    // Mouse Dragging & Side Roll
-    viewport.addEventListener('mousedown', (e) => {
-        if (e.target.closest('button, a')) return;
-        isDragging = true;
-        dragStartX = e.clientX - targetPanX;
-        lastMouseX = e.clientX;
-        viewport.style.cursor = 'grabbing';
-    });
-
-    window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        targetPanX = e.clientX - dragStartX;
-        velocityX = e.clientX - lastMouseX;
-        lastMouseX = e.clientX;
-    });
-
-    window.addEventListener('mouseup', () => {
-        if (!isDragging) return;
-        isDragging = false;
-        viewport.style.cursor = 'grab';
-    });
-
-    // Touch Support for Mobile Side Roll
-    viewport.addEventListener('touchstart', (e) => {
-        if (e.touches.length > 0) {
-            isDragging = true;
-            dragStartX = e.touches[0].clientX - targetPanX;
-            lastMouseX = e.touches[0].clientX;
-        }
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-        if (!isDragging || e.touches.length === 0) return;
-        targetPanX = e.touches[0].clientX - dragStartX;
-        velocityX = e.touches[0].clientX - lastMouseX;
-        lastMouseX = e.touches[0].clientX;
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => {
-        isDragging = false;
-    });
-
-    // Mouse Wheel Side Roll
-    viewport.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        targetPanX -= (e.deltaX || e.deltaY) * 0.8;
-    }, { passive: false });
-
-    // Continuous Infinite Loop Render Loop
-    function updateInfiniteLoop() {
-        if (!isDragging) {
-            targetPanX += velocityX;
-            velocityX *= 0.94; // Momentum decay
-        }
-
-        panX += (targetPanX - panX) * 0.1;
-
-        cards.forEach((card, index) => {
-            let baseX = index * cardSpacing;
-            // Modulo math for infinite looping
-            let currentCardX = (baseX + panX) % totalWidth;
-            if (currentCardX < -cardSpacing) currentCardX += totalWidth;
-
-            card.style.left = `${currentCardX}px`;
+        // Click directly opens cinema modal
+        card.addEventListener('click', () => {
+            currentReelIndex = idx;
+            populateWandaReel(currentReelIndex);
+            if (reelModal) {
+                reelModal.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    reelModal.classList.add('active');
+                });
+            }
         });
 
-        requestAnimationFrame(updateInfiniteLoop);
-    }
-    updateInfiniteLoop();
-
-    // Hover Video Auto-Play for Dynamic Cards
-    cards.forEach(card => {
+        // Hover plays video preview
         const video = card.querySelector('.gallery-card-video, .wanda-tile-video');
         if (video) {
             card.addEventListener('mouseenter', () => {
                 video.play().catch(() => {});
             });
-
             card.addEventListener('mouseleave', () => {
                 video.pause();
                 video.currentTime = 0;
             });
         }
     });
-
-    // Category Filter Buttons
-    const filterBtns = document.querySelectorAll('.wanda-filter-btn');
-    if (filterBtns.length > 0) {
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const filter = btn.getAttribute('data-filter');
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                cards.forEach(card => {
-                    const cat = (card.getAttribute('data-filter') || card.getAttribute('data-category') || '').toLowerCase();
-                    if (filter === 'all' || cat.includes(filter.toLowerCase())) {
-                        card.style.display = 'block';
-                        if (window.gsap) {
-                            gsap.fromTo(card, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' });
-                        }
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-    }
-
-    // Wanda Fullscreen Cinema Reel Player Setup
-    let currentReelIndex = 0;
-    const cardsArray = Array.from(cards);
 
     function populateWandaReel(index) {
         if (index < 0) index = cardsArray.length - 1;
@@ -651,17 +601,12 @@ function initWandaSpatialCanvas() {
 
     buildFilmstrip();
 
-    cardsArray.forEach((card, idx) => {
-        card.addEventListener('click', () => {
-            currentReelIndex = idx;
-            populateWandaReel(currentReelIndex);
-            if (reelModal) reelModal.classList.add('active');
-        });
-    });
-
     if (reelCloseBtn) {
         reelCloseBtn.addEventListener('click', () => {
-            if (reelModal) reelModal.classList.remove('active');
+            if (reelModal) {
+                reelModal.classList.remove('active');
+                setTimeout(() => { reelModal.style.display = 'none'; }, 350);
+            }
             const reelVideo = document.getElementById('wanda-reel-video');
             if (reelVideo) {
                 reelVideo.pause();
@@ -676,6 +621,52 @@ function initWandaSpatialCanvas() {
 
     if (reelNextBtn) {
         reelNextBtn.addEventListener('click', () => populateWandaReel(currentReelIndex + 1));
+    }
+
+    // Touch Swipe/Flick gestures inside modal for easy mobile slide viewing
+    if (reelModal) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+        reelModal.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        reelModal.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const diffX = touchEndX - touchStartX;
+            if (Math.abs(diffX) > 50) {
+                if (diffX < 0) {
+                    populateWandaReel(currentReelIndex + 1); // Swipe Left -> Next
+                } else {
+                    populateWandaReel(currentReelIndex - 1); // Swipe Right -> Prev
+                }
+            }
+        }, { passive: true });
+    }
+
+    // Category Filter Buttons
+    const filterBtns = document.querySelectorAll('.wanda-filter-btn');
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const filter = btn.getAttribute('data-filter');
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                cardsArray.forEach(card => {
+                    const cat = (card.getAttribute('data-filter') || card.getAttribute('data-category') || '').toLowerCase();
+                    if (filter === 'all' || cat.includes(filter.toLowerCase())) {
+                        card.style.display = 'block';
+                        if (window.gsap) {
+                            gsap.fromTo(card, { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.35, ease: 'power2.out' });
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
     }
 }
 

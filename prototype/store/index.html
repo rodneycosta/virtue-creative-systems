@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store | Virtue FX Manager</title>
+  <meta name="description" content="Buy Virtue FX Manager, a professional visual plugin manager for REAPER.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=8">
+  <script>
+    // Asset resource configuration
+    window.__resources = window.__resources || {};
+    window.__resources['app-icon'] = '../favicon.svg';
+    window.__resources['logo-icon'] = '../favicon.svg';
+  </script>
+</head>
+<body data-site-header data-site-footer>
+  <div id="root"></div>
+
+  <!-- UMD script bundles -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+  <!-- React UMD component dependencies -->
+  <script type="text/babel" src="store.jsx?v=8"></script>
+</body>
+</html>

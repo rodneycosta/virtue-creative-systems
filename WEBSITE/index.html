@@ -1,237 +1,58 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="Virtue FX Manager is a native REAPER plugin manager that helps producers browse, organize, thumbnail, note, filter, favorite, list/unlist, and insert plugins faster."
-    />
-    <meta property="og:title" content="Virtue Creative Systems" />
-    <meta
-      property="og:description"
-      content="A visual plugin manager built for REAPER users with large VST, AU, CLAP, and JSFX libraries."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://virtuecreativesystems.com/" />
-    <meta name="theme-color" content="#e0f2fe" />
-    <title>Virtue Creative Systems | Creative Workflow Software</title>
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header" data-site-header></header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VFxM | Instant Visual Plugin Manager for REAPER</title>
+  <meta name="description" content="Browse by thumbnail, drag-and-drop tracks, filter in milliseconds, and manage workspace firewall. Virtue FX Manager is the premium plugin system for Cockos REAPER.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=8">
+  <script>
+    // Asset resource configuration
+    window.__resources = window.__resources || {};
+    window.__resources['app-icon'] = 'favicon.svg';
+    window.__resources['logo-icon'] = 'favicon.svg';
+  </script>
+  <template id="__bundler_thumbnail" data-bg-color="#080b11">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <circle cx="600" cy="400" r="180" stroke="rgba(56, 189, 248, 0.22)" stroke-width="2" stroke-dasharray="4 14"/>
+      <circle cx="600" cy="400" r="20" fill="#38bdf8"/>
+      <g fill="#94a3b8">
+        <circle cx="600" cy="220" r="30"/>
+        <circle cx="727" cy="273" r="30"/>
+        <circle cx="780" cy="400" r="30"/>
+        <circle cx="727" cy="527" r="30"/>
+        <circle cx="600" cy="580" r="30"/>
+        <circle cx="473" cy="527" r="30"/>
+        <circle cx="420" cy="400" r="30"/>
+        <circle cx="473" cy="273" r="30"/>
+      </g>
+      <text x="600" y="730" text-anchor="middle" font-family="Poppins, sans-serif" font-size="46" font-weight="800" fill="#f4f6fa">
+        VFx<tspan fill="#38bdf8">Manager</tspan>
+      </text>
+    </svg>
+  </template>
+</head>
+<body data-site-header data-site-footer>
+  <div id="root"></div>
 
-    <main id="main">
-      <section class="home-hero-immersive reveal">
-        <p class="eyebrow">Virtue Creative Systems</p>
-        <h1>Focused tools for faster REAPER sessions.</h1>
-        <p>
-          Virtue FX Manager is a native plugin manager for REAPER users with large effect and
-          instrument libraries. Browse visually, save favorites, add notes, hide clutter, and load
-          plugins without breaking the session.
-        </p>
-      </section>
+  <!-- UMD script bundles -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+  <script src="i18n.js"></script>
 
-      <section class="section-shell product-list" aria-label="Virtue products">
-        <article class="product-strip reveal">
-          <figure class="product-strip-media">
-            <img fetchpriority="high" decoding="sync"
-              src="VFxM_Main.png"
-              alt="Virtue FX Manager visual interface showing plugin browser grid and favorites tabs"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" data-release-label>Early access coming soon</span>
-            <h2>virtue fx manager</h2>
-            <p class="tagline">A visual plugin manager built for REAPER.</p>
-            <p>
-              Search, preview, favorite, thumbnail, note, filter, list or unlist, and insert plugins
-              faster from inside REAPER. Built for producers, mixers, composers, and sound designers
-              who need speed without losing control of their library.
-            </p>
-            <div class="button-row" style="margin-top: 1.5rem;">
-              <a class="button button-primary" href="store/virtue-fx-manager/">Buy / Try</a>
-              <a class="button button-secondary" href="download/vfxm/">Download</a>
-              <a class="button button-secondary" href="docs/">Help</a>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <!-- Detailed Features Showcase -->
-      <section class="section-shell" aria-label="Virtue FX Manager features">
-        <div style="text-align: center; margin-bottom: 4rem; margin-top: 3rem;" class="reveal">
-          <p class="eyebrow">Everything you need</p>
-          <h2 style="font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -0.05em; font-weight: 800; line-height: 1.1; color: var(--ink);">
-            Built for creative speed.
-          </h2>
-          <p style="color: var(--muted); font-size: 1.1rem; max-width: 38rem; margin: 1rem auto 0 auto; line-height: 1.6;">
-            Every feature is designed to remove menu hunting and clutter, keeping your focus on the mix.
-          </p>
-        </div>
-
-        <!-- Feature 1: Visual Recognition -->
-        <article class="product-strip reveal" style="padding-top: 2rem; margin-bottom: 8rem;">
-          <figure class="product-strip-media">
-            <img loading="lazy"
-              src="VFxM_BigThumbnails.png"
-              alt="Virtue FX Manager showing large plugin thumbnails in a clean layout grid"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" style="background: rgba(37, 99, 235, 0.08); color: var(--accent);">Visual Browser</span>
-            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
-              Browse by Thumbnail, Not Lists
-            </h3>
-            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
-              Reclaim your visual memory. Identify instruments and processors by their actual graphical interfaces.
-            </p>
-            <p>
-              Trade plain alphabetical text menu hunting for a rich, visual plugin dashboard. Open plugins in REAPER, capture their custom interfaces in one click with the built-in crop camera tool, and scroll through thumbnails that your brain recognizes instantly.
-            </p>
-          </div>
-        </article>
-
-        <!-- Feature 2: Drag and Drop Insertion -->
-        <article class="product-strip product-strip-reverse reveal" style="padding-top: 2rem; margin-bottom: 8rem;">
-          <figure class="product-strip-media">
-            <img loading="lazy"
-              src="VFxM_Speed_workflow_discover_hidden_plugins.png"
-              alt="Fast track and plugin insertion inside Cockos REAPER"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" style="background: rgba(37, 99, 235, 0.08); color: var(--accent);">Instant Load</span>
-            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
-              Accelerated Track Insertion
-            </h3>
-            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
-              Stay in the zone. Load effects or instruments without breaking your creative flow.
-            </p>
-            <p>
-              Double-click to instantly load any plugin onto your active track, or drag a card directly into REAPER's arranger to auto-create track pathways. Select multiple plugins to insert entire signal chains sequentially in a single action.
-            </p>
-          </div>
-        </article>
-
-        <!-- Feature 3: Advanced Filtering -->
-        <article class="product-strip reveal" style="padding-top: 2rem; margin-bottom: 8rem;">
-          <figure class="product-strip-media">
-            <img loading="lazy"
-              src="VFxM_Developer_Type_Cathegorie.png"
-              alt="Filtering options including developer, format, and categories chips"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" style="background: rgba(37, 99, 235, 0.08); color: var(--accent);">Millisecond search</span>
-            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
-              Advanced Filter Engine
-            </h3>
-            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
-              Slice through large libraries. Filter by developer, format, or category in one tap.
-            </p>
-            <p>
-              Manage thousands of effects without breaking a sweat. Quickly focus your library using multi-column chips to filter by brand developer, plugin format (VST, VST3, AU, CLAP, JSFX), or functional categories like EQs, Compressors, and Reverbs.
-            </p>
-          </div>
-        </article>
-
-        <!-- Feature 4: Favorites and Workflow Boards -->
-        <article class="product-strip product-strip-reverse reveal" style="padding-top: 2rem; margin-bottom: 8rem;">
-          <figure class="product-strip-media">
-            <img loading="lazy"
-              src="VFxM_Favorites_Presets_FXChains.png"
-              alt="Favorites tab organization and custom plugin lists"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" style="background: rgba(37, 99, 235, 0.08); color: var(--accent);">Personalized Boards</span>
-            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
-              Custom Favorites & Lists
-            </h3>
-            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
-              Design custom layout boards for vocals, drums, mixing, or sound design.
-            </p>
-            <p>
-              Group your go-to mixing chains and instruments into custom tabs. Double-click tabs to rename them, drag horizontally to organize them, write persistent routing notes, and pin REAPER FX Chains for instant recall.
-            </p>
-          </div>
-        </article>
-
-        <!-- Feature 5: Listed vs Unlisted Firewall -->
-        <article class="product-strip reveal" style="padding-top: 2rem; margin-bottom: 8rem;">
-          <figure class="product-strip-media">
-            <img loading="lazy"
-              src="VFxM_List_Rating.jpg"
-              alt="Plugin list view displaying status circles and rating attributes"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" style="background: rgba(37, 99, 235, 0.08); color: var(--accent);">Workspace Control</span>
-            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
-              Clutter Management Firewall
-            </h3>
-            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
-              Non-destructively manage listed vs unlisted plugin visibility.
-            </p>
-            <p>
-              Hide trial formats, secondary wrappers, or utility plugins you don't need to see while mixing. Toggle status circles to list or unlist items instantly, keeping your main search workspace pristine and focused.
-            </p>
-          </div>
-        </article>
-
-        <!-- Feature 6: Auto Thumbnail Scanner -->
-        <article class="product-strip product-strip-reverse reveal" style="padding-top: 2rem; margin-bottom: 8rem;">
-          <figure class="product-strip-media">
-            <img loading="lazy"
-              src="virtue-fx-manager-screenshot.png"
-              alt="Virtue FX Manager batch thumbnail scan utility in progress"
-            />
-          </figure>
-          <div class="product-strip-copy">
-            <span class="status-pill" style="background: rgba(37, 99, 235, 0.08); color: var(--accent);">Automation</span>
-            <span class="status-pill" style="background: rgba(245, 158, 11, 0.08); color: #d97706; margin-left: 0.5rem;">Requires user interaction</span>
-            <h3 style="font-size: 2.2rem; letter-spacing: -0.04em; font-weight: 800; line-height: 1.1; margin: 1rem 0 0.5rem 0; color: var(--ink);">
-              Auto Thumbnail Scanner
-            </h3>
-            <p class="tagline" style="font-weight: 600; color: var(--ink); margin-bottom: 1rem; font-size: 1.05rem;">
-              Automatically build your visual library in minutes.
-            </p>
-            <p>
-              Skip the manual screenshots. The built-in scanner automatically runs in the background to load your plugins onto a temporary track, capture their custom graphical interfaces, and build a beautiful visual grid for you. It automatically ignores unlisted/hidden plugins, skips disconnected external drive paths, and blocklists unstable plugins to prevent DAW crashes.
-            </p>
-            <div style="margin-top: 1rem; padding: 1.25rem; background-color: rgba(217, 119, 6, 0.05); border: 1px solid rgba(217, 119, 6, 0.25); border-radius: 8px; font-size: 0.9rem; line-height: 1.5; color: var(--muted);">
-              <strong style="color: #d97706; display: block; margin-bottom: 0.4rem;">⚠️ A Note on First-Time Scanning:</strong>
-              The audio plugin ecosystem is vast. Because the scanner opens plugins to snap screenshots, an unstable third-party plugin might cause a quick DAW crash during setup. We built the system to handle this: simply relaunch REAPER, and the scanner will automatically blocklist the problematic plugin, resume exactly where it left off, and finish building your library. You can also run targeted scans by right-clicking selected plugins in the list to capture their thumbnails individually or in batches. Please refer to the documentation for a seamless setup; automated scanning is at the user's discretion.
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <section class="section-shell mailing-panel reveal" id="release-list">
-        <div>
-          <p class="eyebrow">Release list</p>
-          <h2>Get official release updates.</h2>
-        </div>
-        <form class="newsletter-form" data-newsletter>
-          <label class="sr-only" for="home-email">Email address</label>
-          <input id="home-email" type="email" name="email" placeholder="e-mail address" required />
-          <button class="button button-primary" type="submit">Subscribe</button>
-          <p class="form-note" data-form-note>No spam. Only product updates.</p>
-        </form>
-      </section>
-    </main>
-
-    <footer class="site-footer" data-site-footer></footer>
-    <script src="i18n.js"></script>
-    <script src="script.js"></script>
-  </body>
+  <!-- React UMD component dependencies -->
+  <script type="text/babel" src="plugins.jsx?v=8"></script>
+  <script type="text/babel" src="hero.jsx?v=8"></script>
+  <script type="text/babel" src="reveal.jsx?v=10"></script>
+  <script type="text/babel" src="features.jsx?v=7"></script>
+  <script type="text/babel" src="pricing.jsx?v=8"></script>
+  <script type="text/babel" src="testimonials.jsx?v=7"></script>
+  <script type="text/babel" src="recovery.jsx?v=7"></script>
+  <script type="text/babel" src="app.jsx?v=7"></script>
+</body>
 </html>

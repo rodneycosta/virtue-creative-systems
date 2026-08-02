@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VFxM | Instant Visual Plugin Manager for REAPER</title>
+  <meta name="description" content="Browse by thumbnail, drag-and-drop tracks, filter in milliseconds, and manage workspace firewall. Virtue FX Manager is the premium plugin system for Cockos REAPER.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=8">
+  <script>
+    // Asset resource configuration
+    window.__resources = window.__resources || {};
+    window.__resources['app-icon'] = 'favicon.svg';
+    window.__resources['logo-icon'] = 'favicon.svg';
+  </script>
+  <template id="__bundler_thumbnail" data-bg-color="#080b11">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <circle cx="600" cy="400" r="180" stroke="rgba(56, 189, 248, 0.22)" stroke-width="2" stroke-dasharray="4 14"/>
+      <circle cx="600" cy="400" r="20" fill="#38bdf8"/>
+      <g fill="#94a3b8">
+        <circle cx="600" cy="220" r="30"/>
+        <circle cx="727" cy="273" r="30"/>
+        <circle cx="780" cy="400" r="30"/>
+        <circle cx="727" cy="527" r="30"/>
+        <circle cx="600" cy="580" r="30"/>
+        <circle cx="473" cy="527" r="30"/>
+        <circle cx="420" cy="400" r="30"/>
+        <circle cx="473" cy="273" r="30"/>
+      </g>
+      <text x="600" y="730" text-anchor="middle" font-family="Poppins, sans-serif" font-size="46" font-weight="800" fill="#f4f6fa">
+        VFx<tspan fill="#38bdf8">Manager</tspan>
+      </text>
+    </svg>
+  </template>
+</head>
+<body data-site-header data-site-footer>
+  <div id="root"></div>
+
+  <!-- UMD script bundles -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+
+  <!-- React UMD component dependencies -->
+  <script type="text/babel" src="plugins.jsx?v=8"></script>
+  <script type="text/babel" src="hero.jsx?v=8"></script>
+  <script type="text/babel" src="reveal.jsx?v=10"></script>
+  <script type="text/babel" src="features.jsx?v=7"></script>
+  <script type="text/babel" src="pricing.jsx?v=7"></script>
+  <script type="text/babel" src="testimonials.jsx?v=7"></script>
+  <script type="text/babel" src="recovery.jsx?v=7"></script>
+  <script type="text/babel" src="app.jsx?v=7"></script>
+</body>
+</html>

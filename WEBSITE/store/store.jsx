@@ -264,7 +264,7 @@ const Store = () => {
             {/* Product Details Column */}
             <div className="product-details-panel">
               <figure style={{ borderRadius: '16px', overflow: 'hidden', border: '1px solid var(--line)', marginBottom: '24px', background: 'var(--bg-2)' }}>
-                <img src="../VFxM_Main.png" alt="Virtue FX Manager Interface Preview" style={{ width: '100%', display: 'block' }} />
+                <img src="../imgs/VFxM_Main.png" alt="Virtue FX Manager Interface Preview" style={{ width: '100%', display: 'block' }} />
               </figure>
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>

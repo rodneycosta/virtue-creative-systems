@@ -9,26 +9,46 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://virtuecreativesystems.com/checkout/success/" />
     <meta name="robots" content="noindex" />
-    <meta name="theme-color" content="#e0f2fe" />
+    <meta name="theme-color" content="#090d16" />
     <title>Checkout Success | Virtue FX Manager</title>
     <link rel="icon" href="../../favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../../styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../../styles.css?v=8" />
   </head>
   <body data-site-root="../../">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-site-header></header>
     <main id="main">
-      <section class="page-hero section-shell reveal">
+      <section class="page-hero section-shell reveal" style="max-width: 600px; margin: 0 auto; text-align: center;">
         <p class="eyebrow">Checkout complete</p>
-        <h1>Thank you for buying VFxM.</h1>
-        <p>
-          When live checkout is configured, your receipt and license/passkey will be sent by the store provider.
-          Download VFxM, open it inside REAPER, then enter the license/passkey inside the VFxM app to activate.
+        <h1 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Congratulations! Purchase Confirmed</h1>
+        
+        <!-- License Key Card -->
+        <div id="license-card" style="background: rgba(255,255,255,0.05); border: 1px solid var(--line); border-radius: 12px; padding: 24px; margin: 24px 0; text-align: left;">
+          <div id="license-loading" style="text-align: center; padding: 12px 0;">
+            <div class="spinner" style="border: 3px solid rgba(255,255,255,0.1); border-radius: 50%; border-top: 3px solid var(--o); width: 24px; height: 24px; animation: spin 1s linear infinite; display: inline-block; margin-bottom: 8px;"></div>
+            <div style="font-size: 14px; color: var(--t-3);">Generating your secure license key...</div>
+          </div>
+          
+          <div id="license-success" style="display: none;">
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--o); font-weight: 600; margin-bottom: 8px;">Your License Key</div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+              <input id="license-key-field" type="text" readonly style="flex: 1; background: rgba(0,0,0,0.2); border: 1px solid var(--line); color: #fff; padding: 12px; border-radius: 6px; font-family: var(--mono); font-size: 14px; text-align: center;" />
+              <button id="copy-license-btn" class="button button-primary" style="padding: 10px 16px; min-width: auto; margin: 0; font-size: 13px;">Copy</button>
+            </div>
+            <div id="license-email-notice" style="font-size: 13px; line-height: 1.6; color: var(--t-2);">
+              A copy of your license key and invoice has also been sent to your email.
+            </div>
+          </div>
+        </div>
+
+        <p style="margin-bottom: 2rem; font-size: 15px; color: var(--t-2);">
+          Download VFxM, open the extension inside Cockos REAPER, click the settings (gear) icon, go to the <strong>License</strong> tab, and paste your license key above to activate.
         </p>
-        <div class="button-row">
+
+        <div class="button-row" style="justify-content: center;">
           <a class="button button-primary" href="../../download/vfxm/">Download VFxM</a>
           <a class="button button-secondary" href="../../docs/activation/">Activation docs</a>
           <a class="button button-secondary" href="../../support/">Support</a>
@@ -37,6 +57,63 @@
     </main>
     <footer class="site-footer" data-site-footer></footer>
     <script src="../../i18n.js"></script>
-    <script src="../../script.js"></script>
+    <script src="../../script.js?v=8"></script>
+    <script>
+      (function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const checkoutId = urlParams.get('checkout_id');
+        const licenseCard = document.getElementById('license-card');
+        const licenseLoading = document.getElementById('license-loading');
+        const licenseSuccess = document.getElementById('license-success');
+        const licenseKeyField = document.getElementById('license-key-field');
+        const copyLicenseBtn = document.getElementById('copy-license-btn');
+        const licenseEmailNotice = document.getElementById('license-email-notice');
+
+        if (!checkoutId) {
+          // If loaded without checkout_id, show standard placeholder
+          licenseCard.style.display = 'none';
+          return;
+        }
+
+        async function fetchLicenseDetails() {
+          try {
+            const res = await fetch(`https://virtue-licensing-service.virtuecreativesystems.workers.dev/v1/checkout/success-details?checkout_id=${encodeURIComponent(checkoutId)}`);
+            const data = await res.json();
+            if (data.ok && data.license_key) {
+              licenseLoading.style.display = 'none';
+              licenseSuccess.style.display = 'block';
+              licenseKeyField.value = data.license_key;
+              if (data.email) {
+                licenseEmailNotice.innerHTML = `A copy of your license key and invoice has also been sent to <strong>${data.email}</strong>.`;
+              }
+            } else {
+              // Retry in 3 seconds if pending
+              setTimeout(fetchLicenseDetails, 3000);
+            }
+          } catch (e) {
+            setTimeout(fetchLicenseDetails, 3000);
+          }
+        }
+
+        fetchLicenseDetails();
+
+        copyLicenseBtn.addEventListener('click', () => {
+          licenseKeyField.select();
+          document.execCommand('copy');
+          const originalText = copyLicenseBtn.textContent;
+          copyLicenseBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyLicenseBtn.textContent = originalText;
+          }, 2000);
+        });
+      })();
+    </script>
+    <style>
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
   </body>
 </html>
+

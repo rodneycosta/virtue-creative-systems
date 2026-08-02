@@ -16,17 +16,14 @@
 - [x] Checkout buttons do not pretend payment is live
 - [x] Public site config can switch checkout/download links from setup mode to live mode
 
-## Lemon Squeezy
+## Polar.sh & Local Keygen
 
-- [ ] Create VFxM product
-- [ ] Enable license keys
-- [ ] Create Personal, Studio, Creator/NFR, and optional Trial variants
-- [x] Worker route scaffold exists for server-side checkout creation: `/v1/checkout/create`
-- [ ] Configure hosted checkout URLs or server-side checkout creation secrets
-- [ ] Configure success URL (must be absolute): `https://virtuecreativesystems.com/checkout/success/`
-- [ ] Configure cancel URL (must be absolute): `https://virtuecreativesystems.com/checkout/cancel/`
-- [ ] Configure webhook URL (must be absolute): `https://YOUR-WORKER-DOMAIN/webhooks/lemonsqueezy`
-- [ ] Add webhook secret to Worker secrets
+- [ ] Obtain Polar.sh sandbox Organization Access Token (OAT) and product price IDs
+- [x] Worker route exists to initiate Polar.sh checkouts: `/v1/checkout/create`
+- [ ] Configure Polar.sh environment variables on Worker (`POLAR_ACCESS_TOKEN`, `POLAR_WEBHOOK_SECRET`, `POLAR_ENV`)
+- [ ] Set up success redirection URL: `https://virtuecreativesystems.com/checkout/success/`
+- [ ] Configure Polar.sh webhook endpoint: `https://YOUR-WORKER-DOMAIN/webhooks/polar`
+- [ ] Configure Resend API Key in Worker secrets for license key email delivery
 
 ## Cloudflare
 

@@ -17,7 +17,7 @@ const VARIANTS = [
       'Millisecond search & multi-column filtering',
       'Background scanning engine with crash blocklisting',
       'DAW track drag-and-drop creation',
-      'Mac (Intel & Apple Silicon) & Windows support'
+      'Recommended and tested on macOS Tahoe and Windows 11. It might work on earlier systems, but I recommend testing it before buying with the 10-day trial version.'
     ]
   },
   {
@@ -151,13 +151,14 @@ const FAQ = () => {
   ];
 
   const [open, setOpen] = useStateP(0);
+  const t = (txt) => (window.VirtueI18n && window.VirtueI18n.t) ? window.VirtueI18n.t(txt) : txt;
 
   return (
     <section className="faq-wrap" id="faq" data-screen-label="08 FAQ">
       <div className="section-head section-head--centered faq-head" style={{ textAlign: 'center', marginBottom: 50 }}>
         <div>
-          <div className="lead">FAQ</div>
-          <h2>Frequently <span className="it" style={{ color: 'var(--o)' }}>Asked Questions</span></h2>
+          <div className="lead">{t('Perguntas Frequentes')}</div>
+          <h2 style={{ textTransform: 'none' }}>{t('Frequently Asked Questions')}</h2>
         </div>
       </div>
 
@@ -169,18 +170,18 @@ const FAQ = () => {
             data-open={open === i ? 'true' : 'false'}
             onClick={() => setOpen(open === i ? -1 : i)}>
             <div className="faq-q">
-              <span>{it.q}</span>
+              <span>{t(it.q)}</span>
               <span className="icon">+</span>
             </div>
-            <div className="faq-a">{it.a}</div>
+            <div className="faq-a">{t(it.a)}</div>
           </div>
         )}
       </div>
 
       <p className="faq-guide-link">
-        Need assistance?{' '}
+        {t('Need assistance?')} {' '}
         <a href="contact/">
-          Contact support →
+          {t('Contact support →')}
         </a>
       </p>
     </section>
