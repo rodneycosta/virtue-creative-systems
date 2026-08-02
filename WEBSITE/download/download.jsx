@@ -246,7 +246,7 @@ const Download = () => {
 
                 <div style={{ marginTop: '24px', borderTop: '1px solid var(--line)', paddingTop: '20px', display: 'grid', gap: '8px', fontSize: '11px', fontFamily: 'var(--mono)', color: 'var(--t-3)' }}>
                   <div>Latest Release: v1.1.0 (stable)</div>
-                  <div>Release Date: 2026-07-14</div>
+                  <div>Release Date: 2026-08-02</div>
                   <div>Platforms: Recommended on macOS Tahoe & Windows 11</div>
                   <div>Trial: 10-day evaluation available</div>
                 </div>

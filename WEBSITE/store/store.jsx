@@ -269,7 +269,7 @@ const Store = () => {
               
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
                 <span className="status-pill" style={{ background: 'var(--o-soft)', color: 'var(--o)', border: '1px solid rgba(56, 189, 248, 0.2)' }}>Store Active</span>
-                <span className="status-pill" style={{ background: 'rgba(255, 255, 255, 0.04)', color: 'var(--t-2)' }}>v1.0.0</span>
+                <span className="status-pill" style={{ background: 'rgba(255, 255, 255, 0.04)', color: 'var(--t-2)' }}>v1.1.0</span>
               </div>
               
               <h2 style={{ fontSize: '28px', color: 'var(--t)', fontWeight: '800', marginBottom: '12px' }}>Virtue Plugin Manager for REAPER</h2>
