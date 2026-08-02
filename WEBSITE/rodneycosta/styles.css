@@ -2805,6 +2805,11 @@ html.lenis {
     pointer-events: auto !important;
 }
 
+.students-hero-gallery::after {
+    display: none !important;
+    pointer-events: none !important;
+}
+
 .student-gallery-card,
 .students-hero-gallery .gallery-item {
     position: relative !important;
