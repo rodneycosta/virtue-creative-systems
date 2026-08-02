@@ -322,5 +322,80 @@
     </footer>
 
     <script src="script.js?v=1.4"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.student-gallery-card');
+            const reelModal = document.getElementById('wanda-cinema-reel-modal');
+            const reelVideo = document.getElementById('wanda-reel-video');
+            const reelImg = document.getElementById('wanda-reel-img');
+            const reelTitle = document.getElementById('wanda-reel-title');
+            const reelStudent = document.getElementById('wanda-reel-student');
+            const reelBadge = document.getElementById('wanda-reel-badge');
+            const reelCloseBtn = document.getElementById('wanda-reel-close-btn');
+
+            function openModal(idx) {
+                const card = cards[idx];
+                if (!card) return;
+                const imgUrl = card.getAttribute('data-img');
+                const videoUrl = card.getAttribute('data-video');
+                const title = card.getAttribute('data-title');
+                const student = card.getAttribute('data-student');
+                const course = card.getAttribute('data-course');
+
+                if (videoUrl) {
+                    if (reelImg) reelImg.style.display = 'none';
+                    if (reelVideo) {
+                        reelVideo.style.display = 'block';
+                        reelVideo.src = videoUrl;
+                        reelVideo.play().catch(() => {});
+                    }
+                } else {
+                    if (reelVideo) {
+                        reelVideo.pause();
+                        reelVideo.style.display = 'none';
+                        reelVideo.src = '';
+                    }
+                    if (reelImg) {
+                        reelImg.style.display = 'block';
+                        reelImg.src = imgUrl;
+                    }
+                }
+
+                if (reelTitle) reelTitle.textContent = title;
+                if (reelStudent) reelStudent.innerHTML = `<i class="fas fa-user-graduate"></i> ${student}`;
+                if (reelBadge) reelBadge.textContent = course || 'DPA Showcase';
+
+                if (reelModal) {
+                    reelModal.style.display = 'flex';
+                    requestAnimationFrame(() => {
+                        reelModal.classList.add('active');
+                    });
+                }
+            }
+
+            cards.forEach((card, idx) => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openModal(idx);
+                });
+            });
+
+            if (reelCloseBtn) {
+                reelCloseBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (reelModal) {
+                        reelModal.classList.remove('active');
+                        setTimeout(() => { reelModal.style.display = 'none'; }, 350);
+                    }
+                    if (reelVideo) {
+                        reelVideo.pause();
+                        reelVideo.src = '';
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
