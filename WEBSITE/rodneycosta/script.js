@@ -450,14 +450,16 @@ function initWandaSpatialCanvas() {
                     }
 
                     let videoHtml = '';
+                    let videoIconHtml = '';
                     if (item.video) {
                         videoHtml = `<video src="${item.video}" loop muted playsinline preload="none" class="gallery-card-video"></video>`;
+                        videoIconHtml = `<div class="video-fullscreen-icon" title="Maximize Video Cinema Reel"><i class="fas fa-expand"></i></div>`;
                     }
 
                     card.innerHTML = `
                         <img src="${item.img}" alt="${item.title} - ${item.student}">
                         ${videoHtml}
-                        <div class="video-fullscreen-icon" title="Maximize Video Cinema Reel"><i class="fas fa-expand"></i></div>
+                        ${videoIconHtml}
                         <div class="gallery-item-caption">
                             <span class="cap-student"><i class="fas fa-user-graduate"></i> ${item.student}</span>
                             <h4 class="cap-title">${item.title}</h4>
