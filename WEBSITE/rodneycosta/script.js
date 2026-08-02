@@ -488,6 +488,26 @@ function initWandaSpatialCanvas() {
 
     let currentReelIndex = 0;
 
+    // Event delegation for opening cinema modal on card click
+    gallery.addEventListener('click', (e) => {
+        const card = e.target.closest('.student-gallery-card');
+        if (card) {
+            const idx = cardsArray.indexOf(card);
+            if (idx !== -1) {
+                e.preventDefault();
+                e.stopPropagation();
+                currentReelIndex = idx;
+                populateWandaReel(currentReelIndex);
+                if (reelModal) {
+                    reelModal.style.display = 'flex';
+                    requestAnimationFrame(() => {
+                        reelModal.classList.add('active');
+                    });
+                }
+            }
+        }
+    });
+
     // Reset card inline styles to let them flow in standard CSS Grid
     cardsArray.forEach((card, idx) => {
         card.style.position = '';
@@ -497,18 +517,6 @@ function initWandaSpatialCanvas() {
         card.style.top = '';
         card.style.transform = '';
         card.style.opacity = '';
-
-        // Click directly opens cinema modal
-        card.addEventListener('click', () => {
-            currentReelIndex = idx;
-            populateWandaReel(currentReelIndex);
-            if (reelModal) {
-                reelModal.style.display = 'flex';
-                requestAnimationFrame(() => {
-                    reelModal.classList.add('active');
-                });
-            }
-        });
 
         // Hover plays video preview
         const video = card.querySelector('.gallery-card-video, .wanda-tile-video');
