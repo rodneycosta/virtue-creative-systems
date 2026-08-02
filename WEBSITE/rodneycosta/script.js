@@ -423,6 +423,9 @@ function initWandaSpatialCanvas() {
     const viewport = document.getElementById('students-dynamic-viewport') || document.getElementById('wanda-spatial-viewport');
     const gallery = document.getElementById('students-hero-gallery') || document.getElementById('wanda-spatial-canvas');
     console.log("DEBUG: viewport:", viewport, "gallery:", gallery);
+    if (gallery) {
+        console.log("DEBUG: gallery details - id:", gallery.id, "tagName:", gallery.tagName, "children count:", gallery.children.length, "classes:", gallery.className);
+    }
     if (!viewport || !gallery) {
         console.log("DEBUG: Exiting because viewport or gallery is missing.");
         return;
