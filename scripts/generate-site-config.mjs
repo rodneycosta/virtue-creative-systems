@@ -14,7 +14,7 @@ function env(name, fallback = "") {
   return process.env[name] || fallback;
 }
 
-const checkoutUrl = publicUrl(env("STORE_CHECKOUT_URL") || env("LEMONSQUEEZY_VFXM_CHECKOUT_URL"));
+const checkoutUrl = publicUrl(env("STORE_CHECKOUT_URL"));
 const checkoutApiUrl = publicUrl(env("STORE_CHECKOUT_API_URL") || env("VFXM_CHECKOUT_API_URL"));
 const publicDownloadUrl = publicUrl(env("VFXM_PUBLIC_DOWNLOAD_URL") || env("VFXM_RELEASE_DOWNLOAD_URL"));
 
@@ -25,18 +25,18 @@ function variantConfig(key, fallbackName, fallbackSeats) {
     name: env(`VFXM_${upper}_NAME`, fallbackName),
     price: env(`VFXM_${upper}_PRICE_LABEL`, "Price pending"),
     seats: env(`VFXM_${upper}_SEATS_LABEL`, fallbackSeats),
-    checkoutUrl: publicUrl(env(`VFXM_${upper}_CHECKOUT_URL`) || env(`LEMONSQUEEZY_VFXM_${upper}_CHECKOUT_URL`)),
+    checkoutUrl: publicUrl(env(`VFXM_${upper}_CHECKOUT_URL`)),
   };
 }
 
 const config = {
   releaseStatus: env("VFXM_SITE_RELEASE_STATUS", checkoutUrl ? "available" : "store-setup"),
   commerce: {
-    provider: env("STORE_PROVIDER", "lemonsqueezy"),
+    provider: env("STORE_PROVIDER", "plaid"),
     mode: checkoutUrl || checkoutApiUrl ? "live" : env("STORE_MODE", "setup"),
     checkoutUrl,
     checkoutApiUrl,
-    supportEmail: env("VFXM_SUPPORT_EMAIL", "hello@virtuecreativesystems.com"),
+    supportEmail: env("VFXM_SUPPORT_EMAIL", "virtuecreativesystems@gmail.com"),
     variants: [
       variantConfig("commercial", "Commercial License", "2 activations included"),
       variantConfig("nfr", "Creator / NFR License", "By approval"),

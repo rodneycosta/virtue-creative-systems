@@ -654,7 +654,7 @@ export async function handleRecoverLicense(request, env) {
     return json(request, env, genericResponse);
   }
 
-  // 3. Retrieve raw keys from Lemon Squeezy
+  // 3. Retrieve keys from licenses query
   const retrievedKeys = [];
   for (const lic of licenses) {
     if (lic.provider_license_id) {
@@ -940,7 +940,7 @@ export async function handleRequest(request, env) {
     if (request.method === "GET" && path === "/health") return json(request, env, { ok: true, service: "vfxm-license-worker" });
 
     if (request.method === "POST" && path === "/v1/checkout/create") return handleCreateCheckout(request, env);
-    if (request.method === "POST" && (path === "/webhooks/polar" || path === "/webhooks/plaid" || path === "/webhooks/lemonsqueezy")) return handleWebhook(request, env);
+    if (request.method === "POST" && (path === "/webhooks/polar" || path === "/webhooks/plaid")) return handleWebhook(request, env);
     if (request.method === "POST" && path === "/v1/license/activate") return handleActivate(request, env);
     if (request.method === "POST" && path === "/v1/license/validate") return handleValidate(request, env);
     if (request.method === "POST" && path === "/v1/license/deactivate") return handleDeactivate(request, env);

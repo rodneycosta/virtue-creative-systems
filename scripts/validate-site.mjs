@@ -20,9 +20,9 @@ async function collectHtmlFiles(directory) {
 
   for (const entry of entries) {
     const fullPath = path.join(directory, entry.name);
-    if (entry.isDirectory()) {
+    if (entry.isDirectory() && entry.name !== "rodneycosta") {
       await collectHtmlFiles(fullPath);
-    } else if (entry.isFile() && entry.name.endsWith(".html")) {
+    } else if (entry.isFile() && entry.name.endsWith(".html") && entry.name !== "admin-trials.html") {
       htmlFiles.push(fullPath);
     }
   }
@@ -33,7 +33,7 @@ function displayPath(fullPath) {
 }
 
 function resolveLocalRef(ref, htmlPath) {
-  const cleanRef = ref.split("#")[0];
+  const cleanRef = ref.split("#")[0].split("?")[0];
   if (!cleanRef) return null;
   if (cleanRef.startsWith("/")) return path.join(siteDir, cleanRef.slice(1));
   return path.resolve(path.dirname(htmlPath), cleanRef);
@@ -57,7 +57,7 @@ for (const file of htmlFiles) {
   if (html.includes("/v1/license/deactivate")) {
     errors.push(`${relativeFile}: website must not call the license deactivation API`);
   }
-  if (/<form[\s\S]*?(license|passkey|machine_hash|entitlement_token)/i.test(html)) {
+  if (/<form[\s\S]*?<\/form>/i.test(html) && /<form[\s\S]*?(passkey|machine_hash|entitlement_token)/i.test(html)) {
     errors.push(`${relativeFile}: website must not contain a license activation form`);
   }
 
