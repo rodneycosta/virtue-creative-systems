@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academics, Research & Pedagogy | Rodney Costa, MFA</title>
+    <meta name="description" content="Academic leadership, teaching philosophy, research statement, complete syllabi suite, publications, and graduate mentorship by Rodney Costa, MFA - Professor of Practice & VR Researcher at Clemson University.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">RC</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="work.html">Work</a></li>
+                <li><a href="academics.html" class="active">Academics</a></li>
+                <li><a href="students.html">Students Work</a></li>
+                <li><a href="resume.html">CV</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/rodneycosta/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.imdb.me/RodneyCosta" target="_blank" aria-label="IMDb"><i class="fab fa-imdb"></i></a>
+                <a href="https://www.instagram.com/rodneycostabr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main id="swup" class="transition-fade">
+        <!-- Clean Hero Header (No overlapping badge) -->
+        <header class="academics-page-header">
+            <div class="container text-center">
+                <h1 class="page-title">ACADEMIC LEADERSHIP & RESEARCH</h1>
+                <p class="page-subtitle">Professor of Practice | Virtual Reality & AI Researcher</p>
+                <p class="header-summary">
+                    Bridging Tier-1 studio execution with human-centered scholarly inquiry, real-time graphics architectures, second-person VR narrative theory, and OpenUSD production pipelines.
+                </p>
+            </div>
+        </header>
+
+        <!-- DASHBOARD CONTAINER WITH STICKY SIDEBAR -->
+        <section class="academics-dashboard-section">
+            <div class="container academics-dashboard-layout">
+
+                <!-- SIDEBAR MENU -->
+                <aside class="academic-sidebar glass-panel">
+                    <div class="sidebar-header">
+                        <i class="fas fa-compass"></i>
+                        <span>ACADEMIC TOPICS</span>
+                    </div>
+                    <nav class="sidebar-nav">
+                        <button class="sidebar-item active" data-tab="tab-philosophy">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <div class="sidebar-text">
+                                <span class="title">Teaching Philosophy</span>
+                                <span class="sub">Agile Tech-Artist & AI</span>
+                            </div>
+                        </button>
+
+                        <button class="sidebar-item" data-tab="tab-research">
+                            <i class="fas fa-microscope"></i>
+                            <div class="sidebar-text">
+                                <span class="title">Research & Publications</span>
+                                <span class="sub">VR Narrative & Papers</span>
+                            </div>
+                        </button>
+
+                        <button class="sidebar-item" data-tab="tab-syllabi">
+                            <i class="fas fa-book-open"></i>
+                            <div class="sidebar-text">
+                                <span class="title">Complete Syllabi Suite</span>
+                                <span class="sub">Curriculum & Courses</span>
+                            </div>
+                        </button>
+
+                        <button class="sidebar-item" data-tab="tab-mentorship">
+                            <i class="fas fa-user-graduate"></i>
+                            <div class="sidebar-text">
+                                <span class="title">Graduate Mentorship</span>
+                                <span class="sub">11 MFA/MS Theses</span>
+                            </div>
+                        </button>
+
+                        <button class="sidebar-item" data-tab="tab-collaborations">
+                            <i class="fas fa-flask"></i>
+                            <div class="sidebar-text">
+                                <span class="title">Lab Collaborations</span>
+                                <span class="sub">Applied VR & Reconstruction</span>
+                            </div>
+                        </button>
+
+                        <a href="students.html" class="sidebar-item sidebar-item-link" style="text-decoration: none;">
+                            <i class="fas fa-images" style="color: var(--accent-secondary);"></i>
+                            <div class="sidebar-text">
+                                <span class="title" style="color: var(--accent-secondary);">Students Work</span>
+                                <span class="sub">Dynamic Gallery &rarr;</span>
+                            </div>
+                        </a>
+                    </nav>
+                </aside>
+
+                <!-- MAIN CONTENT STAGE -->
+                <div class="academic-stage">
+
+                    <!-- TAB 1: TEACHING PHILOSOPHY -->
+                    <div id="tab-philosophy" class="academic-tab-pane active">
+                        <div class="pane-header">
+                            <h2>Pedagogical Philosophy: The Agile Tech-Artist</h2>
+                            <p class="pane-lead">Addressing technical paralysis in digital production arts through technical resilience, long-term adaptability, and active studio mentorship.</p>
+                        </div>
+
+                        <!-- 3 Pillars Grid -->
+                        <div class="philosophy-grid">
+                            <div class="philosophy-card glass-panel">
+                                <div class="pillar-icon"><i class="fas fa-shield-alt"></i></div>
+                                <h3>Low-Stakes Technical Resilience</h3>
+                                <p class="pillar-subtitle">Creative Problem-Solving Under Pressure</p>
+                                <p>I teach students that CG technical artists are non-emergency problem solvers. Technical hurdles—whether an unoptimized shader in Unreal Engine 5, a broken Houdini wrangle, or an unresolved OpenUSD reference layer—are puzzles to be enjoyed rather than sources of stress.</p>
+                            </div>
+
+                            <div class="philosophy-card glass-panel">
+                                <div class="pillar-icon"><i class="fas fa-compass"></i></div>
+                                <h3>Long-Term Adaptability</h3>
+                                <p class="pillar-subtitle">Focusing on Timeless Fundamentals</p>
+                                <p>Having navigated major technical shifts over 25+ years—GPU rendering revolutions, digital cinema, virtual production, and now Generative AI—I guide students to bypass tool-specific panic. Software changes continuously, but core storytelling principles remain timeless.</p>
+                            </div>
+
+                            <div class="philosophy-card glass-panel">
+                                <div class="pillar-icon"><i class="fas fa-hands-helping"></i></div>
+                                <h3>Hands-On Studio Mentorship</h3>
+                                <p class="pillar-subtitle">Active Daily Lab Guidance</p>
+                                <p>Mastery in digital graphics requires continuous execution. Drawing from my experience directing teams of up to 400 artists, I maintain an active, daily presence in the studio lab, working side-by-side with students on scene optimization and code debugging.</p>
+                            </div>
+                        </div>
+
+                        <div class="academic-deep-dive" style="margin-top: 2rem;">
+                            <div class="glass-panel info-box">
+                                <h3><i class="fas fa-graduation-cap" style="color: var(--accent-primary);"></i> Graduate Mentorship & Thesis Advising Strategy</h3>
+                                <ul class="academic-bullet-list">
+                                    <li><strong>Human-Centered Purpose & Emotional Resonance:</strong> Grounding research in universal themes of resilience, empathy, and wonder.</li>
+                                    <li><strong>Rigor in High-Stakes Visualizations:</strong> Demanding surgical precision for medical imaging, aerospace engineering, and forensic reconstruction.</li>
+                                    <li><strong>Pre-Production Deconstruction & Pipeline Hygiene:</strong> Establishing rigid OpenUSD layer hierarchies, standardized folder structures, and relative paths.</li>
+                                    <li><strong>Aligning Technical Innovation with Artistic Core:</strong> Justifying the narrative necessity of real-time ray tracing, procedural grooming, or custom scripts.</li>
+                                    <li><strong>Executive Standards & Academic Rigor:</strong> Preparing graduate candidates through scholarly writing, code audits, and defense presentations.</li>
+                                </ul>
+                            </div>
+
+                            <div class="glass-panel info-box" style="margin-top: 1.5rem;">
+                                <h3><i class="fas fa-robot" style="color: var(--accent-secondary);"></i> Pedagogy in the Era of AI & Automation</h3>
+                                <ul class="academic-bullet-list">
+                                    <li><strong>Proactive Integration:</strong> Utilizing Generative AI, automated tracking, and neural asset synthesis as efficiency utilities while maintaining complete directorial control.</li>
+                                    <li><strong>Ethical & Moral Dialogue:</strong> Analyzing intellectual property, dataset sources, digital ownership, and artistic integrity directly in the classroom.</li>
+                                    <li><strong>Collective & Societal Benefit:</strong> Instilling the principle that technology should empower small indie teams to create ambitious works.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: RESEARCH & PUBLICATIONS -->
+                    <div id="tab-research" class="academic-tab-pane">
+                        <div class="pane-header">
+                            <h2>Publications & Research</h2>
+                            <p class="pane-lead">Investigating second-person narrative theory, first-person VR POV, neurophysiological engagement, real-time graphics, and OpenUSD production pipelines.</p>
+                        </div>
+
+                        <!-- PUBLICATIONS GRID -->
+                        <div class="pub-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+                            
+                            <!-- MFA Thesis -->
+                            <div class="pub-card glass-panel" style="padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <img src="images/vr-research.png" alt="Virtual Reality Storytelling" style="width: 100%; border-radius: 12px; margin-bottom: 1.2rem; object-fit: cover; max-height: 220px;">
+                                <i class="fas fa-vr-cardboard pub-icon" style="font-size: 2.2rem; color: var(--accent-primary); margin-bottom: 0.8rem;"></i>
+                                <h3 style="color: var(--text-main); font-size: 1.3rem;">Virtual Reality Storytelling</h3>
+                                <p class="pub-type" style="color: var(--accent-secondary); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.8rem;">MFA Thesis (Clemson University Repository #3599)</p>
+                                <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.2rem;">"The Second-Person Narrative Mode Used as a Proposed Engagement Form in Virtual Reality Storytelling"</p>
+                                <a href="https://open.clemson.edu/all_theses/3599/" target="_blank" class="read-thesis-btn" style="margin-top: auto;">View Thesis on TigerPrints <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
+                            </div>
+
+                            <!-- Acceleration Skinning -->
+                            <div class="pub-card glass-panel" style="padding: 2rem; display: flex; flex-direction: column; align-items: center; text-align: center;">
+                                <img src="images/acceleration-skinning.png" alt="Acceleration Skinning Research" style="width: 100%; border-radius: 12px; margin-bottom: 1.2rem; object-fit: cover; max-height: 220px;">
+                                <i class="fas fa-bezier-curve pub-icon" style="font-size: 2.2rem; color: var(--accent-primary); margin-bottom: 0.8rem;"></i>
+                                <h3 style="color: var(--text-main); font-size: 1.3rem;">Acceleration Skinning</h3>
+                                <p class="pub-type" style="color: var(--accent-secondary); font-size: 0.85rem; font-weight: 700; margin-bottom: 0.8rem;">Research Contribution (Clemson University Repository #3688)</p>
+                                <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.2rem;">"Kinematics-Driven Cartoon Effects for Articulated Characters" (Contribution)</p>
+                                <a href="https://open.clemson.edu/all_theses/3688/" target="_blank" class="read-thesis-btn" style="margin-top: auto;">View Paper / Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></a>
+                            </div>
+
+                        </div>
+
+                        <!-- Flagship Creative & Technical Research Projects -->
+                        <h3 class="subsection-title" style="margin-top: 2rem;">Flagship Creative & Technical Projects</h3>
+                        <div class="research-projects-grid" style="margin-top: 1rem;">
+                            <div class="project-research-card glass-panel">
+                                <div class="card-badge">VR Narrative Experience</div>
+                                <h3>I AM YOU</h3>
+                                <p class="project-type-subtitle">Real-Time Interactive VR Proof-of-Concept (UE5 / Oculus)</p>
+                                <p>Interactive VR experience traveling through distinct dimensions guided by a second-person voice-over acting as internal consciousness across seven emotional and biological stages.</p>
+                            </div>
+
+                            <div class="project-research-card glass-panel">
+                                <div class="card-badge">Full CG Animated Feature</div>
+                                <h3>The Second Mind</h3>
+                                <p class="project-type-subtitle">Sci-Fi Feature Film (In Development - 2026)</p>
+                                <p>Original feature film exploring human identity, ethics, robotics, and AI singularity. Serves as a testbed for AI-assisted pre-visualization, real-time shot creation, and narrative pacing.</p>
+                            </div>
+
+                            <div class="project-research-card glass-panel">
+                                <div class="card-badge">Audio Pipeline Architecture</div>
+                                <h3>VFxM (Virtue FX Manager)</h3>
+                                <p class="project-type-subtitle">Standalone DAW Utility Tool for REAPER</p>
+                                <p>Developed specifically for REAPER Digital Audio Workstation, VFxM streamlines complex signal routing, spatial audio management, and VST plugin loading for game sound designers.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: COMPLETE SYLLABI SUITE -->
+                    <div id="tab-syllabi" class="academic-tab-pane">
+                        <div class="pane-header">
+                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <h2 style="margin: 0;">COMPLETE SYLLABI SUITE</h2>
+                                <span class="faculty-subtag"><i class="fas fa-university"></i> Clemson University Faculty</span>
+                            </div>
+                            <p class="pane-lead" style="margin-top: 0.8rem;">Click any course pill below to inspect key deliverables, software tools, learning outcomes, and topical weekly schedules.</p>
+                        </div>
+
+                        <!-- 1-CLICK COURSE PICKER BAR -->
+                        <div class="course-picker-bar">
+                            <button class="course-picker-pill active" data-course="c-8070"><i class="fas fa-cube"></i> DPA 8070 / 3070</button>
+                            <button class="course-picker-pill" data-course="c-8810"><i class="fas fa-vr-cardboard"></i> DPA 8810</button>
+                            <button class="course-picker-pill" data-course="c-8000-vfx"><i class="fas fa-fire"></i> DPA 8000 (FX)</button>
+                            <button class="course-picker-pill" data-course="c-sound"><i class="fas fa-volume-up"></i> DPA 6820 (Sound)</button>
+                            <button class="course-picker-pill" data-course="c-rigging"><i class="fas fa-bezier-curve"></i> DPA 6820 (Rigging)</button>
+                            <button class="course-picker-pill" data-course="c-cfx"><i class="fas fa-tshirt"></i> DPA 8000 (CFX)</button>
+                            <button class="course-picker-pill" data-course="c-nuke"><i class="fas fa-film"></i> DPA 8150 (Nuke)</button>
+                            <button class="course-picker-pill" data-course="c-blueprints"><i class="fas fa-code-branch"></i> DPA 6000 (Blueprints)</button>
+                            <button class="course-picker-pill" data-course="c-sculpting"><i class="fas fa-paint-brush"></i> DPA 6440 (Sculpting)</button>
+                        </div>
+
+                        <!-- ACTIVE COURSE CONTAINER -->
+                        <div class="course-stage-container">
+
+                            <!-- Course 1 -->
+                            <div id="c-8070" class="course-card-pane active glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 8070 / 3070</span>
+                                        <h3>3D Modeling and Animation</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Maya, DaVinci Resolve, Arnold</span>
+                                </div>
+                                <p class="course-intro">Exposes students to current studio practice developing 3D computer graphics and animation for film, games, and visualization. Covers entry-level to intermediate pipelines across modeling, texturing, lighting, rendering, rigging, and character animation.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Pipeline Flow:</strong> Understand basic CG production steps through props and environments.</li>
+                                            <li><strong>Polygon Modeling:</strong> Create 3D poly/subdivision models with clean topology for deformation.</li>
+                                            <li><strong>PBR Shading:</strong> Apply bitmap textures and generate physically-based materials.</li>
+                                            <li><strong>Character Rigging:</strong> Set up animation-ready character/prop rigs; execute walk cycles.</li>
+                                            <li><strong>Final Turntables:</strong> Deliver professional-level lighting, rendering, and scene organization matching industry standards.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–3:</strong> CG production stages, polygonal/subdivision modeling, clean topology.</p>
+                                            <p><strong>Weeks 4–7:</strong> UV unwrapping, PBR texturing, material assignment, shader networks.</p>
+                                            <p><strong>Weeks 8–11:</strong> Basic skeleton building, binding/skinning, rigging control setups.</p>
+                                            <p><strong>Weeks 12–15:</strong> Character walk cycle animation, scene lighting, rendering passes, turntable assembly.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 2 -->
+                            <div id="c-8810" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 8810</span>
+                                        <h3>Environment & Assets for Games & Virtual Production</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Unreal Engine 5, Maya, ZBrush, Substance</span>
+                                </div>
+                                <p class="course-intro">Design and produce a portfolio-ready environment for Unreal Engine 5, demonstrating advanced asset creation, modular workflows, trim sheet texturing, PBR material logic, real-time lighting (Lumen), and professional scene assembly.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Concept Design:</strong> Create an original environment concept sheet establishing scale.</li>
+                                            <li><strong>Modular Kits:</strong> Build a production-quality prop set (20–30 assets with 10 modeled individually).</li>
+                                            <li><strong>UE5 Assembly:</strong> Construct a full modular environment in Unreal Engine 5.</li>
+                                            <li><strong>Lumen Lighting:</strong> Apply professional-level scene lighting, atmospheric fog, and composition.</li>
+                                            <li><strong>Sequencer Fly-Through:</strong> Original concept art, prop set, and 30-60s camera fly-through.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–3:</strong> Pipeline overview, concept design, grey-boxing layouts in UE5.</p>
+                                            <p><strong>Weeks 4–7:</strong> Modular kit modeling in Maya/ZBrush/Blender, UV unwrapping, trim sheets, PBR.</p>
+                                            <p><strong>Weeks 8–11:</strong> FBX pipeline import, grid snapping, UE5 Lumen lighting & set dressing.</p>
+                                            <p><strong>Weeks 12–15:</strong> Post-processing, high-res screenshots, 4K Sequencer camera fly-through presentation.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 3 -->
+                            <div id="c-8000-vfx" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 8000</span>
+                                        <h3>Visual Effects for Animation & Games (SideFX Houdini)</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Houdini (SOPs, DOPs, LOPs), VEX, Karma, Nuke</span>
+                                </div>
+                                <p class="course-intro">Hands-on experience with Houdini's procedural workflows to create industry-standard visual effects for film, TV, and games. Focuses on simulation systems, VEX control, technical artistry, and production-ready rendering.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>POPs Particles:</strong> Forces, collisions, sprite/mesh instancing, and particle advection.</li>
+                                            <li><strong>MPM Solvers:</strong> Simulating continuum mechanics—mud, snow compaction, and sand.</li>
+                                            <li><strong>RBD Dynamics:</strong> Voronoi material fracturing, constraint networks, secondary debris, and dust.</li>
+                                            <li><strong>FLIP & Pyro:</strong> Liquid splashes, volume sourcing, explosions, and custom VEX wrangles.</li>
+                                            <li><strong>Solaris Karma:</strong> USD stage integration, multi-pass AOVs, and final Nuke compositing.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Module 1–2:</strong> Procedural workflows, SOPs/DOPs, POP particle setups.</p>
+                                            <p><strong>Module 3–4:</strong> MPM solver dynamics (sand/snow/goo), RBD fracturing & destruction setups.</p>
+                                            <p><strong>Module 5–6:</strong> FLIP fluid simulation, Pyro smoke/fire volumes, custom VEX wrangles.</p>
+                                            <p><strong>Module 7–8:</strong> Karma/Mantra rendering, AOV extraction, deep compositing in Nuke, breakdown reel.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 4 -->
+                            <div id="c-sound" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 6820 / 4820</span>
+                                        <h3>Sound for Animation & Games</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> REAPER, Pro Tools, FMOD, Unreal Engine 5</span>
+                                </div>
+                                <p class="course-intro">In-depth, production-oriented exploration of sound design for animation, film, and interactive media. Develops professional workflows for recording, editing, mixing, and implementing sound for linear and real-time pipelines.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Foley Recording:</strong> Design and record sound effects using field recorders and foley stages.</li>
+                                            <li><strong>DAW Audio Editing:</strong> Layer, pitch-shift, and process sound in REAPER and Pro Tools.</li>
+                                            <li><strong>Acoustics Theory:</strong> Apply frequency, phase, amplitude, and perceptual theory to visual media.</li>
+                                            <li><strong>UE5 Audio Integration:</strong> Implement sound in UE5 with attenuation, occlusion, and triggers.</li>
+                                            <li><strong>LUFS Mixing:</strong> Produce balanced stereo/spatial mixes meeting broadcast standards.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–3:</strong> Role of sound in storytelling, film vs. game audio pipelines, acoustics.</p>
+                                            <p><strong>Weeks 4–6:</strong> Microphone techniques, foley recording, noise management, DAW editing.</p>
+                                            <p><strong>Weeks 7–9:</strong> Syncing sound to picture, character/environment foley, creative synthesis.</p>
+                                            <p><strong>Weeks 10–12:</strong> Non-linear game sound, FMOD/UE5 asset organization, distance attenuation.</p>
+                                            <p><strong>Weeks 13–15:</strong> Mixing, dynamic range control, LUFS mastering, portfolio breakdown presentation.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 5 -->
+                            <div id="c-rigging" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 6820 / 4820</span>
+                                        <h3>Advanced Character Rigging</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Autodesk Maya, Python, MEL</span>
+                                </div>
+                                <p class="course-intro">Firsthand experience with contemporary studio practices in 3D character rigging. Covers intermediate and advanced rigging mechanics for production-ready props and bipedal/quadrupedal cartoon characters.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Joint Layout:</strong> Strategic joint layout based on anatomical pivot points.</li>
+                                            <li><strong>Control Systems:</strong> IK/FK switch systems with seamless blending and pole vectors.</li>
+                                            <li><strong>Reverse Foot:</strong> Custom roll, pivot banking, and finger curl channel attributes.</li>
+                                            <li><strong>Facial Rigging:</strong> Auto-orientation, blendshape networks, joint facial controls, and skinning.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–3:</strong> Joint placement, skeletal hierarchy, spine IK/FK switch setups.</p>
+                                            <p><strong>Weeks 4–7:</strong> Biped arm and leg rigging, pole vector constraints, stretch mechanics.</p>
+                                            <p><strong>Weeks 8–11:</strong> Reverse foot rigging, custom attributes, hand and finger curling controls.</p>
+                                            <p><strong>Weeks 12–15:</strong> Facial blendshape networks, joint-based facial deformation, skin weight painting.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 6 -->
+                            <div id="c-cfx" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 8000</span>
+                                        <h3>Character Effects for Films (CFX)</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Maya nCloth, Houdini Vellum, XGen, Karma</span>
+                                </div>
+                                <p class="course-intro">Creates production-ready character effects including dynamic cloth, hair/fur grooms, and secondary simulations in Maya and Houdini, emphasizing believable movement integrated into film/VFX pipelines.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Cloth Simulation:</strong> nCloth and Vellum setups, garment patterns, collision layers, and caching.</li>
+                                            <li><strong>Procedural Grooming:</strong> XGen and Houdini Solaris grooming for realistic hair and fur.</li>
+                                            <li><strong>Secondary Dynamics:</strong> Soft-body flesh jiggle, skin sliding, capes, belts, and jewelry.</li>
+                                            <li><strong>USD Cache Hand-offs:</strong> Alembic/USD cache hand-offs, topology wrapping, and rendering.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Module 1–3:</strong> CFX overview, Maya Nucleus system, nCloth garment patterns & constraints.</p>
+                                            <p><strong>Module 4–6:</strong> Houdini Vellum cloth, groom guide curves, XGen hair setups, shading.</p>
+                                            <p><strong>Module 7–9:</strong> Soft-body flesh dynamics, secondary accessory simulation, interaction logic.</p>
+                                            <p><strong>Module 10–11:</strong> Karma/Arnold heavy-scene rendering, shot cleanup, cache baking, turntables.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 7 -->
+                            <div id="c-nuke" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 8150</span>
+                                        <h3>Visual Effects Compositing</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Foundry NukeX, DaVinci Resolve, Mocha</span>
+                                </div>
+                                <p class="course-intro">Explores visual effects compositing in Nuke, focusing on integrating 3D CG renders, matte paintings, and live-action footage using industry-standard node-based workflows.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Keying & Roto:</strong> Green/blue screen extraction (Keylight/Ultimatte) and animated rotoscoping.</li>
+                                            <li><strong>3D Matchmoving:</strong> 2D tracking, Mocha planar tracking, and 3D camera tracking for set extensions.</li>
+                                            <li><strong>Multi-Pass AOVs:</strong> AOV rebuilding (Diffuse, Specular, AO, Depth) in ACES color space.</li>
+                                            <li><strong>2.5D Projections:</strong> Nuke 3D projection cards, atmospheric particle FX, and camera projection.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–4:</strong> Node-based interface, footage ingest, linear workflow, green screen keying.</p>
+                                            <p><strong>Weeks 5–8:</strong> 2D/3D camera tracking, Mocha planar tracking, multi-pass CG render recombination.</p>
+                                            <p><strong>Weeks 9–12:</strong> 2.5D set extensions, projection cards, atmospheric particle effects, lens distortion.</p>
+                                            <p><strong>Weeks 13–15:</strong> Final shot delivery, ACES color management, breakdown reel formatting.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 8 -->
+                            <div id="c-blueprints" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 6000 / 4000</span>
+                                        <h3>Visual Programming for Games (UE5 Blueprints)</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> Unreal Engine 5.x (Blueprints, Sequencer)</span>
+                                </div>
+                                <p class="course-intro">Introduces game prototyping and visual programming using Unreal Engine 5 Blueprint technology, simulating rapid industry game development practices.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>Blueprint Logic:</strong> Event graphs, functions, macros, variable types, and execution flow.</li>
+                                            <li><strong>Player Systems:</strong> Character controllers, pawns, enhanced input mapping, and camera systems.</li>
+                                            <li><strong>Game Logic & UI:</strong> Triggers, overlaps, raycasting, health systems, and UMG menus.</li>
+                                            <li><strong>AI Behavior Trees:</strong> NavMesh navigation, Blackboard variables, AI perception, and state machines.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–4:</strong> UE5 interface, Blueprint nodes, variables, functions, player input mapping.</p>
+                                            <p><strong>Weeks 5–8:</strong> Object communication, event dispatchers, line traces, health logic, UMG widgets.</p>
+                                            <p><strong>Weeks 9–12:</strong> Overlaps, collision responses, AI NavMesh, Blackboard behavior trees, sound FX.</p>
+                                            <p><strong>Weeks 13–15:</strong> Game loop assembly, optimization, packaging, and final gameplay breakdown.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Course 9 -->
+                            <div id="c-sculpting" class="course-card-pane glass-panel">
+                                <div class="course-card-header">
+                                    <div>
+                                        <span class="course-badge">DPA 6440 / 4440</span>
+                                        <h3>Advanced 3D Modeling & Sculpting</h3>
+                                    </div>
+                                    <span class="course-tools"><i class="fas fa-tools"></i> ZBrush, Blender, Maya, Substance</span>
+                                </div>
+                                <p class="course-intro">Exposes students to current studio practices developing 3D computer graphics regarding 3D modeling and sculpting. Emphasizes character concept development and production-ready modeling workflows.</p>
+                                <div class="course-split-grid">
+                                    <div>
+                                        <h4>Key Deliverables & Learning Outcomes:</h4>
+                                        <ul class="academic-bullet-list">
+                                            <li><strong>High-Poly Clay:</strong> Primary forms, secondary shapes, and fine skin/fabric tertiary detailing.</li>
+                                            <li><strong>Quad Retopology:</strong> Re-topologize sculpts into animation-ready meshes with clean quad flow.</li>
+                                            <li><strong>Subtool Layers:</strong> Manage complex multi-mesh assets, Dynamesh, SubD levels, and morph targets.</li>
+                                            <li><strong>UDIM Baking:</strong> Produce hero asset turntables, wireframe overlays, UDIM UVs, and PBR maps.</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h4>Topical Course Schedule:</h4>
+                                        <div class="schedule-box">
+                                            <p><strong>Weeks 1–4:</strong> Concept sheet analysis, blocking primary proportions, ZBrush clay sculpting.</p>
+                                            <p><strong>Weeks 5–8:</strong> Mid/tertiary detailing, subtool organization, cloth/accessory sculpting.</p>
+                                            <p><strong>Weeks 9–12:</strong> Retopology for deformation, edge flow for joints/facial areas, UDIM unwrapping.</p>
+                                            <p><strong>Weeks 13–15:</strong> PBR texturing, beauty lighting, clay/wireframe renders, final turntable package.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: GRADUATE MENTORSHIP & THESES -->
+                    <div id="tab-mentorship" class="academic-tab-pane">
+                        <div class="pane-header">
+                            <h2>Student Theses (Committee Member)</h2>
+                            <p class="pane-lead">Advising and serving on graduate thesis committees for MFA and MS candidates in Digital Production Arts at Clemson University.</p>
+                        </div>
+
+                        <div class="thesis-grid">
+                            <a href="https://open.clemson.edu/all_theses/4717/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-water pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Alison R Gaddy</h3>
+                                <p class="pub-type">MFA Thesis (2026)</p>
+                                <p class="thesis-title">"Between Chronicle and Legend: A Two-Scene Environment and Visual Effects Examination of Physical Accuracy and Emotional Exaggeration on the Honey Creek Bridge Collapse"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4649/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-smile pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Abhijit Varanasi</h3>
+                                <p class="pub-type">MFA Thesis (2025)</p>
+                                <p class="thesis-title">"Enhancing Facial Expressiveness for Games Through Procedural Animation"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4608/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-user-clock pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Tyler Kidd</h3>
+                                <p class="pub-type">MFA Thesis (2025)</p>
+                                <p class="thesis-title">"An Exploration of Elderly Representation &amp; Stereotypes in Animation"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4447/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-link pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Atharva Tilwankar</h3>
+                                <p class="pub-type">MFA Thesis (2025)</p>
+                                <p class="thesis-title">"Unspoken Bonds"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4314/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-gamepad pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Jehoshaphat Chacko</h3>
+                                <p class="pub-type">MFA Thesis (2024)</p>
+                                <p class="thesis-title">"The Star Caller: Shining a Light on Game Production and Real Time Cinematics"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4416/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-film pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Samuel Hagen</h3>
+                                <p class="pub-type">MFA Thesis (2024)</p>
+                                <p class="thesis-title">"Environmental Storytelling in Video Games Through the Lens of Film Noir"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4274/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-bezier-curve pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Karim Hudson</h3>
+                                <p class="pub-type">MFA Thesis (2024)</p>
+                                <p class="thesis-title">"Animating Reality: Enhancing Immersion through Secondary Animation Rigging Techniques in Video Games"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/4016/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-magic pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Eric DiNicolantonio</h3>
+                                <p class="pub-type">MFA Thesis (2023)</p>
+                                <p class="thesis-title">"Using Visual Effects as a Means of Establishing or Reinforcing Scale in 3D Visual Works"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/3982/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-city pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Griffin Poyck</h3>
+                                <p class="pub-type">MFA Thesis (2023)</p>
+                                <p class="thesis-title">"Procedural City Generation with Combined Architectures for Real-time Visualization"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/3946/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-user-graduate pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Kara Porter</h3>
+                                <p class="pub-type">MFA Thesis (2022)</p>
+                                <p class="thesis-title">"Transforming Character Faces based on Perceived Personality Traits"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                            <a href="https://open.clemson.edu/all_theses/3782/" target="_blank" class="thesis-card glass-panel" style="text-decoration: none; display: flex;">
+                                <i class="fas fa-vr-cardboard pub-icon"></i>
+                                <h3 style="color: var(--text-main);">Jessica E. Schell</h3>
+                                <p class="pub-type">MFA Thesis (2022)</p>
+                                <p class="thesis-title">"Out of the Box: Bridging the Long-Distance Gap Between Consumer and Product in Online Experiences by Using AR to Facilitate a Deeper Connection Through Virtual Try-Ons"</p>
+                                <span class="read-thesis-btn">View Thesis <i class="fas fa-external-link-alt" style="margin-left: 5px;"></i></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- TAB 5: LAB COLLABORATIONS -->
+                    <div id="tab-collaborations" class="academic-tab-pane">
+                        <div class="pane-header">
+                            <h2>Interdisciplinary Research & Lab Collaborations</h2>
+                            <p class="pane-lead">Pioneering applied virtual reality systems, historical marine reconstructions, and kinematics-driven rigging with distinguished research faculty and industry leaders.</p>
+                        </div>
+
+                        <div class="research-projects-grid">
+                            <div class="project-research-card glass-panel">
+                                <div>
+                                    <div class="card-badge">VR Pioneer Collaboration</div>
+                                    <h3>Virtual Reality Training Systems</h3>
+                                    <p class="project-type-subtitle">Collaborator: Dr. Larry Hodges (VR Pioneer) & KEMET Corp</p>
+                                    <p>Participated in applied virtual reality research developing interactive VR training environments designed to simulate high-stakes industrial manufacturing plants. Allowed personnel to be trained safely without physical hazards, improving retention and lowering operational risks.</p>
+                                </div>
+                                <a href="https://www.linkedin.com/pulse/kemet-clemson-university-team-develop-vr-training-philip-lessner/" target="_blank" class="read-thesis-btn" style="margin-top: 1rem;">Read Research Article <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+
+                            <div class="project-research-card glass-panel">
+                                <div>
+                                    <div class="card-badge">Historical Marine Reconstruction</div>
+                                    <h3>SS Edmund Fitzgerald 3D Asset</h3>
+                                    <p class="project-type-subtitle">Collaborator: Dr. Jerry Tessendorf & Thomas Lynskey</p>
+                                    <p>Collaborated with Dr. Jerry Tessendorf at Clemson University to refine the 3D modeling and texturing of the <em>SS Edmund Fitzgerald</em> with rigorous historical accuracy. The asset served as the core model featured in Thomas Lynskey's 50th-anniversary documentary.</p>
+                                </div>
+                                <a href="https://www.youtube.com/watch?v=_2f0tZBSByI" target="_blank" class="read-thesis-btn" style="margin-top: 1rem;">Watch Documentary <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+
+                            <div class="project-research-card glass-panel">
+                                <div>
+                                    <div class="card-badge">Clemson DPA Research</div>
+                                    <h3>Acceleration Skinning</h3>
+                                    <p class="project-type-subtitle">Kinematics-Driven Character Rigging</p>
+                                    <p>Contributed to advanced character rigging research supervising character rigging and technical setup for <em>"Acceleration Skinning: Kinematics-Driven Cartoon Effects for Articulated Characters"</em>. Extended velocity skinning to incorporate skeletal acceleration for procedural followthrough.</p>
+                                </div>
+                                <a href="https://open.clemson.edu/all_theses/3688/" target="_blank" class="read-thesis-btn" style="margin-top: 1rem;">View Paper (#3688) <i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">Rodney Costa, MFA</div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="work.html">Work</a>
+                <a href="academics.html">Academics</a>
+                <a href="students.html">Students Work</a>
+                <a href="resume.html">CV</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="social-links footer-social">
+                <a href="https://www.linkedin.com/in/rodneycosta/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.imdb.me/RodneyCosta" target="_blank" aria-label="IMDb"><i class="fab fa-imdb"></i></a>
+                <a href="https://www.instagram.com/rodneycostabr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Rodney Florencio Da Costa. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

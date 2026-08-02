@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Work Showcase | Rodney Costa, MFA</title>
+    <meta name="description" content="Dynamic, animated student work showcase gallery featuring 3D animation, Houdini VFX, Unreal Engine 5 environments, and sound design created under Rodney Costa at Clemson University.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <script src="https://unpkg.com/swup@4"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <div class="custom-cursor"></div>
+    <div class="custom-cursor-follower"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">RC</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="work.html">Work</a></li>
+                <li><a href="academics.html">Academics</a></li>
+                <li><a href="students.html" class="active">Students Work</a></li>
+                <li><a href="resume.html">CV</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/rodneycosta/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.imdb.me/RodneyCosta" target="_blank" aria-label="IMDb"><i class="fab fa-imdb"></i></a>
+                <a href="https://www.instagram.com/rodneycostabr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main id="swup" class="transition-fade">
+        <!-- STUDIO HERO HEADER -->
+        <header class="wanda-hero-wrapper" style="padding: 140px 0 30px; position: relative;">
+            <div class="container">
+                <h1 class="wanda-page-title" style="font-size: 4rem; font-weight: 900; letter-spacing: -2px; text-transform: uppercase; margin: 0; color: #fff;">
+                    STUDENTS WORK
+                </h1>
+                <p style="color: var(--accent-primary); font-size: 0.95rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.5rem;">
+                    Digital Production Arts • Clemson University
+                </p>
+            </div>
+        </header>
+
+        <section class="section" style="padding-top: 0; position: relative; overflow: hidden;">
+            <div class="container-fluid" style="padding: 0 20px;">
+
+                <!-- COURSE CLASSES FILTER BAR -->
+                <div class="wanda-filter-bar" style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 1rem;">
+                    <button class="wanda-filter-btn active" data-filter="all">ALL</button>
+                    <button class="wanda-filter-btn" data-filter="dpa-8070">DPA 8070</button>
+                    <button class="wanda-filter-btn" data-filter="dpa-6820">DPA 6820</button>
+                    <button class="wanda-filter-btn" data-filter="dpa-8810">DPA 8810</button>
+                    <button class="wanda-filter-btn" data-filter="dpa-8000">DPA 8000</button>
+                    <button class="wanda-filter-btn" data-filter="dpa-6000">DPA 6000</button>
+                    <button class="wanda-filter-btn" data-filter="dpa-6440">DPA 6440</button>
+                </div>
+
+                <!-- DYNAMIC SCATTERED FLOATING GALLERY MATRIX (MATCHES INDEX.HTML HERO & WANDA.NET) -->
+                <div class="students-dynamic-viewport" id="students-dynamic-viewport" style="position: relative; width: 100%; height: 78vh; overflow: hidden; border-radius: 16px; background: #050508; border: 1px solid rgba(255,255,255,0.08);">
+                    
+                    <div class="dynamic-gallery students-hero-gallery" id="students-hero-gallery">
+                        
+                        <!-- 40 Dynamic Floating Image Cards -->
+                        <div class="gallery-item size-lg pos-1 student-gallery-card" data-speed="0.8" data-filter="dpa-8070" data-title="Honey Creek Bridge Collapse" data-student="Alison R Gaddy" data-course="DPA 8070 (Spring 2026)" data-img="images/gallery/gallery-1.jpg" data-video="https://player.vimeo.com/progressive_redirect/playback/1176621193/rendition/1080p/file.mp4?loc=external&signature=069162a556248c8adc80cc537f933793ab2159cb7ac1a25c89f1211eaa696356">
+                            <img src="images/gallery/gallery-1.jpg" alt="Honey Creek Bridge Collapse - Alison R Gaddy">
+                            <video src="https://player.vimeo.com/progressive_redirect/playback/1176621193/rendition/1080p/file.mp4?loc=external&signature=069162a556248c8adc80cc537f933793ab2159cb7ac1a25c89f1211eaa696356" loop muted playsinline preload="none" class="gallery-card-video"></video>
+                            <div class="gallery-item-caption">
+                                <span class="cap-student"><i class="fas fa-user-graduate"></i> Alison R Gaddy</span>
+                                <h4 class="cap-title">Honey Creek Bridge Collapse</h4>
+                                <p class="cap-task">Assignment: Rigid Body Shatter & Dynamics Simulation</p>
+                                <span class="cap-meta">DPA 8070 • Spring 2026</span>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-2 student-gallery-card" data-speed="1.2" data-filter="dpa-6820" data-title="Procedural Facial Expressiveness" data-student="Abhijit Varanasi" data-course="DPA 6820 (Fall 2025)" data-img="images/gallery/gallery-2.png" data-video="https://player.vimeo.com/progressive_redirect/playback/982617433/rendition/540p/file.mp4?loc=external&signature=2bf9c3ae7ceaa28847225bafec18bba548c52bfb322a143d0d0021fac6ec95c1">
+                            <img src="images/gallery/gallery-2.png" alt="Procedural Facial Expressiveness - Abhijit Varanasi">
+                            <video src="https://player.vimeo.com/progressive_redirect/playback/982617433/rendition/540p/file.mp4?loc=external&signature=2bf9c3ae7ceaa28847225bafec18bba548c52bfb322a143d0d0021fac6ec95c1" loop muted playsinline preload="none" class="gallery-card-video"></video>
+                            <div class="gallery-item-caption">
+                                <span class="cap-student"><i class="fas fa-user-graduate"></i> Abhijit Varanasi</span>
+                                <h4 class="cap-title">Procedural Facial Rigging</h4>
+                                <p class="cap-task">Assignment: Maya Facial Muscle Python Scripting</p>
+                                <span class="cap-meta">DPA 6820 • Fall 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item size-lg pos-3 student-gallery-card" data-speed="0.5" data-filter="dpa-8810" data-title="Procedural City Generation" data-student="Griffin Poyck" data-course="DPA 8810 (Spring 2025)" data-img="images/gallery/gallery-3.jpg" data-video="https://player.vimeo.com/progressive_redirect/playback/951031458/rendition/540p/file.mp4?loc=external&signature=794b447b4b92af3a052f0fd357952b5659301e4dfd57e5367c1783e12a784dcb">
+                            <img src="images/gallery/gallery-3.jpg" alt="Procedural City Generation - Griffin Poyck">
+                            <video src="https://player.vimeo.com/progressive_redirect/playback/951031458/rendition/540p/file.mp4?loc=external&signature=794b447b4b92af3a052f0fd357952b5659301e4dfd57e5367c1783e12a784dcb" loop muted playsinline preload="none" class="gallery-card-video"></video>
+                            <div class="gallery-item-caption">
+                                <span class="cap-student"><i class="fas fa-user-graduate"></i> Griffin Poyck</span>
+                                <h4 class="cap-title">Procedural City UE5</h4>
+                                <p class="cap-task">Assignment: UE5 PCG & Houdini Engine Pipeline</p>
+                                <span class="cap-meta">DPA 8810 • Spring 2025</span>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-4 student-gallery-card" data-speed="1.5" data-filter="dpa-8000" data-title="Visual Effects & Scale Study" data-student="Eric DiNicolantonio" data-course="DPA 8000 (Fall 2024)" data-img="images/gallery/gallery-4.jpg" data-video="https://player.vimeo.com/progressive_redirect/playback/1208113988/rendition/1080p/file.mp4?loc=external&signature=4e4a011b394b77728245c1a4e7c075283baae758a2c31c5a57b1f86d8aa8646d">
+                            <img src="images/gallery/gallery-4.jpg" alt="Visual Effects & Scale Study - Eric DiNicolantonio">
+                            <video src="https://player.vimeo.com/progressive_redirect/playback/1208113988/rendition/1080p/file.mp4?loc=external&signature=4e4a011b394b77728245c1a4e7c075283baae758a2c31c5a57b1f86d8aa8646d" loop muted playsinline preload="none" class="gallery-card-video"></video>
+                            <div class="gallery-item-caption">
+                                <span class="cap-student"><i class="fas fa-user-graduate"></i> Eric DiNicolantonio</span>
+                                <h4 class="cap-title">VFX & Scale Study</h4>
+                                <p class="cap-task">Assignment: Houdini Karma Pyro Destruction</p>
+                                <span class="cap-meta">DPA 8000 • Fall 2024</span>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item size-sm pos-5 student-gallery-card" data-speed="0.9" data-filter="dpa-6000" data-title="The Star Caller Cinematics" data-student="Jehoshaphat Chacko" data-course="DPA 6000 (Spring 2024)" data-img="images/gallery/gallery-5.png" data-video="https://player.vimeo.com/progressive_redirect/playback/904402374/rendition/540p/file.mp4?loc=external&signature=d8445f034e9a8da8882d881c659b107770975cf0860ed4e8ac0a1eee98ffb9a7">
+                            <img src="images/gallery/gallery-5.png" alt="The Star Caller Cinematics - Jehoshaphat Chacko">
+                            <video src="https://player.vimeo.com/progressive_redirect/playback/904402374/rendition/540p/file.mp4?loc=external&signature=d8445f034e9a8da8882d881c659b107770975cf0860ed4e8ac0a1eee98ffb9a7" loop muted playsinline preload="none" class="gallery-card-video"></video>
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption">
+                                <span class="cap-student">JEHOSHAPHAT CHACKO</span>
+                                <h4 class="cap-title">Star Caller Cinematics</h4>
+                                <span class="cap-meta">DPA 6000 • UE5 Blueprints</span>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item size-lg pos-6 student-gallery-card" data-speed="1.1" data-filter="dpa-6820" data-title="Secondary Animation Rigging" data-student="Karim Hudson" data-course="DPA 6820 (Fall 2024)" data-img="images/gallery/gallery-6.jpg" data-video="https://player.vimeo.com/progressive_redirect/playback/796679236/rendition/540p/file.mp4?loc=external&signature=725348c6eab18ace7acc240cf0b1838adf3fb24b56f07a259b9661feb90b6e46">
+                            <img src="images/gallery/gallery-6.jpg" alt="Secondary Animation Rigging - Karim Hudson">
+                            <video src="https://player.vimeo.com/progressive_redirect/playback/796679236/rendition/540p/file.mp4?loc=external&signature=725348c6eab18ace7acc240cf0b1838adf3fb24b56f07a259b9661feb90b6e46" loop muted playsinline preload="none" class="gallery-card-video"></video>
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption">
+                                <span class="cap-student">KARIM HUDSON</span>
+                                <h4 class="cap-title">Secondary Rigging</h4>
+                                <span class="cap-meta">DPA 6820 • Maya Physics</span>
+                            </div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-7 student-gallery-card" data-speed="0.7" data-filter="modeling texturing" data-title="Elderly Character Sculpt" data-student="Devon Slater" data-course="DPA 8070 (Spring 2024)" data-img="images/gallery/gallery-7.jpg">
+                            <img src="images/gallery/gallery-7.jpg" alt="Elderly Character Sculpt">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption"><span class="cap-student">DEVON SLATER</span><h4 class="cap-title">Elderly Character Sculpt</h4></div>
+                        </div>
+
+                        <div class="gallery-item size-sm pos-8 student-gallery-card" data-speed="1.3" data-filter="ue5 texturing" data-title="Film Noir Lighting" data-student="Marcus Vance" data-course="DPA 8810 (Fall 2023)" data-img="images/gallery/gallery-8.png">
+                            <img src="images/gallery/gallery-8.png" alt="Film Noir Lighting">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption"><span class="cap-student">MARCUS VANCE</span><h4 class="cap-title">Film Noir Lighting</h4></div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-9 student-gallery-card" data-speed="0.6" data-filter="sound animation" data-title="Unspoken Bonds Foley" data-student="Tyler Cross" data-course="DPA 6820 (Spring 2023)" data-img="images/gallery/gallery-9.jpg">
+                            <img src="images/gallery/gallery-9.jpg" alt="Unspoken Bonds Foley">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption"><span class="cap-student">TYLER CROSS</span><h4 class="cap-title">Unspoken Bonds Foley</h4></div>
+                        </div>
+
+                        <div class="gallery-item size-lg pos-10 student-gallery-card" data-speed="1.4" data-filter="houdini sound" data-title="Deep Compositing" data-student="Elena Rostova" data-course="DPA 8150 (Fall 2023)" data-img="images/gallery/gallery-10.jpg">
+                            <img src="images/gallery/gallery-10.jpg" alt="Deep Compositing">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption"><span class="cap-student">ELENA ROSTOVA</span><h4 class="cap-title">Deep Compositing</h4></div>
+                        </div>
+
+                        <div class="gallery-item size-sm pos-11 student-gallery-card" data-speed="0.85" data-filter="modeling texturing" data-title="Procedural Hard Surface Armor" data-student="Samuel Oak" data-course="DPA 6440 (Spring 2023)" data-img="images/gallery/gallery-11.jpg">
+                            <img src="images/gallery/gallery-11.jpg" alt="Procedural Armor">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption"><span class="cap-student">SAMUEL OAK</span><h4 class="cap-title">Hard Surface Armor</h4></div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-12 student-gallery-card" data-speed="1.15" data-filter="ue5" data-title="VR Spatial Audio" data-student="Maya Lin" data-course="DPA 8810 (Fall 2022)" data-img="images/gallery/gallery-12.jpg">
+                            <img src="images/gallery/gallery-12.jpg" alt="VR Spatial Audio">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                            <div class="gallery-item-caption"><span class="cap-student">MAYA LIN</span><h4 class="cap-title">VR Spatial Audio</h4></div>
+                        </div>
+
+                        <!-- Extra Floating Collage Tiles (pos-13 to pos-25) -->
+                        <div class="gallery-item size-lg pos-13 student-gallery-card" data-speed="0.75" data-filter="modeling animation" data-title="Character Anatomy Sculpt" data-student="David Miller" data-course="DPA 6440" data-img="images/gallery/gallery-13.jpg">
+                            <img src="images/gallery/gallery-13.jpg" alt="Character Anatomy Sculpt">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                        </div>
+
+                        <div class="gallery-item size-sm pos-14 student-gallery-card" data-speed="1.25" data-filter="houdini" data-title="Pyro Simulation Study" data-student="Hannah Abbott" data-course="DPA 8000" data-img="images/gallery/gallery-14.jpg">
+                            <img src="images/gallery/gallery-14.jpg" alt="Pyro Simulation Study">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-15 student-gallery-card" data-speed="0.65" data-filter="ue5 sound" data-title="Realtime Cinema Production" data-student="Lucas Vance" data-course="DPA 8810" data-img="images/gallery/gallery-15.jpg">
+                            <img src="images/gallery/gallery-15.jpg" alt="Realtime Cinema Production">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                        </div>
+
+                        <div class="gallery-item size-lg pos-16 student-gallery-card" data-speed="1.35" data-filter="animation" data-title="Walk Cycle Performance" data-student="Chloe Bennett" data-course="DPA 6820" data-img="images/gallery/gallery-16.png">
+                            <img src="images/gallery/gallery-16.png" alt="Walk Cycle Performance">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                        </div>
+
+                        <div class="gallery-item size-sm pos-17 student-gallery-card" data-speed="0.95" data-filter="texturing" data-title="PBR Material Synthesis" data-student="Nico Santos" data-course="DPA 8070" data-img="images/gallery/gallery-17.png">
+                            <img src="images/gallery/gallery-17.png" alt="PBR Material Synthesis">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                        </div>
+
+                        <div class="gallery-item size-md pos-18 student-gallery-card" data-speed="1.05" data-filter="houdini modeling" data-title="Fluid Dynamics & Ocean Study" data-student="Rachel Green" data-course="DPA 8000" data-img="images/gallery/gallery-18.jpg">
+                            <img src="images/gallery/gallery-18.jpg" alt="Fluid Dynamics & Ocean Study">
+                            <div class="wanda-reticle-corner top-left"></div><div class="wanda-reticle-corner top-right"></div><div class="wanda-reticle-corner bottom-left"></div><div class="wanda-reticle-corner bottom-right"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- WANDA+ CINEMA REEL FULLSCREEN MODAL (Inspired by wanda.net/player) -->
+        <div id="wanda-cinema-reel-modal" class="wanda-reel-overlay">
+            <div class="wanda-reel-top-bar">
+                <div class="wanda-reel-info">
+                    <span id="wanda-reel-badge" class="card-course-badge"></span>
+                    <h2 id="wanda-reel-title"></h2>
+                    <span id="wanda-reel-student" class="wanda-reel-director"><i class="fas fa-user-graduate"></i> </span>
+                </div>
+                <button class="wanda-reel-close" id="wanda-reel-close-btn" title="Close Reel">(×) Close</button>
+            </div>
+
+            <div class="wanda-reel-stage">
+                <button class="wanda-reel-arrow wanda-reel-prev" id="wanda-reel-prev" title="Previous Project"><i class="fas fa-chevron-left"></i></button>
+                <div class="wanda-reel-media-wrapper">
+                    <img id="wanda-reel-img" src="" alt="Wanda Cinema Reel Media">
+                </div>
+                <button class="wanda-reel-arrow wanda-reel-next" id="wanda-reel-next" title="Next Project"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <!-- Bottom Interactive Filmstrip Reel Bar -->
+            <div class="wanda-reel-bottom-bar">
+                <div class="wanda-filmstrip-track" id="wanda-filmstrip-track">
+                    <!-- Populated by JavaScript with interactive project thumbnails -->
+                </div>
+            </div>
+        </div>
+
+        <!-- LIGHTBOX MODAL & FULL-SCREEN VIEWER -->
+        <div id="student-work-modal" class="student-modal-overlay">
+            <button class="modal-nav-arrow prev-arrow" id="modal-prev-btn" title="Previous Work"><i class="fas fa-chevron-left"></i></button>
+            <button class="modal-nav-arrow next-arrow" id="modal-next-btn" title="Next Work"><i class="fas fa-chevron-right"></i></button>
+            
+            <div class="student-modal-content glass-panel">
+                <button class="student-modal-close" id="modal-close-btn">&times;</button>
+                <div class="student-modal-grid">
+                    <div class="modal-img-container">
+                        <img id="modal-img" src="" alt="Student Work Large Preview">
+                        <button id="open-fullscreen-view-btn" class="modal-expand-btn"><i class="fas fa-expand"></i> VIEW FULL SCREEN</button>
+                    </div>
+                    <div class="modal-info-container">
+                        <span id="modal-course-badge" class="course-badge"></span>
+                        <h2 id="modal-title"></h2>
+                        <p class="modal-student-line"><i class="fas fa-user-graduate"></i> <span id="modal-student"></span></p>
+                        <p class="modal-semester-line"><i class="fas fa-calendar-alt"></i> <span id="modal-semester"></span></p>
+                        <div class="modal-divider"></div>
+                        <h4>Software & Technical Stack:</h4>
+                        <div id="modal-tools-list" class="modal-tools-flex"></div>
+                        <div class="modal-divider"></div>
+                        <p class="modal-desc">Student production project instructed and mentored by Rodney Costa at Clemson University.</p>
+                        <button id="open-fullscreen-view-btn-2" class="btn btn-small" style="margin-top: 1rem; width: 100%;"><i class="fas fa-expand-arrows-alt" style="margin-right: 6px;"></i> Open Full Screen Viewer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL-BLEED FULLSCREEN ARTWORK OVERLAY -->
+        <div id="fullscreen-view-overlay" class="fullscreen-overlay">
+            <button class="fs-close-btn" id="fs-close-btn" title="Close Fullscreen View">&times;</button>
+            <button class="fs-arrow fs-prev-arrow" id="fs-prev-btn" title="Previous Artwork"><i class="fas fa-chevron-left"></i></button>
+            <button class="fs-arrow fs-next-arrow" id="fs-next-btn" title="Next Artwork"><i class="fas fa-chevron-right"></i></button>
+            <div class="fs-content-wrapper">
+                <img id="fs-image" src="" alt="Full Screen Artwork">
+                <div class="fs-caption-bar">
+                    <h3 id="fs-title"></h3>
+                    <p><span id="fs-student"></span> • <span id="fs-course"></span> (<span id="fs-counter"></span>)</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">Rodney Costa, MFA</div>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="work.html">Work</a>
+                <a href="academics.html">Academics</a>
+                <a href="students.html">Students Work</a>
+                <a href="resume.html">CV</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="social-links footer-social">
+                <a href="https://www.linkedin.com/in/rodneycosta/" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://www.imdb.me/RodneyCosta" target="_blank" aria-label="IMDb"><i class="fab fa-imdb"></i></a>
+                <a href="https://www.instagram.com/rodneycostabr/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2026 Rodney Florencio Da Costa. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
