@@ -336,6 +336,11 @@
             const reelCloseBtn = document.getElementById('wanda-reel-close-btn');
             
             console.log("DEBUG INLINE: cards count:", cards.length, "reelModal:", !!reelModal, "reelVideo:", !!reelVideo, "reelCloseBtn:", !!reelCloseBtn);
+            
+            setTimeout(() => {
+                const el = document.elementFromPoint(110, 480);
+                console.log("DEBUG INLINE: element under (110, 480) is:", el ? el.tagName : 'null', "id:", el ? el.id : '', "classList:", el ? el.className : '');
+            }, 1000);
 
             function openModal(idx) {
                 console.log("DEBUG INLINE: openModal called for index:", idx);
