@@ -10,7 +10,7 @@ import {
   verifyHmacHex,
   verifySignedDownloadPath,
 } from "./crypto.js";
-import { callLicenseApi, createCheckout, extractWebhookEvent, normalizeLicenseApiResponse, getLemonSqueezyLicenseKey } from "./lemonsqueezy.js";
+import { createCheckout, extractWebhookEvent, generateLocalLicenseKey, verifyPolarWebhook } from "./polar.js";
 import {
   addDaysIso,
   entitlementPayload,
@@ -21,7 +21,7 @@ import {
 
 function corsHeaders(request, env) {
   const origin = request.headers.get("Origin");
-  const allowed = String(env.VFXM_ALLOWED_ORIGINS || "https://virtuecreativesystems.com")
+  const allowed = String(env.VFXM_ALLOWED_ORIGINS || "https://virtuecreativesystems.com,https://www.virtuecreativesystems.com")
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
@@ -30,7 +30,9 @@ function corsHeaders(request, env) {
     "Access-Control-Allow-Headers": "Content-Type,Authorization",
     Vary: "Origin",
   };
-  if (origin && allowed.includes(origin)) headers["Access-Control-Allow-Origin"] = origin;
+  if (!origin || origin === "null" || allowed.includes(origin) || origin.endsWith(".pages.dev") || origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:")) {
+    headers["Access-Control-Allow-Origin"] = origin && origin !== "null" ? origin : "*";
+  }
   return headers;
 }
 
@@ -147,9 +149,9 @@ async function upsertLicense(db, license) {
 }
 
 function tierFromVariant(env, variantId) {
-  if (variantId && variantId === env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID) return "studio";
-  if (variantId && (variantId === env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID || variantId === env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID)) return "creator-nfr";
-  if (variantId && variantId === env.LEMONSQUEEZY_VFXM_TRIAL_VARIANT_ID) return "trial";
+  if (variantId && (variantId === env.POLAR_VFXM_STUDIO_PRICE_ID || variantId === env.PLAID_VFXM_STUDIO_VARIANT_ID || variantId === "studio")) return "studio";
+  if (variantId && (variantId === env.POLAR_VFXM_NFR_PRICE_ID || variantId === env.PLAID_VFXM_NFR_VARIANT_ID || variantId === "creator-nfr" || variantId === "nfr")) return "creator-nfr";
+  if (variantId && (variantId === env.POLAR_VFXM_TRIAL_PRICE_ID || variantId === env.PLAID_VFXM_TRIAL_VARIANT_ID || variantId === "trial")) return "trial";
   return "commercial";
 }
 
@@ -160,62 +162,28 @@ function activationLimitForTier(env, tier) {
 }
 
 async function syncLicenseWithProvider(env, licenseKey, licenseHash) {
-  const result = await callLicenseApi(env, "validate", { license_key: licenseKey });
-  if (!result.configured || !result.ok) return { license: null, code: ERROR_CODES.LICENSE_INVALID };
-
-  const normalized = normalizeLicenseApiResponse(result.data);
-  if (!providerLicenseMatches(env, normalized)) {
-    return { license: null, code: ERROR_CODES.LICENSE_PRODUCT_MISMATCH };
+  const db = requireDb(env);
+  const license = await getLicenseByHash(db, licenseHash);
+  if (!license) {
+    return { license: null, code: ERROR_CODES.LICENSE_INVALID };
   }
-  const variantId = normalized.variantId;
-  const tier = tierFromVariant(env, variantId);
-  const license = await upsertLicense(requireDb(env), {
-    provider: "lemonsqueezy",
-    provider_store_id: normalized.storeId || env.LEMONSQUEEZY_STORE_ID || null,
-    provider_license_id: normalized.providerLicenseId,
-    provider_order_id: normalized.orderId,
-    provider_customer_id: normalized.customerId,
-    product_code: "vfxm",
-    product_id: normalized.productId || String(env.LEMONSQUEEZY_VFXM_PRODUCT_ID || ""),
-    variant_id: variantId,
-    license_hash: licenseHash,
-    email_hash: await hashEmail(normalized.email, env.VFXM_EMAIL_HASH_SECRET || env.VFXM_LICENSE_HASH_SECRET),
-    tier,
-    status: normalized.status || "active",
-    activation_limit: Number(normalized.activationLimit || activationLimitForTier(env, tier)),
-    expires_at: normalized.expiresAt,
-  });
   return { license, code: ERROR_CODES.LICENSE_VALID };
 }
 
 function providerLicenseMatches(env, normalized) {
-  const expectedStore = String(env.LEMONSQUEEZY_STORE_ID || "");
-  const expectedProduct = String(env.LEMONSQUEEZY_VFXM_PRODUCT_ID || "");
-  const allowedVariants = [
-    env.LEMONSQUEEZY_VFXM_COMMERCIAL_VARIANT_ID,
-    env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
-    env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID,
-    env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID,
-    env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID,
-    env.LEMONSQUEEZY_VFXM_TRIAL_VARIANT_ID,
-  ].filter(Boolean).map(String);
-
-  if (expectedStore && normalized.storeId && normalized.storeId !== expectedStore) return false;
-  if (expectedProduct && normalized.productId && normalized.productId !== expectedProduct) return false;
-  if (allowedVariants.length && normalized.variantId && !allowedVariants.includes(normalized.variantId)) return false;
   return true;
 }
 
 function variantIdForKey(env, variantKey) {
   const key = String(variantKey || "commercial").toLowerCase();
   const variants = {
-    commercial: env.LEMONSQUEEZY_VFXM_COMMERCIAL_VARIANT_ID || env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
-    personal: env.LEMONSQUEEZY_VFXM_PERSONAL_VARIANT_ID,
-    studio: env.LEMONSQUEEZY_VFXM_STUDIO_VARIANT_ID,
-    nfr: env.LEMONSQUEEZY_VFXM_NFR_VARIANT_ID || env.LEMONSQUEEZY_VFXM_CREATOR_NFR_VARIANT_ID,
-    trial: env.VFXM_ENABLE_TRIAL === "true" ? env.LEMONSQUEEZY_VFXM_TRIAL_VARIANT_ID : "",
+    commercial: env.POLAR_VFXM_COMMERCIAL_PRICE_ID || env.PLAID_VFXM_COMMERCIAL_VARIANT_ID || "commercial",
+    personal: env.POLAR_VFXM_COMMERCIAL_PRICE_ID || env.PLAID_VFXM_COMMERCIAL_VARIANT_ID || "commercial",
+    studio: env.POLAR_VFXM_STUDIO_PRICE_ID || env.PLAID_VFXM_STUDIO_VARIANT_ID || "studio",
+    nfr: env.POLAR_VFXM_NFR_PRICE_ID || env.PLAID_VFXM_NFR_VARIANT_ID || "nfr",
+    trial: env.POLAR_VFXM_TRIAL_PRICE_ID || env.PLAID_VFXM_TRIAL_VARIANT_ID || "trial",
   };
-  return variants[key] ? { key, id: String(variants[key]) } : null;
+  return { key, id: variants[key] || "commercial" };
 }
 
 async function handleCreateCheckout(request, env) {
@@ -231,20 +199,22 @@ async function handleCreateCheckout(request, env) {
     redirectUrl: env.VFXM_CHECKOUT_SUCCESS_URL || `${siteOrigin}/checkout/success/`,
     receiptLinkUrl: env.VFXM_RECEIPT_DOWNLOAD_URL || `${siteOrigin}/download/vfxm/`,
     testMode: String(env.STORE_MODE || env.VFXM_STORE_MODE || "test") !== "live",
+    customerEmail: body?.email
   });
 
   if (!result.configured) return errorJson(request, env, ERROR_CODES.CHECKOUT_NOT_CONFIGURED, 503);
   if (!result.ok) {
     return errorJson(request, env, ERROR_CODES.LICENSE_SERVER_UNAVAILABLE, 502, {
       provider_status: result.status,
+      error: result.error
     });
   }
 
   return json(request, env, {
     ok: true,
-    provider: "lemonsqueezy",
+    provider: "polar",
     variant: variant.key,
-    checkout_url: result.data?.data?.attributes?.url,
+    checkout_url: result.url,
     request_origin: origin,
   });
 }
@@ -295,48 +265,8 @@ async function handleActivate(request, env) {
       .run();
     activation = await getActiveActivation(db, license.id, body.machine_hash);
   } else {
-    let providerInstanceId = null;
-    const providerActivation = await callLicenseApi(env, "activate", {
-      license_key: body.license_key,
-      instance_name: body.device_label || `VFxM ${String(body.machine_hash).slice(0, 12)}`,
-    });
-    if (providerActivation.ok) {
-      const normalized = normalizeLicenseApiResponse(providerActivation.data);
-      if (!providerLicenseMatches(env, normalized)) {
-        return errorJson(request, env, ERROR_CODES.LICENSE_PRODUCT_MISMATCH, 403);
-      }
-      providerInstanceId = normalized.providerInstanceId;
-      license = await upsertLicense(db, {
-        provider: "lemonsqueezy",
-        provider_store_id: normalized.storeId || license.provider_store_id,
-        provider_license_id: normalized.providerLicenseId || license.provider_license_id,
-        provider_order_id: normalized.orderId || license.provider_order_id,
-        provider_customer_id: normalized.customerId || license.provider_customer_id,
-        product_code: "vfxm",
-        product_id: normalized.productId || license.product_id,
-        variant_id: normalized.variantId || license.variant_id,
-        license_hash: licenseHash,
-        email_hash: await hashEmail(normalized.email, env.VFXM_EMAIL_HASH_SECRET || env.VFXM_LICENSE_HASH_SECRET),
-        tier: tierFromVariant(env, normalized.variantId || license.variant_id),
-        status: normalized.status || license.status,
-        activation_limit: normalized.activationLimit || license.activation_limit,
-        expires_at: normalized.expiresAt || license.expires_at,
-      });
-    } else if (providerActivation.data?.error && /activation limit/i.test(providerActivation.data.error)) {
-      return errorJson(request, env, ERROR_CODES.LICENSE_ACTIVATION_LIMIT_REACHED, 403, {
-        activation_limit: license.activation_limit,
-        activation_count: activeCount,
-      });
-    } else {
-      return errorJson(
-        request,
-        env,
-        providerActivation.status === 404 ? ERROR_CODES.LICENSE_INVALID : ERROR_CODES.LICENSE_SERVER_UNAVAILABLE,
-        providerActivation.status === 404 ? 403 : 502,
-        { provider_status: providerActivation.status },
-      );
-    }
-
+    // Paid activation - validate locally in D1
+    const providerInstanceId = "inst_" + crypto.randomUUID();
     const activationInstanceId = crypto.randomUUID();
     await db.prepare(
       `INSERT INTO license_activations (
@@ -402,7 +332,36 @@ async function handleValidate(request, env) {
     });
   }
 
-  return handleActivate(request, env);
+  if (body?.license_key && (body?.instance_id || body?.machine_hash)) {
+    const db = requireDb(env);
+    const machineHash = body.instance_id || body.machine_hash;
+    const licenseHash = await hashLicenseKey(body.license_key, requireSecret(env, "VFXM_LICENSE_HASH_SECRET"));
+    const license = await getLicenseByHash(db, licenseHash);
+    if (!license) return errorJson(request, env, ERROR_CODES.LICENSE_INVALID, 404);
+    if (licenseStatusCode(license.status) !== ERROR_CODES.LICENSE_VALID) {
+      return errorJson(request, env, ERROR_CODES.LICENSE_INVALID, 403);
+    }
+    const activation = await getActiveActivation(db, license.id, machineHash);
+    if (!activation) {
+      return json(request, env, {
+        valid: false,
+        error: "Device has been deactivated or released.",
+        license_key: { status: "deactivated" }
+      }, 403);
+    }
+    const activeCount = await activeActivationCount(db, license.id);
+    return json(request, env, {
+      valid: true,
+      license_key: {
+        status: "active",
+        type: license.tier || "Full License",
+        activation_limit: license.activation_limit,
+        activation_usage: activeCount,
+      }
+    });
+  }
+
+  return errorJson(request, env, ERROR_CODES.VALIDATION_ERROR, 400);
 }
 
 async function handleDeactivate(request, env) {
@@ -442,10 +401,7 @@ async function handleDeactivate(request, env) {
     .run();
 
   if (activation.provider_instance_id && body?.license_key) {
-    await callLicenseApi(env, "deactivate", {
-      license_key: body.license_key,
-      instance_id: activation.provider_instance_id,
-    });
+    // Local deactivation complete in D1
   }
 
   return json(request, env, { ok: true, code: "LICENSE_DEACTIVATED", status: "deactivated" });
@@ -592,10 +548,8 @@ async function handleDownloadFile(request, env, releaseFileId) {
 
 async function handleWebhook(request, env) {
   const rawBody = await request.text();
-  const signature = request.headers.get("X-Signature") || "";
-  const secret = requireSecret(env, "LEMONSQUEEZY_WEBHOOK_SECRET");
-  const signatureOk = await verifyHmacHex(secret, rawBody, signature);
-  if (!signatureOk) return errorJson(request, env, ERROR_CODES.WEBHOOK_SIGNATURE_INVALID, 401);
+  const verified = await verifyPolarWebhook(request, env, rawBody);
+  if (!verified) return errorJson(request, env, ERROR_CODES.WEBHOOK_SIGNATURE_INVALID, 401);
 
   const db = requireDb(env);
   const payloadHash = await sha256Hex(rawBody);
@@ -605,7 +559,7 @@ async function handleWebhook(request, env) {
   if (existing) return json(request, env, { ok: true, duplicate: true, status: existing.status });
 
   await db.prepare(
-    "INSERT INTO webhook_events (provider, event_name, provider_event_id, payload_hash, received_at, status) VALUES ('lemonsqueezy', ?, ?, ?, ?, 'received')",
+    "INSERT INTO webhook_events (provider, event_name, provider_event_id, payload_hash, received_at, status) VALUES ('polar', ?, ?, ?, ?, 'received')",
   )
     .bind(event.eventName, event.providerEventId, payloadHash, nowIso())
     .run();
@@ -615,30 +569,47 @@ async function handleWebhook(request, env) {
     if (event.eventName === "order_refunded") {
       await db.prepare("UPDATE licenses SET status = 'refunded', updated_at = ? WHERE provider_order_id = ?")
         .bind(nowIso(), event.orderId).run();
-    } else if (event.eventName.includes("license_key") || event.eventName === "order_created") {
-      const providerLicenseKey = event.licenseKeyId || event.orderId || event.providerEventId || payloadHash;
+    } else if (event.eventName === "order_created") {
+      const licenseKey = generateLocalLicenseKey();
       const tier = tierFromVariant(env, event.variantId);
-      const providerLicenseHash = event.licenseKey
-        ? await hashLicenseKey(event.licenseKey, licenseSecret)
-        : await hmacHex(licenseSecret, `provider:${providerLicenseKey}`);
+      const licenseHash = await hashLicenseKey(licenseKey, licenseSecret);
       await upsertLicense(db, {
-        provider: "lemonsqueezy",
-        provider_store_id: event.storeId || env.LEMONSQUEEZY_STORE_ID,
-        provider_license_id: event.licenseKeyId,
+        provider: "polar",
+        provider_store_id: "polar_store",
+        provider_license_id: licenseKey,
         provider_order_id: event.orderId,
-        provider_customer_id: event.customerId,
+        provider_customer_id: event.customerId || "cust_polar",
         product_code: "vfxm",
-        product_id: event.productId || env.LEMONSQUEEZY_VFXM_PRODUCT_ID,
+        product_id: "prod_vfxm",
         variant_id: event.variantId,
-        license_hash: providerLicenseHash,
+        license_hash: licenseHash,
         email_hash: await hashEmail(event.email, env.VFXM_EMAIL_HASH_SECRET || licenseSecret),
         tier,
-        status: event.status,
+        status: "active",
         activation_limit: activationLimitForTier(env, tier),
       });
-    } else if (event.eventName.includes("subscription_cancelled") || event.eventName.includes("subscription_expired")) {
-      await db.prepare("UPDATE licenses SET status = 'expired', updated_at = ? WHERE provider_customer_id = ?")
-        .bind(nowIso(), event.customerId).run();
+
+      const resendApiKey = env.RESEND_API_KEY;
+      if (resendApiKey && resendApiKey !== "mock_resend_key_123" && !resendApiKey.startsWith("mock_")) {
+        const from = env.VFXM_LICENSE_EMAIL_FROM || "Virtue FX Manager <licenses@virtuecreativesystems.com>";
+        const emailBody = `Thank you for purchasing Virtue FX Manager!\n\nYour License Key: ${licenseKey}\nTier: ${tier}\nLimit: ${activationLimitForTier(env, tier)} devices\n\nActivate inside VFxM Settings in REAPER.`;
+        await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${resendApiKey}`,
+          },
+          body: JSON.stringify({
+            from,
+            to: [event.email],
+            reply_to: "virtuecreativesystems@gmail.com",
+            subject: "Your Virtue FX Manager License Key",
+            text: emailBody,
+          }),
+        });
+      } else {
+        console.log(`[MOCK WEBHOOK EMAIL] To: ${event.email}, Key: ${licenseKey}`);
+      }
     }
     await db.prepare("UPDATE webhook_events SET status = 'processed', processed_at = ? WHERE payload_hash = ?")
       .bind(nowIso(), payloadHash)
@@ -663,6 +634,7 @@ export async function handleRecoverLicense(request, env) {
 
   const genericResponse = {
     ok: true,
+    success: true,
     message: "If this email is associated with a purchase, we will send your license information shortly."
   };
 
@@ -674,7 +646,7 @@ export async function handleRecoverLicense(request, env) {
   // 2. Query matching licenses from D1
   const db = requireDb(env);
   const { results: licenses } = await db
-    .prepare("SELECT provider_license_id, tier, status FROM licenses WHERE email_hash = ?")
+    .prepare("SELECT provider_license_id, tier, status, activation_limit, provider_order_id FROM licenses WHERE email_hash = ?")
     .bind(emailHash)
     .all();
 
@@ -685,19 +657,13 @@ export async function handleRecoverLicense(request, env) {
   // 3. Retrieve raw keys from Lemon Squeezy
   const retrievedKeys = [];
   for (const lic of licenses) {
-    if (!lic.provider_license_id) continue;
-    try {
-      const lsLicense = await getLemonSqueezyLicenseKey(env, lic.provider_license_id);
-      if (lsLicense?.attributes?.key) {
-        retrievedKeys.push({
-          key: lsLicense.attributes.key,
-          status: lsLicense.attributes.status || lic.status,
-          activation_limit: lsLicense.attributes.activation_limit || 2,
-          order_id: lsLicense.attributes.order_id || ""
-        });
-      }
-    } catch {
-      // Continue retrieving others
+    if (lic.provider_license_id) {
+      retrievedKeys.push({
+        key: lic.provider_license_id,
+        status: lic.status,
+        activation_limit: lic.activation_limit || 2,
+        order_id: lic.provider_order_id || "Polar"
+      });
     }
   }
 
@@ -713,7 +679,7 @@ export async function handleRecoverLicense(request, env) {
   }
 
   const from = env.VFXM_LICENSE_EMAIL_FROM || "Virtue FX Manager <licenses@virtuecreativesystems.com>";
-  const supportEmail = env.VFXM_SUPPORT_EMAIL || "hello@virtuecreativesystems.com";
+  const supportEmail = env.VFXM_SUPPORT_EMAIL || "virtuecreativesystems@gmail.com";
   const downloadUrl = env.VFXM_PUBLIC_DOWNLOAD_URL || "https://www.virtuecreativesystems.com/download/vfxm/";
 
   const subject = "Your Virtue FX Manager License Keys";
@@ -851,6 +817,7 @@ Need help? Contact us at ${supportEmail}.`;
       body: JSON.stringify({
         from,
         to: [email],
+        reply_to: "virtuecreativesystems@gmail.com",
         subject,
         html,
         text,
@@ -868,6 +835,102 @@ Need help? Contact us at ${supportEmail}.`;
   return json(request, env, genericResponse);
 }
 
+export async function handleContactSubmit(request, env) {
+  const body = await readJson(request).catch(() => ({}));
+  const name = String(body?.name || "").trim();
+  const email = String(body?.email || "").trim().toLowerCase();
+  const subject = String(body?.subject || "").trim();
+  const message = String(body?.message || "").trim();
+
+  if (!name || !email || !subject || !message) {
+    return json(request, env, { ok: false, message: "Please fill in all fields." }, 400);
+  }
+  if (!email.includes("@")) {
+    return json(request, env, { ok: false, message: "Please enter a valid email address." }, 400);
+  }
+
+  const genericResponse = {
+    ok: true,
+    message: "Your message has been sent successfully. We will get back to you soon!"
+  };
+
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey || apiKey === "mock_resend_key_123" || apiKey.startsWith("mock_")) {
+    console.log(`[MOCK CONTACT EMAIL] From: ${email} (${name}), Subject: ${subject}, Message: ${message}`);
+    return json(request, env, genericResponse);
+  }
+
+  const from = env.VFXM_CONTACT_FROM_EMAIL || "Virtue Creative Systems <contact@virtuecreativesystems.com>";
+  const targetEmail = body?.targetEmail || body?.to || env.VFXM_CONTACT_TARGET_EMAIL || "rodney@florenciodacosta.com";
+
+  try {
+    const emailBody = `New Contact Form Submission\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}`;
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        from,
+        to: [targetEmail],
+        reply_to: email,
+        subject: `Contact Form: ${subject}`,
+        text: emailBody,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Resend Contact API error: ${errorText}`);
+    }
+  } catch (err) {
+    console.error(`Resend Contact dispatch exception: ${err}`);
+  }
+
+  return json(request, env, genericResponse);
+}
+
+export async function handleResetActivations(request, env) {
+  let body = {};
+  const contentType = request.headers.get("content-type") || "";
+  if (contentType.includes("application/x-www-form-urlencoded")) {
+    const text = await request.text();
+    const params = new URLSearchParams(text);
+    for (const [key, value] of params.entries()) {
+      body[key] = value;
+    }
+  } else {
+    body = await readJson(request) || {};
+  }
+
+  const licenseKey = body?.license_key || body?.license;
+  if (!licenseKey) {
+    return errorJson(request, env, ERROR_CODES.VALIDATION_ERROR, 400, { message: "License key is required" });
+  }
+
+  const db = requireDb(env);
+  const licenseHash = await hashLicenseKey(licenseKey, requireSecret(env, "VFXM_LICENSE_HASH_SECRET"));
+  const license = await getLicenseByHash(db, licenseHash);
+  if (!license) {
+    return errorJson(request, env, ERROR_CODES.LICENSE_INVALID, 404);
+  }
+
+  const now = nowIso();
+  const result = await db.prepare(
+    "UPDATE license_activations SET status = 'deactivated', deactivated_at = ?, deactivation_reason = ? WHERE license_id = ? AND status = 'active'"
+  )
+    .bind(now, "portal-reset", license.id)
+    .run();
+
+  const changes = result?.meta?.changes || 0;
+  return json(request, env, {
+    ok: true,
+    deactivated: true,
+    reset_count: changes
+  });
+}
+
 export async function handleRequest(request, env) {
   if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: corsHeaders(request, env) });
   const url = new URL(request.url);
@@ -875,12 +938,15 @@ export async function handleRequest(request, env) {
 
   try {
     if (request.method === "GET" && path === "/health") return json(request, env, { ok: true, service: "vfxm-license-worker" });
+
     if (request.method === "POST" && path === "/v1/checkout/create") return handleCreateCheckout(request, env);
-    if (request.method === "POST" && path === "/webhooks/lemonsqueezy") return handleWebhook(request, env);
+    if (request.method === "POST" && (path === "/webhooks/polar" || path === "/webhooks/plaid" || path === "/webhooks/lemonsqueezy")) return handleWebhook(request, env);
     if (request.method === "POST" && path === "/v1/license/activate") return handleActivate(request, env);
     if (request.method === "POST" && path === "/v1/license/validate") return handleValidate(request, env);
     if (request.method === "POST" && path === "/v1/license/deactivate") return handleDeactivate(request, env);
+    if (request.method === "POST" && (path === "/v1/licenses/reset-activations" || path === "/v1/license/reset-activations")) return handleResetActivations(request, env);
     if (request.method === "POST" && (path === "/v1/license/recover" || path === "/v1/license/request" || path === "/api/license/request")) return handleRecoverLicense(request, env);
+    if (request.method === "POST" && path === "/v1/contact/submit") return handleContactSubmit(request, env);
     if (request.method === "GET" && path === "/v1/license/status") return handleStatus(request, env);
     if (request.method === "GET" && path === "/v1/releases/latest") return handleLatestRelease(request, env);
     if (request.method === "POST" && path === "/v1/download/request") return handleDownloadRequest(request, env);

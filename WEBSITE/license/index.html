@@ -5,41 +5,197 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Virtue FX Manager license documentation has moved. Activation happens inside VFxM in REAPER, not on the website."
+      content="Virtue FX Manager License Management Portal. Recover license keys, view active devices, and release license seats."
     />
-    <meta property="og:title" content="License Help | Virtue FX Manager" />
-    <meta property="og:description" content="VFxM license help. No website activation form." />
+    <meta property="og:title" content="License Portal | Virtue FX Manager" />
+    <meta property="og:description" content="Manage and release your Virtue FX Manager license activations." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://virtuecreativesystems.com/license/" />
-    <meta name="theme-color" content="#e0f2fe" />
-    <title>License Help | Virtue FX Manager</title>
-    <link rel="canonical" href="https://virtuecreativesystems.com/docs/license/" />
+    <meta name="theme-color" content="#090d16" />
+    <title>License Portal | Virtue FX Manager</title>
+    <link rel="canonical" href="https://virtuecreativesystems.com/license/" />
     <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css?v=8" />
+    <style>
+      .portal-card {
+        background: rgba(18, 24, 38, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 32px;
+        max-width: 680px;
+        margin: 0 auto;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      }
+      .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+      }
+      .form-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #e2e8f0;
+      }
+      .form-input {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 8px;
+        background: #0d121f;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 15px;
+        box-sizing: border-box;
+      }
+      .form-input:focus {
+        border-color: #6366f1;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+      }
+      .status-box {
+        margin-top: 20px;
+        padding: 16px;
+        border-radius: 8px;
+        display: none;
+      }
+      .status-success {
+        background: rgba(34, 197, 94, 0.15);
+        border: 1px solid rgba(34, 197, 94, 0.3);
+        color: #4ade80;
+      }
+      .status-error {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #f87171;
+      }
+      .device-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #0d121f;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 14px 18px;
+        border-radius: 8px;
+        margin-top: 12px;
+      }
+      .release-btn {
+        background: #dc2626;
+        color: #fff;
+        border: none;
+        padding: 8px 14px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+        transition: background 0.2s;
+      }
+      .release-btn:hover {
+        background: #b91c1c;
+      }
+    </style>
   </head>
   <body data-site-root="../">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header" data-site-header></header>
     <main id="main">
       <section class="page-hero section-shell reveal">
-        <p class="eyebrow">Help moved</p>
-        <h1>License help is informational only.</h1>
+        <p class="eyebrow">Self-Service Portal</p>
+        <h1>License Management & Recovery</h1>
         <p>
-          This website does not activate licenses or manage devices. Activation happens inside Virtue
-          FX Manager in REAPER. Use the help pages for install and activation instructions.
+          Easily manage your active device seats, release licenses from old computers, or recover your license key.
         </p>
-        <div class="button-row">
-          <a class="button button-primary" href="../docs/#status-circles">License overview</a>
-          <a class="button button-secondary" href="../docs/#installation-launching">Activation help</a>
-          <a class="button button-secondary" href="../docs/#installation-launching">Install help</a>
+
+        <div class="portal-card">
+          <form id="accountForm">
+            <div class="form-group">
+              <label class="form-label" for="accountQueryInput">Account Key or Email Address</label>
+              <input
+                type="text"
+                id="accountQueryInput"
+                class="form-input"
+                placeholder="VFXM-XXXX-XXXX-XXXX or user@email.com"
+                required
+              />
+            </div>
+            <div class="button-row" style="justify-content: flex-start;">
+              <button type="submit" class="button button-primary" id="manageBtn">Manage / Reset Activations</button>
+              <button type="button" class="button button-secondary" id="recoverBtn">Send Recovery Email</button>
+            </div>
+          </form>
+
+          <div id="statusBox" class="status-box"></div>
+          <div id="deviceList" style="margin-top: 24px; text-align: left;"></div>
         </div>
       </section>
     </main>
     <footer class="site-footer" data-site-footer></footer>
     <script src="../i18n.js"></script>
-    <script src="../script.js"></script>
+    <script src="../script.js?v=8"></script>
+    <script>
+      const API_URL = "https://virtue-licensing-service.virtuecreativesystems.workers.dev";
+      const form = document.getElementById("accountForm");
+      const statusBox = document.getElementById("statusBox");
+      const deviceList = document.getElementById("deviceList");
+      const recoverBtn = document.getElementById("recoverBtn");
+
+      function showStatus(msg, isError = false) {
+        statusBox.style.display = "block";
+        statusBox.className = "status-box " + (isError ? "status-error" : "status-success");
+        statusBox.textContent = msg;
+      }
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const input = document.getElementById("accountQueryInput").value.trim();
+        if (!input) return;
+
+        showStatus("Processing request...", false);
+        deviceList.innerHTML = "";
+
+        try {
+          const res = await fetch(`${API_URL}/v1/licenses/reset-activations`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `license_key=${encodeURIComponent(input)}&instance_name=web_portal`
+          });
+          const data = await res.json();
+          if (data.activated || data.deactivated) {
+            showStatus("License seats successfully reset! You can now activate your key on your new machine.", false);
+          } else {
+            showStatus(data.error || "Could not reset license activations.", true);
+          }
+        } catch (err) {
+          showStatus("Network error connecting to license portal.", true);
+        }
+      });
+
+      recoverBtn.addEventListener("click", async () => {
+        const input = document.getElementById("accountQueryInput").value.trim();
+        if (!input) {
+          showStatus("Please enter your email address to recover license keys.", true);
+          return;
+        }
+        showStatus("Sending license recovery email...", false);
+        try {
+          const res = await fetch(`${API_URL}/v1/license/recover`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: input })
+          });
+          const data = await res.json();
+          if (res.ok || data.ok || data.success) {
+            showStatus("Recovery email sent! Please check your inbox.", false);
+          } else {
+            showStatus(data.message || "Failed to send recovery email.", true);
+          }
+        } catch (err) {
+          showStatus("Network error sending recovery email.", true);
+        }
+      });
+    </script>
   </body>
 </html>
