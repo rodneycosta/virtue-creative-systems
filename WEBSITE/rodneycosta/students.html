@@ -340,6 +340,13 @@
             setTimeout(() => {
                 const el = document.elementFromPoint(110, 480);
                 console.log("DEBUG INLINE: element under (110, 480) is:", el ? el.tagName : 'null', "id:", el ? el.id : '', "classList:", el ? el.className : '');
+                const card = document.querySelector('.student-gallery-card');
+                if (card) {
+                    const rect = card.getBoundingClientRect();
+                    console.log("DEBUG INLINE: first card bounding rect: left:", rect.left, "top:", rect.top, "width:", rect.width, "height:", rect.height);
+                } else {
+                    console.log("DEBUG INLINE: first card not found in DOM");
+                }
             }, 1000);
 
             function openModal(idx) {
