@@ -573,11 +573,42 @@ function initWandaSpatialCanvas() {
 
         const card = cardsArray[currentReelIndex];
         const img = card.getAttribute('data-img');
+        const videoUrl = card.getAttribute('data-video');
         const title = card.getAttribute('data-title');
         const student = card.getAttribute('data-student');
         const course = card.getAttribute('data-course');
 
-        if (reelImg) reelImg.src = img;
+        const reelVideo = document.getElementById('wanda-reel-video');
+        const reelFsToggle = document.getElementById('wanda-reel-fs-toggle');
+
+        if (videoUrl) {
+            if (reelImg) reelImg.style.display = 'none';
+            if (reelVideo) {
+                reelVideo.style.display = 'block';
+                reelVideo.src = videoUrl;
+                reelVideo.play().catch(() => {});
+            }
+            if (reelFsToggle) {
+                reelFsToggle.style.display = 'inline-flex';
+                reelFsToggle.onclick = () => {
+                    if (reelVideo.requestFullscreen) reelVideo.requestFullscreen();
+                    else if (reelVideo.webkitRequestFullscreen) reelVideo.webkitRequestFullscreen();
+                    else if (reelVideo.msRequestFullscreen) reelVideo.msRequestFullscreen();
+                };
+            }
+        } else {
+            if (reelVideo) {
+                reelVideo.pause();
+                reelVideo.style.display = 'none';
+                reelVideo.src = '';
+            }
+            if (reelFsToggle) reelFsToggle.style.display = 'none';
+            if (reelImg) {
+                reelImg.style.display = 'block';
+                reelImg.src = img;
+            }
+        }
+
         if (reelTitle) reelTitle.textContent = title;
         if (reelStudent) reelStudent.innerHTML = `<i class="fas fa-user-graduate"></i> ${student}`;
         if (reelBadge) reelBadge.textContent = course || 'DPA Showcase';
@@ -631,6 +662,11 @@ function initWandaSpatialCanvas() {
     if (reelCloseBtn) {
         reelCloseBtn.addEventListener('click', () => {
             if (reelModal) reelModal.classList.remove('active');
+            const reelVideo = document.getElementById('wanda-reel-video');
+            if (reelVideo) {
+                reelVideo.pause();
+                reelVideo.src = '';
+            }
         });
     }
 
