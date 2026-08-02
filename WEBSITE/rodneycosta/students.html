@@ -323,7 +323,9 @@
 
     <script src="script.js?v=1.4"></script>
     <script>
+        console.log("DEBUG INLINE: script parsed");
         document.addEventListener('DOMContentLoaded', () => {
+            console.log("DEBUG INLINE: DOMContentLoaded event fired");
             const cards = document.querySelectorAll('.student-gallery-card');
             const reelModal = document.getElementById('wanda-cinema-reel-modal');
             const reelVideo = document.getElementById('wanda-reel-video');
@@ -332,22 +334,31 @@
             const reelStudent = document.getElementById('wanda-reel-student');
             const reelBadge = document.getElementById('wanda-reel-badge');
             const reelCloseBtn = document.getElementById('wanda-reel-close-btn');
+            
+            console.log("DEBUG INLINE: cards count:", cards.length, "reelModal:", !!reelModal, "reelVideo:", !!reelVideo, "reelCloseBtn:", !!reelCloseBtn);
 
             function openModal(idx) {
+                console.log("DEBUG INLINE: openModal called for index:", idx);
                 const card = cards[idx];
-                if (!card) return;
+                if (!card) {
+                    console.log("DEBUG INLINE: card not found at index", idx);
+                    return;
+                }
                 const imgUrl = card.getAttribute('data-img');
                 const videoUrl = card.getAttribute('data-video');
                 const title = card.getAttribute('data-title');
                 const student = card.getAttribute('data-student');
                 const course = card.getAttribute('data-course');
+                console.log("DEBUG INLINE: card data - imgUrl:", imgUrl, "videoUrl:", videoUrl, "title:", title);
 
                 if (videoUrl) {
                     if (reelImg) reelImg.style.display = 'none';
                     if (reelVideo) {
                         reelVideo.style.display = 'block';
                         reelVideo.src = videoUrl;
-                        reelVideo.play().catch(() => {});
+                        reelVideo.play().catch((err) => {
+                            console.log("DEBUG INLINE: video play failed:", err);
+                        });
                     }
                 } else {
                     if (reelVideo) {
@@ -369,12 +380,16 @@
                     reelModal.style.display = 'flex';
                     requestAnimationFrame(() => {
                         reelModal.classList.add('active');
+                        console.log("DEBUG INLINE: reelModal class active added. classList:", reelModal.className);
                     });
+                } else {
+                    console.log("DEBUG INLINE: reelModal element not found!");
                 }
             }
 
             cards.forEach((card, idx) => {
                 card.addEventListener('click', (e) => {
+                    console.log("DEBUG INLINE: Card clicked!", idx);
                     e.preventDefault();
                     e.stopPropagation();
                     openModal(idx);
@@ -383,6 +398,7 @@
 
             if (reelCloseBtn) {
                 reelCloseBtn.addEventListener('click', (e) => {
+                    console.log("DEBUG INLINE: Close button clicked!");
                     e.preventDefault();
                     e.stopPropagation();
                     if (reelModal) {
