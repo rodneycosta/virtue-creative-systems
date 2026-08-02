@@ -16,7 +16,10 @@ if (typeof Lenis !== 'undefined') {
 }
 
 // Initialize Swup
-const swup = new Swup();
+let swup = null;
+if (typeof Swup !== 'undefined') {
+    swup = new Swup();
+}
 
 // Custom Cursor
 const cursor = document.querySelector('.custom-cursor');
@@ -1234,10 +1237,12 @@ function initStudentGallery() {
 document.addEventListener('DOMContentLoaded', initPage);
 
 // Swup hooks
-swup.hooks.on('page:view', initPage);
-swup.hooks.on('visit:start', () => {
-    // scroll to top on transition
-    if (lenis) {
-        lenis.scrollTo(0, { immediate: true });
-    }
-});
+if (swup) {
+    swup.hooks.on('page:view', initPage);
+    swup.hooks.on('visit:start', () => {
+        // scroll to top on transition
+        if (lenis) {
+            lenis.scrollTo(0, { immediate: true });
+        }
+    });
+}
