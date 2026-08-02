@@ -1,0 +1,106 @@
+{
+    "wallTime": 34,
+    "cpuTime": 1,
+    "truncated": false,
+    "executionModel": "stateless",
+    "outcome": "exception",
+    "scriptVersion": {
+        "id": "f7e38241-0310-43ff-adac-9cc3b69bec2c"
+    },
+    "scriptName": "virtue-licensing-service",
+    "diagnosticsChannelEvents": [],
+    "exceptions": [
+        {
+            "stack": "    at D1DatabaseSessionAlwaysPrimary._sendOrThrow (cloudflare-internal:d1-api:139:19)\n    at async cloudflare-internal:d1-api:323:39\n    at async handleLatestRelease (index.js:717:19)",
+            "name": "Error",
+            "message": "D1_ERROR: no such table: release_files: SQLITE_ERROR",
+            "timestamp": 1781916397793
+        }
+    ],
+    "logs": [],
+    "eventTimestamp": 1781916397765,
+    "event": {
+        "request": {
+            "url": "https://virtue-licensing-service.virtuecreativesystems.workers.dev/v1/releases/latest?platform=macos",
+            "method": "GET",
+            "headers": {
+                "accept": "*/*",
+                "accept-encoding": "gzip, br",
+                "cf-connecting-ip": "170.52.182.92",
+                "cf-ipcountry": "US",
+                "cf-ray": "a0e6c1ee0f84f494",
+                "cf-visitor": "{\"scheme\":\"https\"}",
+                "connection": "Keep-Alive",
+                "host": "virtue-licensing-service.virtuecreativesystems.workers.dev",
+                "user-agent": "curl/8.7.1",
+                "x-forwarded-proto": "https",
+                "x-real-ip": "170.52.182.92"
+            },
+            "cf": {
+                "httpProtocol": "HTTP/2",
+                "requestPriority": "weight=16;exclusive=0;group=0;group-weight=0",
+                "edgeRequestKeepAliveStatus": 1,
+                "requestHeaderNames": {},
+                "clientTcpRtt": 11,
+                "clientQuicRtt": 0,
+                "colo": "ATL",
+                "asn": 16863,
+                "asOrganization": "Home Telephone Company, Inc.",
+                "country": "US",
+                "isEUCountry": false,
+                "city": "Moncks Corner",
+                "continent": "NA",
+                "region": "South Carolina",
+                "regionCode": "SC",
+                "timezone": "America/New_York",
+                "longitude": "-80.01429",
+                "latitude": "33.19632",
+                "postalCode": "29461",
+                "metroCode": "519",
+                "tlsVersion": "TLSv1.3",
+                "tlsCipher": "AEAD-CHACHA20-POLY1305-SHA256",
+                "tlsClientRandom": "RTwh0uyaBwvsdrjjkzfy5w6iQbFKr8LaBzMYJ1+fJu0=",
+                "tlsClientCiphersSha1": "eDGmD1H99AwNYzOR+7eoGLo6eLU=",
+                "tlsClientExtensionsSha1": "Ub+nUmIm1U57hdNSUph0R+kx9Gc=",
+                "tlsClientExtensionsSha1Le": "NMNf2YIpLBhtroOEBooGFi+jtJ8=",
+                "tlsExportedAuthenticator": {
+                    "clientHandshake": "e3609cc12c5dae5ed2fd04dd0d605f799adb7df8e8eba86665134a5aa4dde6c6",
+                    "serverHandshake": "caec739de681acf1f537ae8b4bd7249e26ce9a04b01076d9cd313914bf832514",
+                    "clientFinished": "a0821debeb83ebb4b649805497e9a7ea14cc1c4ee5aaafc896518d3635b3bcda",
+                    "serverFinished": "588130699358abfc61c923d93990ae647a88ae8ac2ff1e2fc7a0d328baa223b7"
+                },
+                "tlsClientHelloLength": "359",
+                "tlsClientAuth": {
+                    "certPresented": "0",
+                    "certVerified": "NONE",
+                    "certRevoked": "0",
+                    "certIssuerDN": "",
+                    "certSubjectDN": "",
+                    "certIssuerDNRFC2253": "",
+                    "certSubjectDNRFC2253": "",
+                    "certIssuerDNLegacy": "",
+                    "certSubjectDNLegacy": "",
+                    "certSerial": "",
+                    "certIssuerSerial": "",
+                    "certSKI": "",
+                    "certIssuerSKI": "",
+                    "certFingerprintSHA1": "",
+                    "certFingerprintSHA256": "",
+                    "certNotBefore": "",
+                    "certNotAfter": "",
+                    "certRFC9440": "",
+                    "certRFC9440TooLarge": false,
+                    "certChainRFC9440": "",
+                    "certChainRFC9440TooLarge": false
+                },
+                "verifiedBotCategory": "",
+                "edgeL4": {
+                    "deliveryRate": 248030
+                }
+            }
+        },
+        "response": {
+            "status": 500
+        }
+    }
+}
