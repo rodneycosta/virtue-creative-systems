@@ -3470,50 +3470,58 @@ html.lenis {
     opacity: 1;
 }
 
-/* Permanent / Hover Overlay for Student Name & Full-screen Video Icon */
-.student-gallery-card .student-overlay-caption {
+/* Visible Overlay for Student Name & Full-screen Video Icon */
+.student-gallery-card .gallery-item-caption {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%);
-    padding: 12px 14px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(5, 5, 10, 0.95) 0%, rgba(5, 5, 10, 0.6) 70%, transparent 100%);
+    padding: 10px 12px;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    opacity: 0.9;
-    transition: opacity 0.3s ease;
-    z-index: 5;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 20;
     pointer-events: none;
+    transition: background 0.3s ease;
 }
 
-.student-gallery-card:hover .student-overlay-caption {
-    opacity: 1;
+.student-gallery-card:hover .gallery-item-caption {
+    background: linear-gradient(to top, rgba(210, 16, 19, 0.9) 0%, rgba(5, 5, 10, 0.8) 100%);
 }
 
-.student-overlay-caption .overlay-student-name {
-    font-size: 0.8rem;
+.student-gallery-card .gallery-item-caption .cap-student {
+    font-size: 0.78rem;
     font-weight: 800;
     color: var(--accent-primary);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
 }
 
-.student-overlay-caption .overlay-title {
-    font-size: 0.95rem;
+.student-gallery-card:hover .gallery-item-caption .cap-student {
+    color: #ffffff;
+}
+
+.student-gallery-card .gallery-item-caption .cap-title {
+    font-size: 0.88rem;
     font-weight: 700;
     color: #ffffff;
-    margin-top: 2px;
+    margin: 2px 0 0 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.student-overlay-caption .overlay-course-tag {
-    font-size: 0.72rem;
-    color: rgba(255,255,255,0.7);
-    margin-top: 2px;
+.student-gallery-card .gallery-item-caption .cap-task,
+.student-gallery-card .gallery-item-caption .cap-meta {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 1px;
 }
 
 /* Video Full-Screen Button Icon Badge */
@@ -3521,18 +3529,18 @@ html.lenis {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.85);
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
-    width: 34px;
-    height: 34px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     backdrop-filter: blur(4px);
-    z-index: 6;
+    z-index: 25;
     transition: all 0.25s ease;
 }
 
