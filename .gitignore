@@ -6,3 +6,7 @@ VFxM_Library/
 scratch/
 checkout_bug_report.md
 wrangler.toml
+
+.dev.vars*
+!.dev.vars.example
+!.env.example
