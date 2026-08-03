@@ -356,10 +356,49 @@
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    alert("Please drop an image or video file only!");
+                    showToast("Please drop an image or video file only!", true);
                 }
             }
         });
+
+        // Toast Notification System
+        function showToast(msg, isError = false) {
+            let toast = document.getElementById('toast-notification');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-notification';
+                document.body.appendChild(toast);
+            }
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: ${isError ? 'rgba(231, 76, 60, 0.95)' : 'rgba(26, 26, 46, 0.95)'};
+                border: 1px solid ${isError ? '#e74c3c' : 'var(--accent-primary)'};
+                color: #fff;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                transform: translateY(10px);
+                opacity: 0;
+                pointer-events: none;
+            `;
+            // Force browser layout recalculation
+            void toast.offsetWidth;
+            toast.textContent = msg;
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+            
+            clearTimeout(toast.timeoutId);
+            toast.timeoutId = setTimeout(() => {
+                toast.style.transform = 'translateY(10px)';
+                toast.style.opacity = '0';
+            }, 3000);
+        }
 
         // Form Submit
         document.getElementById('gallery-form').addEventListener('submit', (e) => {
@@ -389,7 +428,7 @@
             saveStoredItems(items);
             resetForm();
             loadGalleryItems();
-            alert('Gallery Item Saved Successfully!');
+            showToast('Gallery Item Saved Successfully!');
         });
 
         window.editItem = function(index) {
@@ -431,6 +470,7 @@
                 items.splice(index, 1);
                 saveStoredItems(items);
                 loadGalleryItems();
+                showToast('Gallery Item Deleted.');
             }
         };
 
@@ -446,7 +486,7 @@
             a.click();
         });
 
-        // Clipboard Paste Listener for Images & Videos
+        // Clipboard Paste Listener for Images & Videos (Asynchronously Safe Batch Processing)
         window.addEventListener('paste', (e) => {
             const clipboardItems = (e.clipboardData || e.originalEvent.clipboardData).items;
             const studentName = document.getElementById('student-name').value.trim();
@@ -468,66 +508,62 @@
                 e.preventDefault();
 
                 if (!studentName || !projectTitle) {
-                    alert("Please fill in the Student Name and Project Title first so the pasted items can be associated with their metadata!");
+                    showToast("Please fill in Student Name and Project Title first!", true);
                     return;
                 }
 
-                let processedCount = 0;
-                const galleryItems = getStoredItems();
+                const readPromises = files.map((file, index) => {
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (evt) => {
+                            const dataUrl = evt.target.result;
+                            const isVideo = file.type.startsWith('video/');
 
-                files.forEach((file, index) => {
-                    const reader = new FileReader();
-                    reader.onload = (evt) => {
-                        const dataUrl = evt.target.result;
-                        const isVideo = file.type.startsWith('video/');
+                            const newItem = {
+                                id: Date.now() + index,
+                                student: studentName,
+                                title: projectTitle + (files.length > 1 ? ` (Part ${index + 1})` : ''),
+                                task: assignmentTask,
+                                class: courseClass,
+                                institution: institution,
+                                semester: semester,
+                                img: isVideo ? 'images/gallery/gallery-1.jpg' : dataUrl,
+                                video: isVideo ? dataUrl : ''
+                            };
 
-                        const newItem = {
-                            id: Date.now() + index,
-                            student: studentName,
-                            title: projectTitle + (files.length > 1 ? ` (Part ${index + 1})` : ''),
-                            task: assignmentTask,
-                            class: courseClass,
-                            institution: institution,
-                            semester: semester,
-                            img: isVideo ? 'images/gallery/gallery-1.jpg' : dataUrl,
-                            video: isVideo ? dataUrl : ''
+                            if (isVideo) {
+                                const video = document.createElement('video');
+                                video.crossOrigin = 'anonymous';
+                                video.src = dataUrl;
+                                video.muted = true;
+                                video.currentTime = 0.5;
+                                video.onseeked = () => {
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = 640;
+                                    canvas.height = 360;
+                                    const ctx = canvas.getContext('2d');
+                                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                                    newItem.img = canvas.toDataURL('image/jpeg', 0.85);
+                                    resolve(newItem);
+                                };
+                                video.onerror = () => {
+                                    resolve(newItem);
+                                };
+                            } else {
+                                resolve(newItem);
+                            }
                         };
+                        reader.readAsDataURL(file);
+                    });
+                });
 
-                        if (isVideo) {
-                            const video = document.createElement('video');
-                            video.crossOrigin = 'anonymous';
-                            video.src = dataUrl;
-                            video.muted = true;
-                            video.currentTime = 0.5;
-                            video.onseeked = () => {
-                                const canvas = document.createElement('canvas');
-                                canvas.width = 640;
-                                canvas.height = 360;
-                                const ctx = canvas.getContext('2d');
-                                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                                newItem.img = canvas.toDataURL('image/jpeg', 0.85);
-                                
-                                galleryItems.unshift(newItem);
-                                saveStoredItems(galleryItems);
-                                loadGalleryItems();
-                            };
-                            video.onerror = () => {
-                                galleryItems.unshift(newItem);
-                                saveStoredItems(galleryItems);
-                                loadGalleryItems();
-                            };
-                        } else {
-                            galleryItems.unshift(newItem);
-                            saveStoredItems(galleryItems);
-                            loadGalleryItems();
-                        }
-
-                        processedCount++;
-                        if (processedCount === files.length) {
-                            alert(`Successfully pasted & created ${files.length} unique gallery items for ${studentName}!`);
-                        }
-                    };
-                    reader.readAsDataURL(file);
+                Promise.all(readPromises).then((newItems) => {
+                    const galleryItems = getStoredItems();
+                    // Add all new items to the front
+                    galleryItems.unshift(...newItems);
+                    saveStoredItems(galleryItems);
+                    loadGalleryItems();
+                    showToast(`Pasted & created ${newItems.length} unique gallery item(s) for ${studentName}!`);
                 });
             }
         });
